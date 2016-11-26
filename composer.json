@@ -1,0 +1,27 @@
+{
+    "name": "techmeetups/project",
+    "license": "MIT",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Jeremy Barthe",
+            "email": "jeremy.barthe@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": { "": "src" },
+        "files": [ "app/AppKernel.php" ]
+    },
+    "require": {
+        "php": ">=7.0",
+        "symfony/symfony": "^3.0",
+        "ramsey/uuid": "^3.3",
+        "symfony/monolog-bundle": "^3.0"
+    },
+    "require-dev": {
+        "symfony/debug": "^3.1",
+        "phpspec/phpspec": "^3.0",
+        "behat/behat": "^3.0"
+    }
+}
