@@ -1,0 +1,26 @@
+[
+  {
+    "created": 1480599839000,
+    "id": "235957132",
+    "name": "Apéro PHP Décembre 2016 + repas",
+    "status": "upcoming",
+    "time": 1481823000000,
+    "updated": 1480601873000,
+    "utc_offset": 3600000,
+    "waitlist_count": 0,
+    "yes_rsvp_count": 13,
+    "group": {
+      "created": 1436255797000,
+      "name": "AFUP Montpellier",
+      "id": 18724486,
+      "join_mode": "open",
+      "lat": 43.61000061035156,
+      "lon": 3.869999885559082,
+      "urlname": "Montpellier-PHP-Meetup",
+      "who": "Membres"
+    },
+    "link": "https://www.meetup.com/Montpellier-PHP-Meetup/events/235957132/",
+    "description": "<p>Pour ce dernier apéro PHP de l\u2019année 2016, Thomas Gasc et Gilles Roustan nous invitent à partager leurs plus ou moins belles histoires de développeurs en nous proposant des sujets surprises (et oui c'est bientôt noël).</p> <p>Lieu pressenti : </p> <p><br/>La Baraquette, au Village du Lez, un village dans la ville, hot-spot créatif regroupant commerces, brocanteurs, marchés de producteurs, restaurants...</p> <p>Pour conclure le meetup nous vous proposons de goûter la bonne cuisine du marché (comptez entre 20 et 25 \u20ac). Merci de répondre lors de votre inscription si vous vous joindrez à nous.</p> <p><a href=\"http://www.google.com/url?q=http%3A%2F%2Fwww.labaraquettemaisondamis.com%2F&amp;sa=D&amp;sntz=1&amp;usg=AFQjCNEkJ1rQgRHn1nCEKZdoAuRtIDo1Aw\"><a href=\"http://www.labaraquettemaisondamis.com/\" class=\"linkified\">http://www.labaraquettemaisondamis.com/</a></a></p> ",
+    "visibility": "public"
+  }
+]
