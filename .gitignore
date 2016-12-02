@@ -9,4 +9,6 @@
 !/var/sessions
 /var/sessions/*
 !var/sessions/.gitkeep
+/docker/postgres/data/*
+!/docker/postgres/data/.gitkeep
 /vendor/

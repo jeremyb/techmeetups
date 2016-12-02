@@ -1,0 +1,50 @@
+version: '2'
+
+services:
+    nginx:
+        image: nginx
+        ports:
+            - "8080:80"
+        volumes:
+            - ./docker/nginx/:/etc/nginx/conf.d/
+        volumes_from:
+            - php
+        links:
+            - php
+            - postgres
+
+    php:
+        build: ./docker/php/
+        expose:
+            - "9000"
+        volumes:
+            - ./:/var/www/app/
+        working_dir: /var/www/app/
+        environment:
+            - SYMFONY_ENV=dev
+            - SYMFONY__ENV__DATABASE_DRIVER=pdo_pgsql
+            - SYMFONY__ENV__DATABASE_HOST=postgres
+            - SYMFONY__ENV__DATABASE_PORT=5432
+            - SYMFONY__ENV__DATABASE_NAME=techmeetups
+            - SYMFONY__ENV__DATABASE_USER=techmeetups
+            - SYMFONY__ENV__DATABASE_PASSWORD=techmeetups
+
+    postgres:
+        image: postgres:9
+        expose:
+            - "5432"
+        ports:
+            - "5432"
+        volumes:
+            - ./docker/postgres/data:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_USER=techmeetups
+            - POSTGRES_PASSWORD=techmeetups
+            - POSTGRES_DB=techmeetups
+
+    composer:
+        restart: 'no'
+        image: composer/composer:php7
+        command: install
+        volumes:
+            - .:/app
