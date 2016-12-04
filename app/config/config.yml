@@ -2,3 +2,11 @@ framework:
     secret: S0ME_SECRET
     validation:
         enabled: true
+
+#techmeetups:
+#    cities:
+#        -
+#            city: Montpellier
+#            providers:
+#                meetup.com:
+#                    - Montpellier-PHP-Meetup

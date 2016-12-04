@@ -1,0 +1,12 @@
+default:
+    suites:
+        domain:
+            filters:  { tags: "~ui" }
+            contexts:
+                - DomainContext
+        web:
+            filters:  { tags: "critical,ui" }
+            contexts:
+                - WebContext
+    extensions:
+        Behat\Symfony2Extension: ~

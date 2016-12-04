@@ -8,7 +8,7 @@ use Http\Client\HttpClient;
 use Http\Message\RequestFactory;
 use Meetup\Resource\Events;
 
-final class Meetup
+class Meetup
 {
     const BASE_URL = 'https://api.meetup.com';
 

@@ -21,7 +21,7 @@ class EventsSpec extends ObjectBehavior
         $this->shouldHaveType(Events::class);
     }
 
-    function it_should(
+    function it_should_get_events_of_group(
         HttpMethodsClient $httpClient,
         ResponseInterface $response,
         StreamInterface $stream
@@ -32,7 +32,7 @@ class EventsSpec extends ObjectBehavior
         $response->getBody()->shouldBeCalled()->willReturn($stream);
         $stream->__toString()->shouldBeCalled()->willReturn(file_get_contents(__DIR__ . '/../../fixtures/get_events.json'));
 
-        $results = $this->byGroup('Montpellier-PHP-Meetup');
+        $results = $this->ofGroup('Montpellier-PHP-Meetup');
         $results->shouldBeArray();
         $results->shouldHaveCount(1);
         $event = $results[0];
