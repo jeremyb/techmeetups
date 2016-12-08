@@ -7,10 +7,6 @@ final class Venue
 {
     /** @var string */
     private $name;
-    /** @var float */
-    private $lat;
-    /** @var float */
-    private $lon;
     /** @var string */
     private $address;
     /** @var string */
@@ -18,11 +14,9 @@ final class Venue
     /** @var string */
     private $country;
 
-    public function __construct($name, $lat, $lon, $address, $city, $country)
+    public function __construct($name, $address, $city, $country)
     {
         $this->name = $name;
-        $this->lat = $lat;
-        $this->lon = $lon;
         $this->address = $address;
         $this->city = $city;
         $this->country = $country;

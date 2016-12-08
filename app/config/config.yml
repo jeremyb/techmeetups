@@ -3,10 +3,11 @@ framework:
     validation:
         enabled: true
 
-#techmeetups:
-#    cities:
-#        -
-#            city: Montpellier
-#            providers:
-#                meetup.com:
-#                    - Montpellier-PHP-Meetup
+monolog:
+    handlers:
+        main:
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%.log"
+            level:  debug
+        console:
+            type:   console

@@ -14,7 +14,9 @@ class AppKernel extends Kernel
     {
         $bundles = [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
+            new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Symfony\Bundle\MonologBundle\MonologBundle(),
+            new UI\UIBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
@@ -26,11 +28,32 @@ class AppKernel extends Kernel
 
     protected function configureRoutes(RouteCollectionBuilder $routes)
     {
+        $routes->import('@UIBundle/Resources/config/routing.yml');
     }
 
     protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader)
     {
-        $loader->load(__DIR__.'/config/config.yml');
+//        $loader->load(__DIR__.'/config/config.yml');
+
+        $c->loadFromExtension('framework', [
+            'secret' => 'S0ME_SECRET',
+            'templating' => ['engines' => ['twig']],
+        ]);
+
+        $c->loadFromExtension('monolog', [
+            'handlers' => [
+                'main' => [
+                    'type' => 'stream',
+                    'path' => '%kernel.logs_dir%/%kernel.environment%.log',
+                    'level' => 'debug',
+                ],
+                'console' => [
+                    'type' => 'console',
+                ],
+            ],
+        ]);
+
+        $loader->load(__DIR__.'/../config/meetups.yml');
     }
 
     public function getRootDir()

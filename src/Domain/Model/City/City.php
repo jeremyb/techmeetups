@@ -21,6 +21,11 @@ final class City
         $this->name = $name;
     }
 
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+
     public function getId()
     {
         return $this->id;

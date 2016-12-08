@@ -1,0 +1,7 @@
+techmeetups:
+    cities:
+        -
+            city: Montpellier
+            providers:
+                meetup.com:
+                    - Montpellier-PHP-Meetup

@@ -1,0 +1,4 @@
+services:
+    app.actions.homepage:
+        class: UI\Action\Homepage
+        arguments: [ '@twig' ]

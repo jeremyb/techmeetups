@@ -1,0 +1,30 @@
+services:
+    app.meetup_client:
+        class: Meetup\Meetup
+        factory: ['Meetup\MeetupApiKeyFactory', create]
+        arguments: ['']
+
+    app.city_configuration:
+        class: Infrastructure\Persistence\InMemory\InMemoryCityConfigurationRepository
+        arguments: [[]]
+
+    app.event_provider.meetup:
+        class: Infrastructure\Api\Meetup\EventProvider
+        arguments: ['@app.meetup_client']
+
+    app.event_repository:
+        class: Infrastructure\Persistence\InMemory\InMemoryEventRepository
+
+    app.event_synchronizer:
+        class: Application\Event\Synchronizer
+        arguments:
+            - "@app.city_configuration"
+            - "@app.event_provider.meetup"
+            - "@app.event_repository"
+            - "@logger"
+
+    app.command.synchronize:
+        class: UI\Command\SynchronizeCommand
+        arguments: ['@app.event_synchronizer']
+        tags:
+            - { name: console.command }

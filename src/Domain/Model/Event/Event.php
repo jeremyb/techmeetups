@@ -3,10 +3,14 @@ declare(strict_types=1);
 
 namespace Domain\Model\Event;
 
+use Domain\Model\City\City;
+
 final class Event
 {
     /** @var string */
     private $id;
+    /** @var City */
+    private $city;
     /** @var string */
     private $name;
     /** @var string */
@@ -31,8 +35,17 @@ final class Event
         return $self;
     }
 
-    public static function create($id, $name, $description, $link, $duration, \DateTimeImmutable $plannedAt, Venue $venue = null, Group $group)
-    {
+    public static function create(
+        $id,
+        City $city,
+        $name,
+        $description,
+        $link,
+        $duration,
+        \DateTimeImmutable $plannedAt,
+        Venue $venue = null,
+        Group $group
+    ) {
         $self = new self();
         $self->id = $id;
         $self->name = $name;

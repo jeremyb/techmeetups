@@ -17,7 +17,12 @@ final class Events
         $this->httpClient = $httpClient;
     }
 
-    public function ofGroup($group): array
+    /**
+     * @param string $group
+     *
+     * @return Event[]
+     */
+    public function ofGroup(string $group): array
     {
         $response = $this->httpClient->get(sprintf('%s/events', $group));
         $eventsData = ResponseConverter::convert($response);
