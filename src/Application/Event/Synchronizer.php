@@ -9,7 +9,6 @@ use Domain\Model\Event\EventRepository;
 use Domain\Model\Event\Group;
 use Domain\Model\Event\Venue;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\VarDumper\VarDumper;
 
 final class Synchronizer
 {

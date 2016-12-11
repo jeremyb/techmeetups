@@ -2,6 +2,7 @@
 
 namespace spec\Application\Event;
 
+use Application\Event\DTO\EventDTO;
 use Application\Event\EventProvider;
 use Application\Event\Synchronizer;
 use Domain\Model\City\City;
@@ -10,18 +11,22 @@ use Domain\Model\City\CityConfigurationRepository;
 use Domain\Model\Event\Event;
 use Domain\Model\Event\EventRepository;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
+use Psr\Log\LoggerInterface;
 
 class SynchronizerSpec extends ObjectBehavior
 {
     function let(
         CityConfigurationRepository $cityConfigurationRepository,
         EventProvider $provider,
-        EventRepository $eventRepository
+        EventRepository $eventRepository,
+        LoggerInterface $logger
     ) {
         $this->beConstructedWith(
             $cityConfigurationRepository,
             $provider,
-            $eventRepository
+            $eventRepository,
+            $logger
         );
     }
 
@@ -43,10 +48,19 @@ class SynchronizerSpec extends ObjectBehavior
         ]);
 
         $provider->getEvents(['Montpellier-PHP-Meetup'])->shouldBeCalled()->willReturn([
-            $event = Event::named('Sample event'),
+            EventDTO::fromData([
+                'provider_id' => '123',
+                'name' => 'First event',
+                'description' => 'lorem ipsum',
+                'link' => 'https://www.meetup.com/',
+                'duration' => 120,
+                'planned_at' => new \DateTimeImmutable(),
+                'venue_city' => 'Montpellier',
+                'group_name' => 'AFUP Montpellier',
+            ])
         ]);
 
-        $eventRepository->add($event)->shouldBeCalled();
+        $eventRepository->add(Argument::type(Event::class))->shouldBeCalled();
 
         $this->synchronize();
     }

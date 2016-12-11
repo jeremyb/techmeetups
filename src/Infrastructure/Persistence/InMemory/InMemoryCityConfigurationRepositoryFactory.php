@@ -1,30 +1,28 @@
 <?php
 declare(strict_types=1);
 
-namespace Application\City;
+namespace Infrastructure\Persistence\InMemory;
 
-use Domain\Model\City\CityRepository;
 use Domain\Model\City\CityConfiguration;
-use Infrastructure\Persistence\InMemory\InMemoryCityConfigurationRepository;
+use Domain\Model\City\CityRepository;
 use Webmozart\Assert\Assert;
 
-final class CityConfigurationRepositoryFactory
+final class InMemoryCityConfigurationRepositoryFactory
 {
     public static function create(CityRepository $cityRepository, array $config)
     {
-        $citiesConfiguration = [];
-        foreach ($config as $cityConfig) {
-            Assert::keyExists($cityConfig, 'name');
+        $citiesConfiguration = array_map(function ($cityConfig) use ($cityRepository) {
+            Assert::keyExists($cityConfig, 'city');
             Assert::keyExists($cityConfig, 'providers');
             Assert::keyExists($cityConfig['providers'], 'meetup.com');
 
-            $city = $cityRepository->ofName($cityConfig['name']);
+            $city = $cityRepository->ofName($cityConfig['city']);
 
-            $citiesConfiguration[] = new CityConfiguration(
+            return new CityConfiguration(
                 $city,
                 $cityConfig['providers']['meetup.com']
             );
-        }
+        }, $config);
 
         return new InMemoryCityConfigurationRepository($citiesConfiguration);
     }

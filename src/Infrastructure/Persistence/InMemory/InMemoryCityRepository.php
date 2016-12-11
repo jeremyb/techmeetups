@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Infrastructure\Persistence\InMemory;
 
 use Domain\Model\City\City;
+use Domain\Model\City\CityNotFound;
 use Domain\Model\City\CityRepository;
 
 final class InMemoryCityRepository implements CityRepository
@@ -11,9 +12,9 @@ final class InMemoryCityRepository implements CityRepository
     /** @var City[] */
     private $cities;
 
-    public function __construct()
+    public function __construct(array $cities = [])
     {
-        $this->cities = [];
+        $this->cities = $cities;
     }
 
     public function add(City $city)
@@ -33,5 +34,7 @@ final class InMemoryCityRepository implements CityRepository
                 return $city;
             }
         }
+
+        throw CityNotFound::named($name);
     }
 }

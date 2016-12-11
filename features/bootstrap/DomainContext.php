@@ -1,14 +1,16 @@
 <?php
 
-use Application\City\CityConfigurationRepositoryFactory;
+use Application\Event\DTO\EventDTO;
 use Application\Event\EventProvider;
 use Application\Event\Synchronizer;
 use Behat\Behat\Context\Context;
 use Domain\Model\City\City;
 use Domain\Model\City\CityConfigurationRepository;
 use Domain\Model\Event\Event;
+use Infrastructure\Persistence\InMemory\InMemoryCityConfigurationRepositoryFactory;
 use Infrastructure\Persistence\InMemory\InMemoryCityRepository;
 use Infrastructure\Persistence\InMemory\InMemoryEventRepository;
+use Psr\Log\NullLogger;
 use Webmozart\Assert\Assert;
 
 class DomainContext implements Context
@@ -36,11 +38,11 @@ class DomainContext implements Context
         $this->defaultCity = City::named('Montpellier');
         $this->cities->add($this->defaultCity);
 
-        $this->citiesConfiguration = CityConfigurationRepositoryFactory::create(
+        $this->citiesConfiguration = InMemoryCityConfigurationRepositoryFactory::create(
             $this->cities,
             [
                 [
-                    'name' => 'Montpellier',
+                    'city' => 'Montpellier',
                     'providers' => [
                         'meetup.com' => [
                             'Montpellier-PHP-Meetup',
@@ -62,12 +64,21 @@ class DomainContext implements Context
                 public function getEvents(array $sources): array
                 {
                     return [
-                        Event::named('First event'),
-                        Event::named('Second event'),
+                        EventDTO::fromData([
+                            'provider_id' => '123',
+                            'name' => 'First event',
+                            'description' => 'lorem ipsum',
+                            'link' => 'https://www.meetup.com/',
+                            'duration' => 120,
+                            'planned_at' => new \DateTimeImmutable(),
+                            'venue_city' => 'Montpellier',
+                            'group_name' => 'AFUP Montpellier',
+                        ]),
                     ];
                 }
             },
-            $this->events
+            $this->events,
+            new NullLogger()
         );
 
         $synchronizer->synchronize();
@@ -78,6 +89,6 @@ class DomainContext implements Context
      */
     public function iShouldHaveSomeNewEvents()
     {
-        Assert::count($this->events->findAll(), 2);
+        Assert::count($this->events->findAll(), 1);
     }
 }
