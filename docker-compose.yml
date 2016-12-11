@@ -28,6 +28,8 @@ services:
             - SYMFONY__ENV__DATABASE_NAME=techmeetups
             - SYMFONY__ENV__DATABASE_USER=techmeetups
             - SYMFONY__ENV__DATABASE_PASSWORD=techmeetups
+        env_file:
+            - ./docker/env
 
     postgres:
         image: postgres:9

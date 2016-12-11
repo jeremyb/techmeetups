@@ -2,7 +2,7 @@ services:
     app.meetup_client:
         class: Meetup\Meetup
         factory: ['Meetup\MeetupApiKeyFactory', create]
-        arguments: ['']
+        arguments: ['%env(MEETUP_API_KEY)%']
 
     app.event_provider.meetup:
         class: Infrastructure\Api\Meetup\EventProvider
