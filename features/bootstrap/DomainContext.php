@@ -6,7 +6,6 @@ use Application\Event\Synchronizer;
 use Behat\Behat\Context\Context;
 use Domain\Model\City\City;
 use Domain\Model\City\CityConfigurationRepository;
-use Domain\Model\Event\Event;
 use Infrastructure\Persistence\InMemory\InMemoryCityConfigurationRepositoryFactory;
 use Infrastructure\Persistence\InMemory\InMemoryCityRepository;
 use Infrastructure\Persistence\InMemory\InMemoryEventRepository;

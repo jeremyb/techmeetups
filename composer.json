@@ -10,8 +10,7 @@
     ],
     "minimum-stability": "stable",
     "autoload": {
-        "psr-4": { "": "src" },
-        "files": [ "app/AppKernel.php" ]
+        "psr-4": { "": "src" }
     },
     "require": {
         "php": ">=7.0",

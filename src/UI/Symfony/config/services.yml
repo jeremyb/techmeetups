@@ -33,6 +33,6 @@ services:
 
     app.command.synchronize:
         class: UI\Command\SynchronizeCommand
-        arguments: ['@app.event_synchronizer']
+        arguments: ['@app.event_synchronizer', '@app.event_repository']
         tags:
             - { name: console.command }

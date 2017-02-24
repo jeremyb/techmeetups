@@ -8,5 +8,3 @@ default:
             filters:  { tags: "critical,ui" }
             contexts:
                 - WebContext
-    extensions:
-        Behat\Symfony2Extension: ~

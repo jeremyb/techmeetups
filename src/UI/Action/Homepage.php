@@ -20,7 +20,7 @@ final class Homepage
     public function __invoke(Request $request): Response
     {
         return new Response(
-            $this->twig->render('UIBundle::homepage.html.twig')
+            $this->twig->render('homepage.html.twig')
         );
     }
 }

@@ -1,8 +1,9 @@
 <?php
 
 use Symfony\Component\HttpFoundation\Request;
+use UI\Symfony\AppKernel;
 
-require_once __DIR__.'/../app/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 $env = getenv('SYMFONY_ENV') ?: 'prod';
 $debug = ('prod' !== $env);
