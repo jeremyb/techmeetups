@@ -1,0 +1,55 @@
+{% extends "layout.html.twig" %}
+
+{% block main %}
+    <section class="special">
+        <h2>Prochains meetups à Montpellier</h2>
+    </section>
+
+    {% for event_per_month in calendar %}
+        <header>
+            <h3>{{ event_per_month.month }} {{ event_per_month.year }}</h3>
+            <p>{{ event_per_month | length }} meetups</p>
+        </header>
+
+        <ul class="alt">
+            {% for event in event_per_month %}
+            <li class="row">
+                <header class="4u 12u(mobilep)">
+                    <h5><strong>{{ event.groupName }}</strong></h5>
+                    <h4>
+                        <a href="{{ event.link }}" target="_blank">
+                            <strong>{{ event.name }}</strong>
+                        </a>
+                    </h4>
+                    <p>
+                        <strong>{{ event.plannedAt | localizeddate('full', 'none', 'fr') }}</strong><br>
+                        <strong>{{ event.plannedAt | localizeddate('none', 'short', 'fr') }}</strong>
+                    </p>
+                </header>
+
+                <div class="8u 12u(mobilep)">
+                    <blockquote>
+                        {{ event.description | striptags | slice(0, 400) }}...
+                    </blockquote>
+
+                    <div class="row">
+                        <div class="3u 12u(mobilep)">
+                            <p>
+                                <a href="{{ event.link }}" class="button special small" target="_blank">
+                                    Y aller !
+                                </a>
+                            </p>
+                        </div>
+                        <p class="9u 12u(mobilep)">
+                            <a href="{{ event.link }}" target="_blank">
+                                {{ event.venueName }}
+                            </a><br>
+                            {{ event.venueAddress }}, {{ event.venueCity }} (<a href="{{ event.link }}" target="_blank">plan</a>)
+                        </p>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+{% endblock %}

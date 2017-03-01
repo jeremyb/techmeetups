@@ -1,0 +1,78 @@
+services:
+    app.meetup_client:
+        class: Meetup\Meetup
+        factory: ['Meetup\MeetupApiKeyFactory', create]
+        arguments: ['%env(MEETUP_API_KEY)%']
+
+    app.event_provider.meetup:
+        class: Infrastructure\Api\Meetup\EventProvider
+        arguments: ['@app.meetup_client']
+
+    app.city_repository:
+        class: Infrastructure\Persistence\InMemory\InMemoryCityRepository
+        factory: ['Infrastructure\Persistence\InMemory\InMemoryCityRepositoryFactory', create]
+        arguments: ['%app.techmeetups.cities%']
+
+    app.city_configuration_repository:
+        class: Infrastructure\Persistence\InMemory\InMemoryCityConfigurationRepository
+        factory: ['Infrastructure\Persistence\InMemory\InMemoryCityConfigurationRepositoryFactory', create]
+        arguments:
+            - '@app.city_repository'
+            - '%app.techmeetups.cities%'
+
+    doctrine.dbal_configuration:
+        class: Doctrine\DBAL\Configuration
+
+    doctrine.dbal_connection:
+        class: Doctrine\DBAL\Connection
+        factory: ['Doctrine\DBAL\DriverManager', getConnection]
+        arguments:
+            -
+                url: "%env(DATABASE_DSN)%"
+                driver: 'pdo_pgsql'
+            - '@doctrine.dbal_configuration'
+
+    doctrine.dbal_schema.definition:
+        class: Infrastructure\Persistence\Doctrine\SchemaDefinition
+
+    doctrine.dbal_schema.base_command:
+        class: DbalSchema\DbalSchemaCommand
+        arguments:
+            - '@doctrine.dbal_connection'
+            - '@doctrine.dbal_schema.definition'
+
+    doctrine.dbal_schema.command.update_command:
+        class: DbalSchema\Command\UpdateCommand
+        arguments: ['@doctrine.dbal_schema.base_command']
+        tags: [ { name: console.command } ]
+    doctrine.dbal_schema.command.purge_command:
+        class: DbalSchema\Command\PurgeCommand
+        arguments: ['@doctrine.dbal_schema.base_command']
+        tags: [ { name: console.command } ]
+
+    app.event_repository:
+        class: Infrastructure\Persistence\Doctrine\DbalEventRepository
+        arguments: ['@doctrine.dbal_connection']
+
+    app.event_finder:
+        class: Infrastructure\ReadModel\Doctrine\DbalEventFinder
+        arguments: ['@doctrine.dbal_connection']
+
+    app.event_synchronizer:
+        class: Application\Event\Synchronizer
+        arguments:
+            - '@app.city_configuration_repository'
+            - '@app.event_provider.meetup'
+            - '@app.event_repository'
+            - '@logger'
+
+    app.command.synchronize:
+        class: Infrastructure\Cli\SynchronizeCommand
+        arguments: ['@app.event_synchronizer']
+        tags:
+            - { name: console.command }
+
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }

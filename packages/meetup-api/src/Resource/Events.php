@@ -24,7 +24,7 @@ final class Events
      */
     public function ofGroup(string $group): array
     {
-        $response = $this->httpClient->get(sprintf('%s/events', $group));
+        $response = $this->httpClient->get(sprintf('/%s/events', $group));
         $eventsData = ResponseConverter::convert($response);
 
         return array_map(function ($data) {

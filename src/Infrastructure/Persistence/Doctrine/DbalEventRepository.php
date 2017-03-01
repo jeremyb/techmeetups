@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Infrastructure\Persistence\Doctrine;
 
 use Doctrine\DBAL\Connection;
 use Domain\Model\Event\Event;
+use Domain\Model\Event\EventId;
 use Domain\Model\Event\EventRepository;
 
 final class DbalEventRepository implements EventRepository
@@ -16,16 +19,16 @@ final class DbalEventRepository implements EventRepository
         $this->connection = $connection;
     }
 
-    public function add(Event $event)
+    public function add(Event $event) : void
     {
         $data = [
-            'event_id' => $event->getId(),
+            'event_id' => (string) $event->getId(),
             'name' => $event->getName(),
             'description' => $event->getDescription(),
             'link' => $event->getLink(),
             'duration' => $event->getDuration(),
             'planned_at' => $event->getPlannedAt()->format(DATE_ATOM),
-            'group_name' => $event->getGroup() ?? $event->getGroup()->getName(),
+            'group_name' => $event->getGroup() ? $event->getGroup()->getName() : null,
         ];
 
         if (null !== $venue = $event->getVenue()) {
@@ -38,5 +41,16 @@ final class DbalEventRepository implements EventRepository
         }
 
         $this->connection->insert('events', $data);
+    }
+
+    public function contains(EventId $eventId) : bool
+    {
+        $count = (int) $this->connection
+            ->fetchColumn(
+                'SELECT COUNT(event_id) FROM events WHERE event_id = ?',
+                [(string) $eventId]
+            );
+
+        return $count > 0;
     }
 }

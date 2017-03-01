@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Domain\Model\Event;
@@ -7,7 +8,7 @@ use Domain\Model\City\City;
 
 final class Event
 {
-    /** @var string */
+    /** @var EventId */
     private $id;
     /** @var City */
     private $city;
@@ -26,7 +27,7 @@ final class Event
     /** @var Group */
     private $group;
 
-    public static function named(string $name)
+    public static function named(string $name) : self
     {
         $self = new self();
         $self->id = strtolower($name);
@@ -36,18 +37,19 @@ final class Event
     }
 
     public static function create(
-        $id,
+        EventId $id,
         City $city,
-        $name,
-        $description,
-        $link,
-        $duration,
+        string $name,
+        ?string $description,
+        string $link,
+        ?int $duration,
         \DateTimeImmutable $plannedAt,
         Venue $venue = null,
         Group $group
-    ) {
+    ) : self {
         $self = new self();
         $self->id = $id;
+        $self->city = $city;
         $self->name = $name;
         $self->description = $description;
         $self->link = $link;
@@ -63,42 +65,42 @@ final class Event
     {
     }
 
-    public function getId()
+    public function getId() : EventId
     {
         return $this->id;
     }
 
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
 
-    public function getDescription()
+    public function getDescription() : ?string
     {
         return $this->description;
     }
 
-    public function getLink()
+    public function getLink() : string
     {
         return $this->link;
     }
 
-    public function getDuration()
+    public function getDuration() : ?int
     {
         return $this->duration;
     }
 
-    public function getPlannedAt()
+    public function getPlannedAt() : \DateTimeImmutable
     {
         return $this->plannedAt;
     }
 
-    public function getVenue()
+    public function getVenue() : ?Venue
     {
         return $this->venue;
     }
 
-    public function getGroup()
+    public function getGroup() : Group
     {
         return $this->group;
     }

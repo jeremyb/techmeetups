@@ -1,9 +1,10 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-namespace UI\Symfony;
+namespace Infrastructure\Symfony;
 
+use Infrastructure\Symfony\DependencyInjection\UIExtension;
 use Symfony\Bundle\DebugBundle\DebugBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -14,13 +15,12 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
-use UI\Symfony\DependencyInjection\UIExtension;
 
 class AppKernel extends Kernel
 {
     use MicroKernelTrait;
 
-    public function registerBundles()
+    public function registerBundles() : array
     {
         $bundles = [
             new FrameworkBundle(),
@@ -36,28 +36,32 @@ class AppKernel extends Kernel
         return $bundles;
     }
 
-    protected function configureRoutes(RouteCollectionBuilder $routes)
+    protected function configureRoutes(RouteCollectionBuilder $routes) : void
     {
         if ('dev' === $this->getEnvironment()) {
             $routes->import('@WebProfilerBundle/Resources/config/routing/wdt.xml', '/_wdt');
             $routes->import('@WebProfilerBundle/Resources/config/routing/profiler.xml', '/_profiler');
         }
 
-        $routes->import(__DIR__ . '/config/routing.yml');
+        $routes->import(__DIR__ . '/Resources/config/routing.yml');
     }
 
-    protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader)
+    protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader) : void
     {
         $c->loadFromExtension('framework', [
             'secret' => 'S0ME_SECRET',
             'templating' => ['engines' => ['twig']],
-            'profiler' => ['only_exceptions' => false],
+            'profiler' => [
+                'enabled' => true,
+                'only_exceptions' => false,
+                'dsn' => 'file:%kernel.cache_dir%/profiler',
+            ],
         ]);
 
         $c->loadFromExtension('twig', [
             'debug' => true,
             'paths' => [
-                __DIR__ . '/../views' => '__main__',
+                __DIR__ . '/../../UI/views' => '__main__',
             ],
         ]);
 
@@ -88,17 +92,22 @@ class AppKernel extends Kernel
         }
     }
 
-    public function getRootDir()
+    public function getName() : string
+    {
+        return 'ui';
+    }
+
+    public function getRootDir() : string
     {
         return __DIR__.'/../../..';
     }
 
-    public function getCacheDir()
+    public function getCacheDir() : string
     {
         return $this->getRootDir().'/var/cache/'.$this->getEnvironment();
     }
 
-    public function getLogDir()
+    public function getLogDir() : string
     {
         return $this->getRootDir().'/var/logs';
     }

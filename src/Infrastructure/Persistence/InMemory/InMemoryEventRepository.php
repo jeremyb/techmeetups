@@ -5,6 +5,7 @@ namespace Infrastructure\Persistence\InMemory;
 
 use Domain\Model\Event\Event;
 use Domain\Model\Event\EventRepository;
+use Domain\Model\Event\EventId;
 
 final class InMemoryEventRepository implements EventRepository
 {
@@ -16,12 +17,17 @@ final class InMemoryEventRepository implements EventRepository
         $this->events = [];
     }
 
-    public function add(Event $event)
+    public function add(Event $event) : void
     {
-        $this->events[$event->getId()] = $event;
+        $this->events[(string) $event->getId()] = $event;
     }
 
-    public function findAll()
+    public function contains(EventId $eventId) : bool
+    {
+        return isset($this->events[(string) $eventId]);
+    }
+
+    public function findAll() : array
     {
         return $this->events;
     }

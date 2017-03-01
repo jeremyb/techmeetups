@@ -12,5 +12,5 @@ interface EventProvider
      *
      * @return EventDTO[]
      */
-    public function getEvents(array $sources): array;
+    public function getEvents(array $sources) : array;
 }

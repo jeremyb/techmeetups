@@ -1,7 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
-namespace UI\Command;
+namespace Infrastructure\Cli;
 
 use Application\Event\Synchronizer;
 use Symfony\Component\Console\Command\Command;
@@ -20,15 +21,15 @@ final class SynchronizeCommand extends Command
         $this->synchronizer = $synchronizer;
     }
 
-    protected function configure()
+    protected function configure() : void
     {
         $this
-            ->setName('meetup:synchronize')
-            ->setDescription('')
+            ->setName('event:synchronize')
+            ->setDescription('Synchronize configured meetup groups')
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : void
     {
         $this->synchronizer->synchronize();
     }

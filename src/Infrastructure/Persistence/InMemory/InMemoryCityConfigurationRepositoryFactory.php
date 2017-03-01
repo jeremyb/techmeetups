@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Infrastructure\Persistence\InMemory;
@@ -9,8 +10,10 @@ use Webmozart\Assert\Assert;
 
 final class InMemoryCityConfigurationRepositoryFactory
 {
-    public static function create(CityRepository $cityRepository, array $config)
-    {
+    public static function create(
+        CityRepository $cityRepository,
+        array $config
+    ) : InMemoryCityConfigurationRepository {
         $citiesConfiguration = array_map(function ($cityConfig) use ($cityRepository) {
             Assert::keyExists($cityConfig, 'city');
             Assert::keyExists($cityConfig, 'providers');

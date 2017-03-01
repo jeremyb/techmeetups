@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Application\Event\DTO;
+namespace Domain\ReadModel;
 
 use Doctrine\Common\Inflector\Inflector;
 
-final class EventDTO
+final class Event
 {
     /** @var string */
-    public $providerId;
+    public $eventId;
     /** @var string */
     public $name;
     /** @var string */
@@ -45,6 +45,10 @@ final class EventDTO
                     'Cannot modify the field "%s".',
                     $fieldName
                 ));
+            }
+
+            if ('planned_at' === $fieldName && is_string($fieldValue)) {
+                $fieldValue = new \DateTimeImmutable($fieldValue);
             }
 
             $self->$property = $fieldValue;

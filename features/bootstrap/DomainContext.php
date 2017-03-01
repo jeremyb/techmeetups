@@ -9,6 +9,7 @@ use Domain\Model\City\CityConfigurationRepository;
 use Infrastructure\Persistence\InMemory\InMemoryCityConfigurationRepositoryFactory;
 use Infrastructure\Persistence\InMemory\InMemoryCityRepository;
 use Infrastructure\Persistence\InMemory\InMemoryEventRepository;
+use Infrastructure\ReadModel\InMemory\InMemoryEventFinder;
 use Psr\Log\NullLogger;
 use Webmozart\Assert\Assert;
 
@@ -20,6 +21,8 @@ class DomainContext implements Context
     private $defaultCity;
     /** @var InMemoryEventRepository */
     private $events;
+    /** @var InMemoryEventFinder */
+    private $eventFinder;
     /** @var CityConfigurationRepository */
     private $citiesConfiguration;
 
@@ -27,6 +30,7 @@ class DomainContext implements Context
     {
         $this->cities = new InMemoryCityRepository();
         $this->events = new InMemoryEventRepository();
+        $this->eventFinder = new InMemoryEventFinder($this->events);
     }
 
     /**
@@ -88,6 +92,8 @@ class DomainContext implements Context
      */
     public function iShouldHaveSomeNewEvents()
     {
-        Assert::count($this->events->findAll(), 1);
+        Assert::count($this->eventFinder->findAll(), 1);
+
+        $event = $this->eventFinder->findAll()[0];
     }
 }

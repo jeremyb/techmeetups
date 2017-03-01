@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Infrastructure\Persistence\InMemory;
@@ -16,7 +17,7 @@ final class InMemoryCityConfigurationRepository implements CityConfigurationRepo
         $this->citiesConfiguration = $citiesConfiguration;
     }
 
-    public function findAll(): array
+    public function findAll() : array
     {
         return $this->citiesConfiguration;
     }

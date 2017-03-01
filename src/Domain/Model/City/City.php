@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Domain\Model\City;
@@ -10,7 +11,7 @@ final class City
     /** @var string */
     private $name;
 
-    public static function named(string $name): City
+    public static function named(string $name) : City
     {
         return new self(strtolower($name), $name);
     }
@@ -21,17 +22,17 @@ final class City
         $this->name = $name;
     }
 
-    public function __toString(): string
+    public function __toString() : string
     {
         return $this->name;
     }
 
-    public function getId()
+    public function getId() : string
     {
         return $this->id;
     }
 
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }

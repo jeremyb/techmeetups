@@ -17,7 +17,7 @@ final class EventProvider implements EventProviderInterface
         $this->meetup = $meetup;
     }
 
-    public function getEvents(array $sources): array
+    public function getEvents(array $sources) : array
     {
         $events = [];
         foreach ($sources as $group) {
@@ -36,6 +36,8 @@ final class EventProvider implements EventProviderInterface
                 if (null !== $eventDto->venue) {
                     $data = array_merge($data, [
                         'venue_name' => $eventDto->venue->name,
+                        'venue_lat' => $eventDto->venue->lat,
+                        'venue_lon' => $eventDto->venue->lon,
                         'venue_address' => $eventDto->venue->address1,
                         'venue_city' => $eventDto->venue->city,
                         'venue_country' => $eventDto->venue->localizedCountryName,

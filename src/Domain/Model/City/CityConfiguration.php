@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Domain\Model\City;
@@ -16,12 +17,12 @@ final class CityConfiguration
         $this->meetups = $meetups;
     }
 
-    public function getCity(): City
+    public function getCity() : City
     {
         return $this->city;
     }
 
-    public function getMeetups(): array
+    public function getMeetups() : array
     {
         return $this->meetups;
     }

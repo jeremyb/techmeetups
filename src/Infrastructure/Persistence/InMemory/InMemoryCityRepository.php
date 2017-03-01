@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Infrastructure\Persistence\InMemory;
@@ -17,17 +18,17 @@ final class InMemoryCityRepository implements CityRepository
         $this->cities = $cities;
     }
 
-    public function add(City $city)
+    public function add(City $city) : void
     {
         $this->cities[$city->getId()] = $city;
     }
 
-    public function findAll(): array
+    public function findAll() : array
     {
         return $this->cities;
     }
 
-    public function ofName($name): City
+    public function ofName($name) : City
     {
         foreach ($this->cities as $city) {
             if ($name === $city->getName()) {

@@ -9,7 +9,8 @@
 !/var/sessions
 /var/sessions/*
 !var/sessions/.gitkeep
+!/var/profiler
+/var/profiler/*
+!var/profiler/.gitkeep
 /docker/env
-/docker/postgres/data/*
-!/docker/postgres/data/.gitkeep
 /vendor/

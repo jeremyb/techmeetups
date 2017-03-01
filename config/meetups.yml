@@ -4,4 +4,12 @@ techmeetups:
             city: Montpellier
             providers:
                 meetup.com:
+                    - Big-Data-Montpellier
+                    - graphdb-montpellier
+                    - JUG-Montpellier
+                    - MontpellierJS
+                    - Montpellier-Android-User-Group
+                    - Montpellier-DevOps
                     - Montpellier-PHP-Meetup
+                    - Montpellier-Symfony-Meetup
+                    - Open-Source-School-Talks
