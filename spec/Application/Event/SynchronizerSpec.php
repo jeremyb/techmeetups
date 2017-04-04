@@ -9,6 +9,7 @@ use Domain\Model\City\City;
 use Domain\Model\City\CityConfiguration;
 use Domain\Model\City\CityConfigurationRepository;
 use Domain\Model\Event\Event;
+use Domain\Model\Event\EventId;
 use Domain\Model\Event\EventRepository;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -59,6 +60,11 @@ class SynchronizerSpec extends ObjectBehavior
                 'group_name' => 'AFUP Montpellier',
             ])
         ]);
+
+        $eventRepository
+            ->contains(EventId::fromString('123'))
+            ->shouldBeCalled()
+            ->willReturn(false);
 
         $eventRepository->add(Argument::type(Event::class))->shouldBeCalled();
 

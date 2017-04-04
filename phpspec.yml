@@ -1,0 +1,5 @@
+suites:
+    app: ~
+    meetup-api:
+        src_path: packages/meetup-api/src
+        spec_path: packages/meetup-api

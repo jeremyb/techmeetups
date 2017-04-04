@@ -61,25 +61,28 @@ class DomainContext implements Context
      */
     public function theEventsAreSynchronized()
     {
+        /** @var EventProvider $eventProvider */
+        $eventProvider = new class implements EventProvider {
+            public function getEvents(array $sources): array
+            {
+                return [
+                    EventDTO::fromData([
+                        'provider_id' => '123',
+                        'name' => 'First event',
+                        'description' => 'lorem ipsum',
+                        'link' => 'https://www.meetup.com/',
+                        'duration' => 120,
+                        'planned_at' => new \DateTimeImmutable(),
+                        'venue_city' => 'Montpellier',
+                        'group_name' => 'AFUP Montpellier',
+                    ]),
+                ];
+            }
+        };
+
         $synchronizer = new Synchronizer(
             $this->citiesConfiguration,
-            new class implements EventProvider {
-                public function getEvents(array $sources): array
-                {
-                    return [
-                        EventDTO::fromData([
-                            'provider_id' => '123',
-                            'name' => 'First event',
-                            'description' => 'lorem ipsum',
-                            'link' => 'https://www.meetup.com/',
-                            'duration' => 120,
-                            'planned_at' => new \DateTimeImmutable(),
-                            'venue_city' => 'Montpellier',
-                            'group_name' => 'AFUP Montpellier',
-                        ]),
-                    ];
-                }
-            },
+            $eventProvider,
             $this->events,
             new NullLogger()
         );
@@ -92,8 +95,6 @@ class DomainContext implements Context
      */
     public function iShouldHaveSomeNewEvents()
     {
-        Assert::count($this->eventFinder->findAll(), 1);
-
-        $event = $this->eventFinder->findAll()[0];
+        Assert::count($this->eventFinder->findNextEvents(), 1);
     }
 }
