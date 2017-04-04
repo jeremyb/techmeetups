@@ -4,34 +4,31 @@ declare(strict_types = 1);
 
 namespace Domain\ReadModel;
 
-final class MonthEvents implements \IteratorAggregate
+final class MonthEvents implements \IteratorAggregate, \Countable
 {
-    /** @var string */
+    /** @var \DateTimeImmutable */
     private $month;
-    /** @var string */
-    private $year;
     /** @var Event[] */
     private $events;
 
-    public function __construct(string $month, string $year, Event ...$events)
+    public function __construct(\DateTimeImmutable $month, Event ...$events)
     {
         $this->month = $month;
-        $this->year = $year;
         $this->events = $events;
     }
 
-    public function getMonth() : string
+    public function getMonth() : \DateTimeImmutable
     {
         return $this->month;
-    }
-
-    public function getYear() : string
-    {
-        return $this->year;
     }
 
     public function getIterator() : \Traversable
     {
         return new \ArrayIterator($this->events);
+    }
+
+    public function count() : int
+    {
+        return count($this->events);
     }
 }

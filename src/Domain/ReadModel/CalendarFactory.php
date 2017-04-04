@@ -12,7 +12,7 @@ final class CalendarFactory
             $events,
             function (array $events, Event $event) {
                 $date = $event->plannedAt;
-                $key = sprintf('%d-%d', $date->format('Y'), $date->format('m'));
+                $key = sprintf('%d-%s', $date->format('Y'), $date->format('F'));
                 $events[$key][] = $event;
 
                 return $events;
@@ -22,8 +22,11 @@ final class CalendarFactory
 
         $monthEvents = array_map(function ($period, iterable $events) {
             [$year, $month] = explode('-', $period);
+            $month = new \DateTimeImmutable(
+                sprintf('first day of %s %d', $month, $year)
+            );
 
-            return new MonthEvents($month, $year, ...$events);
+            return new MonthEvents($month, ...$events);
         }, array_keys($eventsGroupedByMonths), $eventsGroupedByMonths);
 
         return new Calendar(...$monthEvents);

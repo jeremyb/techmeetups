@@ -7,7 +7,7 @@
 
     {% for event_per_month in calendar %}
         <header>
-            <h3>{{ event_per_month.month }} {{ event_per_month.year }}</h3>
+            <h3>{{ event_per_month.month | localizeddate('none', 'none', 'fr', null, 'MMMM YYYY') | capitalize }}</h3>
             <p>{{ event_per_month | length }} meetups</p>
         </header>
 
