@@ -15,7 +15,7 @@ final class SchemaDefinition implements SchemaDefinitionInterface
 
         $events->addColumn('event_id', 'string');
         $events->addColumn('name', 'string');
-        $events->addColumn('description', 'text');
+        $events->addColumn('description', 'text', ['notnull' => false]);
         $events->addColumn('link', 'string');
         $events->addColumn('duration', 'smallint', ['notnull' => false]);
         $events->addColumn('planned_at', 'datetime');

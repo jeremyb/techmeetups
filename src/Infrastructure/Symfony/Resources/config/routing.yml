@@ -1,3 +1,9 @@
 homepage:
     path:     /
     defaults: { _controller: app.actions.homepage }
+
+feed_mtp:
+    path:     /montpellier.{_format}
+    defaults: { _controller: app.actions.feed }
+    requirements:
+        _format: atom|rss

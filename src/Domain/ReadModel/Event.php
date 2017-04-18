@@ -56,4 +56,16 @@ final class Event
 
         return $self;
     }
+
+    public function fullPlannedAt()
+    {
+        $formatter = \IntlDateFormatter::create(
+            'fr',
+            \IntlDateFormatter::FULL,
+            \IntlDateFormatter::SHORT,
+            $this->plannedAt->getTimezone()
+        );
+
+        return $formatter->format($this->plannedAt->getTimestamp());
+    }
 }

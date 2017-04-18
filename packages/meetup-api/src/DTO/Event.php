@@ -47,8 +47,8 @@ final class Event
         $self->updated = (new DateTimeImmutable())->setTimestamp($data['updated']/1000);
         $self->utcOffset = $data['utc_offset']/1000;
         $self->link = $data['link'];
-        $self->description = (string) $data['description'];
-        $self->visibility = $data['visibility']; // => string(6) "public"
+        $self->description = isset($data['description']) ? (string) $data['description'] : null;
+        $self->visibility = $data['visibility'];
         $self->venue = isset($data['venue']) ? Venue::fromData($data['venue']) : null;
         $self->group = Group::fromData($data['group']);
 
