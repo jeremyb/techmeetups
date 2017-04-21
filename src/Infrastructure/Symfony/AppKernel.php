@@ -28,7 +28,7 @@ class AppKernel extends Kernel
             new MonologBundle(),
         ];
 
-        if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
+        if ($this->isDebug()) {
             $bundles[] = new DebugBundle();
             $bundles[] = new WebProfilerBundle();
         }
@@ -38,7 +38,7 @@ class AppKernel extends Kernel
 
     protected function configureRoutes(RouteCollectionBuilder $routes) : void
     {
-        if ('dev' === $this->getEnvironment()) {
+        if ($this->isDebug()) {
             $routes->import('@WebProfilerBundle/Resources/config/routing/wdt.xml', '/_wdt');
             $routes->import('@WebProfilerBundle/Resources/config/routing/profiler.xml', '/_profiler');
         }
@@ -52,7 +52,8 @@ class AppKernel extends Kernel
             'secret' => 'S0ME_SECRET',
             'templating' => ['engines' => ['twig']],
             'profiler' => [
-                'enabled' => true,
+                'enabled' => $this->isDebug(),
+                //'enabled' => true,
                 'only_exceptions' => false,
                 'dsn' => 'file:%kernel.cache_dir%/profiler',
             ],
