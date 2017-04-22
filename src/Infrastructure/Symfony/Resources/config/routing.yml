@@ -7,3 +7,7 @@ feed_mtp:
     defaults: { _controller: app.actions.feed }
     requirements:
         _format: atom|rss
+
+ical_mtp:
+    path:     /montpellier.ical
+    defaults: { _controller: app.actions.ical }

@@ -17,7 +17,6 @@ final class UIExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('actions.yml');
         $loader->load('services.yml');
 
         $container->setParameter('app.techmeetups.cities', $config['cities']);

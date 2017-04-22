@@ -1,8 +1,0 @@
-services:
-    app.actions.homepage:
-        class: UI\Action\Homepage
-        arguments: ['@app.event_finder', '@twig']
-
-    app.actions.feed:
-        class: UI\Action\Feed
-        arguments: ['@app.event_finder']

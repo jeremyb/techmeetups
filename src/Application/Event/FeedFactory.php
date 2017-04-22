@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Application\Event;
 
 use Domain\ReadModel\Event;
-use Domain\ReadModel\EventFinder;
+use Domain\ReadModel\Events;
 use Zend\Feed\Writer\Feed;
 
 final class FeedFactory
 {
-    public static function generate(EventFinder $eventFinder) : Feed
+    public static function create(Events $events) : Feed
     {
         $feed = new Feed();
         $feed->setEncoding('UTF-8');
@@ -23,11 +23,14 @@ final class FeedFactory
         $feed->setLastBuildDate(new \DateTime());
         $feed->setDateModified(new \DateTime());
 
-        foreach ($eventFinder->findNextEvents() as $event) {
+        /** @var Event $event */
+        foreach ($events as $event) {
             $entry = $feed->createEntry();
+            $entry->setId($event->link);
             $entry->setTitle($event->name);
             $entry->setLink($event->link);
-            $entry->setDateModified(new \DateTime());
+            $entry->setDateCreated($event->createdAt);
+            $entry->setDateModified($event->createdAt);
             $entry->setDescription(
                 "Meetup organisé par {$event->groupName} le {$event->fullPlannedAt()} à {$event->venueCity}"
             );
@@ -39,7 +42,7 @@ final class FeedFactory
         return $feed;
     }
 
-    private static function generateEventContent(Event $event)
+    private static function generateEventContent(Event $event) : string
     {
         return <<<HTML
 <p>{$event->description}</p>

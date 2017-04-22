@@ -19,6 +19,8 @@ final class EventDTO
     /** @var int (in minutes) */
     public $duration;
     /** @var \DateTimeImmutable */
+    public $createdAt;
+    /** @var \DateTimeImmutable */
     public $plannedAt;
     /** @var string */
     public $venueName;

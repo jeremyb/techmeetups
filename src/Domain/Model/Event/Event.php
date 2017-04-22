@@ -21,6 +21,8 @@ final class Event
     /** @var int (in minutes) */
     private $duration;
     /** @var \DateTimeImmutable */
+    private $createdAt;
+    /** @var \DateTimeImmutable */
     private $plannedAt;
     /** @var null|Venue */
     private $venue;
@@ -43,6 +45,7 @@ final class Event
         ?string $description,
         string $link,
         ?int $duration,
+        \DateTimeImmutable $createdAt,
         \DateTimeImmutable $plannedAt,
         Venue $venue = null,
         Group $group
@@ -54,6 +57,7 @@ final class Event
         $self->description = $description;
         $self->link = $link;
         $self->duration = $duration;
+        $self->createdAt = $createdAt;
         $self->plannedAt = $plannedAt;
         $self->venue = $venue;
         $self->group = $group;
@@ -93,6 +97,11 @@ final class Event
     public function getDuration() : ?int
     {
         return $this->duration;
+    }
+
+    public function getCreatedAt(): \DateTimeImmutable
+    {
+        return $this->createdAt;
     }
 
     public function getPlannedAt() : \DateTimeImmutable

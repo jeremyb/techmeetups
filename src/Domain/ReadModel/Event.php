@@ -18,7 +18,9 @@ final class Event
     public $link;
     /** @var int (in minutes) */
     public $duration;
-    /** @var \DateTimeImmutable */
+    /** @var \DateTime */
+    public $createdAt;
+    /** @var \DateTime */
     public $plannedAt;
     /** @var string */
     public $venueName;
@@ -47,8 +49,8 @@ final class Event
                 ));
             }
 
-            if ('planned_at' === $fieldName && is_string($fieldValue)) {
-                $fieldValue = new \DateTimeImmutable($fieldValue);
+            if (in_array($fieldName, ['created_at', 'planned_at'], true)) {
+                $fieldValue = new \DateTime($fieldValue);
             }
 
             $self->$property = $fieldValue;
@@ -57,7 +59,16 @@ final class Event
         return $self;
     }
 
-    public function fullPlannedAt()
+    public function extractDescription() : string
+    {
+        if (empty($this->description)) {
+            return '';
+        }
+
+        return substr(strip_tags($this->description), 0, 250) . '...';
+    }
+
+    public function fullPlannedAt() : string
     {
         $formatter = \IntlDateFormatter::create(
             'fr',
@@ -67,5 +78,26 @@ final class Event
         );
 
         return $formatter->format($this->plannedAt->getTimestamp());
+    }
+
+    public function getEndedAt() : \DateTime
+    {
+        $ended = clone $this->plannedAt;
+        $ended->modify(sprintf('+%d minutes', $this->duration ?: 180));
+
+        return $ended;
+    }
+
+    public function fullVenueAddress() : string
+    {
+        return sprintf(
+            '%s (%s)',
+            $this->venueName,
+            implode(', ', array_filter([
+                $this->venueAddress,
+                $this->venueCity,
+                $this->venueCountry,
+            ]))
+        );
     }
 }

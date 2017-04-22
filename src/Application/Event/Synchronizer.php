@@ -86,6 +86,7 @@ final class Synchronizer
                         $eventDto->description,
                         $eventDto->link,
                         $eventDto->duration,
+                        $eventDto->createdAt,
                         $eventDto->plannedAt,
                         $venue ?? null,
                         $group ?? null

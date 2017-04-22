@@ -27,7 +27,8 @@ final class DbalEventRepository implements EventRepository
             'description' => $event->getDescription(),
             'link' => $event->getLink(),
             'duration' => $event->getDuration(),
-            'planned_at' => $event->getPlannedAt()->format(DATE_ATOM),
+            'created_at' => $event->getCreatedAt()->format('Y-m-d H:i:s.uP'),
+            'planned_at' => $event->getPlannedAt()->format('Y-m-d H:i:s.uP'),
             'group_name' => $event->getGroup() ? $event->getGroup()->getName() : null,
         ];
 

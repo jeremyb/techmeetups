@@ -25,7 +25,8 @@
         "techmeetups/meetup-api": "*@dev",
         "webmozart/assert": "^1.2",
         "twig/extensions": "^1.4",
-        "zendframework/zend-feed": "^2.8"
+        "zendframework/zend-feed": "^2.8",
+        "sabre/vobject": "^4.1"
     },
     "require-dev": {
         "symfony/var-dumper": "^3.1",

@@ -33,6 +33,7 @@ final class EventProvider implements EventProviderInterface
                     'description' => $meetupEvent->description,
                     'link' => $meetupEvent->link,
                     'duration' => $meetupEvent->duration,
+                    'created_at' => $meetupEvent->created,
                     'planned_at' => $meetupEvent->time,
                 ];
 
