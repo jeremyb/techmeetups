@@ -1,17 +1,11 @@
-language: php
+sudo: required
 
-sudo: false
-
-matrix:
-    include:
-        - php: 7.1
-
-cache:
-    directories:
-        - $HOME/.composer/cache
+services:
+    - docker
 
 before_script:
-    - composer install -n
+    - touch docker/env
+    - docker-compose run composer install -n
 
 script:
-    - make tests
+    - docker-compose run php make tests
