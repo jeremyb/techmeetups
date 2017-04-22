@@ -23,12 +23,15 @@ final class DbalEventRepository implements EventRepository
     {
         $data = [
             'event_id' => (string) $event->getId(),
+            'city' => $event->getCity()->getId(),
             'name' => $event->getName(),
             'description' => $event->getDescription(),
             'link' => $event->getLink(),
             'duration' => $event->getDuration(),
             'created_at' => $event->getCreatedAt()->format('Y-m-d H:i:s.uP'),
             'planned_at' => $event->getPlannedAt()->format('Y-m-d H:i:s.uP'),
+            'number_of_members' => $event->getNumberOfMembers(),
+            'limit_of_members' => $event->getLimitOfMembers(),
             'group_name' => $event->getGroup() ? $event->getGroup()->getName() : null,
         ];
 

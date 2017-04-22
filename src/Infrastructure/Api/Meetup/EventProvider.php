@@ -8,6 +8,7 @@ use Application\DTO\EventDTO;
 use Application\DTO\EventDTOCollection;
 use Application\EventProvider as EventProviderInterface;
 use Domain\Model\City\CityConfiguration;
+use Meetup\DTO\Event;
 use Meetup\Meetup;
 use Meetup\Resource\Events;
 
@@ -39,6 +40,7 @@ final class EventProvider implements EventProviderInterface
         foreach ($cityConfiguration->getMeetups() as $group) {
             $meetupEvents = $this->meetup->events()->ofGroup($group, $status);
 
+            /** @var Event $meetupEvent */
             foreach ($meetupEvents as $meetupEvent) {
                 $data = [
                     'provider_id' => $meetupEvent->id,
@@ -48,6 +50,8 @@ final class EventProvider implements EventProviderInterface
                     'duration' => $meetupEvent->duration,
                     'created_at' => $meetupEvent->created,
                     'planned_at' => $meetupEvent->time,
+                    'number_of_members' => $meetupEvent->numberOfMembers,
+                    'limit_of_members' => $meetupEvent->limitOfMembers,
                 ];
 
                 if (null !== $meetupEvent->venue) {

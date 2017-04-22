@@ -22,6 +22,10 @@ final class Event
     public $createdAt;
     /** @var \DateTime */
     public $plannedAt;
+    /** @var int */
+    public $numberOfMembers;
+    /** @var int */
+    public $limitOfMembers;
     /** @var string */
     public $venueName;
     /** @var float */
@@ -43,10 +47,7 @@ final class Event
         foreach ($data as $fieldName => $fieldValue) {
             $property = Inflector::camelize($fieldName);
             if (!property_exists($self, $property)) {
-                throw new \InvalidArgumentException(sprintf(
-                    'Cannot modify the field "%s".',
-                    $fieldName
-                ));
+                continue;
             }
 
             if (

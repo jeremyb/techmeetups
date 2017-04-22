@@ -39,6 +39,8 @@ final class EventFactory
             $eventDto->duration,
             $eventDto->createdAt,
             $eventDto->plannedAt,
+            $eventDto->numberOfMembers,
+            $eventDto->limitOfMembers,
             $venue ?? null,
             $group ?? null
         );

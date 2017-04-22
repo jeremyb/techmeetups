@@ -33,6 +33,8 @@ final class InMemoryEventFinder implements EventFinder
                     'link' => $event->getLink(),
                     'duration' => $event->getDuration(),
                     'planned_at' => $event->getPlannedAt(),
+                    'number_of_members' => $event->getNumberOfMembers(),
+                    'limit_of_members' => $event->getLimitOfMembers(),
                     'venue_name' => $venue ? $venue->getName() : null,
                     'venue_lat' => $venue ? $venue->getLat() : null,
                     'venue_lon' => $venue ? $venue->getLon() : null,

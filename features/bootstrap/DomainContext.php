@@ -83,6 +83,8 @@ final class DomainContext implements Context
                         'duration' => 120,
                         'created_at' => new \DateTimeImmutable(),
                         'planned_at' => new \DateTimeImmutable(),
+                        'number_of_members' => 50,
+                        'limit_of_members' => 60,
                         'venue_city' => 'Montpellier',
                         'group_name' => 'AFUP Montpellier',
                     ])

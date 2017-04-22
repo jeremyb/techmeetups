@@ -33,6 +33,13 @@
                         {{ event.description | striptags | slice(0, 400) }}...
                     </blockquote>
 
+                    <p>
+                        {{ event.numberOfMembers }} inscrit(s)
+                        {% if event.limitOfMembers %}
+                            (max : {{ event.limitOfMembers }})
+                        {% endif %}
+                    </p>
+
                     <div class="row">
                         <div class="3u 12u(mobilep)">
                             <p>

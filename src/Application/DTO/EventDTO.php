@@ -22,6 +22,10 @@ final class EventDTO
     public $createdAt;
     /** @var \DateTimeImmutable */
     public $plannedAt;
+    /** @var int */
+    public $numberOfMembers;
+    /** @var int */
+    public $limitOfMembers;
     /** @var string */
     public $venueName;
     /** @var float */

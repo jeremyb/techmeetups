@@ -30,6 +30,10 @@ final class Event
     public $description;
     /** @var string */
     public $visibility;
+    /** @var int */
+    public $numberOfMembers;
+    /** @var int */
+    public $limitOfMembers;
     /** @var null|Venue */
     public $venue;
     /** @var Group */
@@ -49,6 +53,8 @@ final class Event
         $self->link = $data['link'];
         $self->description = isset($data['description']) ? (string) $data['description'] : null;
         $self->visibility = $data['visibility'];
+        $self->numberOfMembers = (int) ($data['yes_rsvp_count'] ?? 0);
+        $self->limitOfMembers = (int) ($data['rsvp_limit'] ?? 0);
         $self->venue = isset($data['venue']) ? Venue::fromData($data['venue']) : null;
         $self->group = Group::fromData($data['group']);
 

@@ -24,6 +24,10 @@ final class Event
     private $createdAt;
     /** @var \DateTimeImmutable */
     private $plannedAt;
+    /** @var int */
+    private $numberOfMembers;
+    /** @var int */
+    private $limitOfMembers;
     /** @var null|Venue */
     private $venue;
     /** @var Group */
@@ -47,6 +51,8 @@ final class Event
         ?int $duration,
         \DateTimeImmutable $createdAt,
         \DateTimeImmutable $plannedAt,
+        int $numberOfMembers,
+        int $limitOfMembers,
         Venue $venue = null,
         Group $group
     ) : self {
@@ -59,6 +65,8 @@ final class Event
         $self->duration = $duration;
         $self->createdAt = $createdAt;
         $self->plannedAt = $plannedAt;
+        $self->numberOfMembers = $numberOfMembers;
+        $self->limitOfMembers = $limitOfMembers;
         $self->venue = $venue;
         $self->group = $group;
 
@@ -107,6 +115,16 @@ final class Event
     public function getPlannedAt() : \DateTimeImmutable
     {
         return $this->plannedAt;
+    }
+
+    public function getNumberOfMembers(): int
+    {
+        return $this->numberOfMembers;
+    }
+
+    public function getLimitOfMembers(): int
+    {
+        return $this->limitOfMembers;
     }
 
     public function getVenue() : ?Venue
