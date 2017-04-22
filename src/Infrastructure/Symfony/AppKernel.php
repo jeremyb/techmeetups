@@ -69,22 +69,36 @@ class AppKernel extends Kernel
             'paths' => [
                 __DIR__ . '/../../UI/templates' => '__main__',
             ],
+            'date' => [
+                'timezone' => 'Europe/Paris',
+            ]
         ]);
 
-        $c->loadFromExtension('monolog', [
-            'handlers' => [
-                'main' => [
-                    'type' => 'stream',
-                    'path' => '%kernel.logs_dir%/%kernel.environment%.log',
-                    'level' => 'debug',
-                    'channels' => ['!event'],
+        if ('prod' === $this->getEnvironment()) {
+            $c->loadFromExtension('monolog', [
+                'handlers' => [
+                    'main' => [
+                        'type' => 'error_log',
+                        'level' => 'warning',
+                    ],
                 ],
-                'console' => [
-                    'type' => 'console',
-                    'channels' => ['!event', '!doctrine', '!console'],
+            ]);
+        } else {
+            $c->loadFromExtension('monolog', [
+                'handlers' => [
+                    'main' => [
+                        'type' => 'stream',
+                        'path' => '%kernel.logs_dir%/%kernel.environment%.log',
+                        'level' => 'debug',
+                        'channels' => ['!event'],
+                    ],
+                    'console' => [
+                        'type' => 'console',
+                        'channels' => ['!event', '!doctrine', '!console'],
+                    ],
                 ],
-            ],
-        ]);
+            ]);
+        }
 
         $c->registerExtension(new UIExtension());
 
