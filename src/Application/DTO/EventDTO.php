@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Application\Event\DTO;
+namespace Application\DTO;
 
 use Doctrine\Common\Inflector\Inflector;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace UI\Action;
 
-use Application\Event\ICalFactory;
+use Application\ICalFactory;
 use Domain\ReadModel\EventFinder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

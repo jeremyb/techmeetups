@@ -26,7 +26,7 @@ class EventsSpec extends ObjectBehavior
         ResponseInterface $response,
         StreamInterface $stream
     ) {
-        $httpClient->get('/Montpellier-PHP-Meetup/events')->shouldBeCalled()->willReturn($response);
+        $httpClient->get('/Montpellier-PHP-Meetup/events?status=upcoming')->shouldBeCalled()->willReturn($response);
 
         $response->getHeaderLine('Content-Type')->shouldBeCalled()->willReturn('application/json');
         $response->getBody()->shouldBeCalled()->willReturn($stream);

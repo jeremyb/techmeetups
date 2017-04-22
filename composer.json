@@ -13,7 +13,7 @@
         "psr-4": { "": "src" }
     },
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.1",
         "symfony/symfony": "^3.0",
         "ramsey/uuid": "^3.3",
         "symfony/monolog-bundle": "^3.0",

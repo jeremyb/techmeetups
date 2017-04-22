@@ -1,11 +1,11 @@
 <?php
 
-namespace spec\Application\Event;
+namespace spec\Application;
 
-use Application\Event\DTO\EventDTO;
-use Application\Event\DTO\EventDTOCollection;
-use Application\Event\EventProvider;
-use Application\Event\Synchronizer;
+use Application\DTO\EventDTO;
+use Application\DTO\EventDTOCollection;
+use Application\EventImporter;
+use Application\EventProvider;
 use Domain\Model\City\City;
 use Domain\Model\City\CityConfiguration;
 use Domain\Model\City\CityConfigurationRepository;
@@ -16,7 +16,7 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Psr\Log\LoggerInterface;
 
-class SynchronizerSpec extends ObjectBehavior
+class EventImporterSpec extends ObjectBehavior
 {
     function let(
         CityConfigurationRepository $cityConfigurationRepository,
@@ -34,10 +34,10 @@ class SynchronizerSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(Synchronizer::class);
+        $this->shouldHaveType(EventImporter::class);
     }
 
-    function it_should_synchronize(
+    function it_should_import_upcoming_events(
         CityConfigurationRepository $cityConfigurationRepository,
         EventProvider $provider,
         EventRepository $eventRepository
@@ -49,7 +49,7 @@ class SynchronizerSpec extends ObjectBehavior
             ),
         ]);
 
-        $provider->getEvents($cityConfiguration)->shouldBeCalled()->willReturn(
+        $provider->getUpcomingEvents($cityConfiguration)->shouldBeCalled()->willReturn(
             new EventDTOCollection(
                 EventDTO::fromData([
                     'provider_id' => '123',
@@ -72,6 +72,6 @@ class SynchronizerSpec extends ObjectBehavior
 
         $eventRepository->add(Argument::type(Event::class))->shouldBeCalled();
 
-        $this->synchronize();
+        $this->importUpcoming();
     }
 }

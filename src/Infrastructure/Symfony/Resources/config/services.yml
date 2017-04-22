@@ -58,23 +58,23 @@ services:
     app.meetup_client:
         class: Meetup\Meetup
         factory: ['Meetup\MeetupApiKeyFactory', create]
-        arguments: ['%env(MEETUP_API_KEY)%']
+        arguments: ['%env(MEETUP_API_KEY)%', '@logger']
 
     app.event_provider.meetup:
         class: Infrastructure\Api\Meetup\EventProvider
         arguments: ['@app.meetup_client']
 
-    app.event_synchronizer:
-        class: Application\Event\Synchronizer
+    app.event_importer:
+        class: Application\EventImporter
         arguments:
             - '@app.city_configuration_repository'
             - '@app.event_provider.meetup'
             - '@app.event_repository'
             - '@logger'
 
-    app.command.synchronize:
-        class: Infrastructure\Cli\SynchronizeCommand
-        arguments: ['@app.event_synchronizer']
+    app.command.event_importer:
+        class: Infrastructure\Cli\ImporterCommand
+        arguments: ['@app.event_importer']
         tags:
             - { name: console.command }
 

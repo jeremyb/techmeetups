@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use Application\Event\DTO\EventDTO;
-use Application\Event\DTO\EventDTOCollection;
-use Application\Event\EventProvider;
-use Application\Event\Synchronizer;
+use Application\DTO\EventDTO;
+use Application\DTO\EventDTOCollection;
+use Application\EventImporter;
+use Application\EventProvider;
 use Domain\Model\City\CityConfiguration;
 use Behat\Behat\Context\Context;
 use Domain\Model\City\City;
@@ -67,7 +67,12 @@ final class DomainContext implements Context
     {
         /** @var EventProvider $eventProvider */
         $eventProvider = new class implements EventProvider {
-            public function getEvents(CityConfiguration $cityConfiguration): EventDTOCollection
+            public function importPastEvents(CityConfiguration $cityConfiguration): EventDTOCollection
+            {
+                throw new \RuntimeException('Not supported on test');
+            }
+
+            public function getUpcomingEvents(CityConfiguration $cityConfiguration) : EventDTOCollection
             {
                 return new EventDTOCollection(
                     EventDTO::fromData([
@@ -85,14 +90,13 @@ final class DomainContext implements Context
             }
         };
 
-        $synchronizer = new Synchronizer(
+        $importer = new EventImporter(
             $this->citiesConfiguration,
             $eventProvider,
             $this->events,
             new NullLogger()
         );
-
-        $synchronizer->synchronize();
+        $importer->importUpcoming();
     }
 
     /**

@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Infrastructure\Api\Meetup;
 
-use Application\Event\DTO\EventDTO;
-use Application\Event\DTO\EventDTOCollection;
-use Application\Event\EventProvider as EventProviderInterface;
+use Application\DTO\EventDTO;
+use Application\DTO\EventDTOCollection;
+use Application\EventProvider as EventProviderInterface;
 use Domain\Model\City\CityConfiguration;
 use Meetup\Meetup;
+use Meetup\Resource\Events;
 
 final class EventProvider implements EventProviderInterface
 {
@@ -20,11 +21,23 @@ final class EventProvider implements EventProviderInterface
         $this->meetup = $meetup;
     }
 
-    public function getEvents(CityConfiguration $cityConfiguration) : EventDTOCollection
+    public function importPastEvents(CityConfiguration $cityConfiguration): EventDTOCollection
     {
+        return $this->getEvents($cityConfiguration, Events::PAST);
+    }
+
+    public function getUpcomingEvents(CityConfiguration $cityConfiguration) : EventDTOCollection
+    {
+        return $this->getEvents($cityConfiguration, Events::UPCOMING);
+    }
+
+    private function getEvents(
+        CityConfiguration $cityConfiguration,
+        string $status
+    ) : EventDTOCollection {
         $events = [];
         foreach ($cityConfiguration->getMeetups() as $group) {
-            $meetupEvents = $this->meetup->events()->ofGroup($group);
+            $meetupEvents = $this->meetup->events()->ofGroup($group, $status);
 
             foreach ($meetupEvents as $meetupEvent) {
                 $data = [

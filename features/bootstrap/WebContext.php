@@ -57,7 +57,7 @@ final class WebContext implements Context
         $events = $this->webTestCase->getProphet()->prophesize(Events::class);
         $meetup->events()->willReturn($events);
         $events
-            ->ofGroup(Argument::type('string'))
+            ->ofGroup(Argument::type('string'), 'upcoming')
             ->shouldBeCalled()
             ->willReturn([
                 \Meetup\DTO\Event::fromData([
@@ -86,9 +86,9 @@ final class WebContext implements Context
                 ])
             ]);
 
-        /** @var \Application\Event\Synchronizer $synchronizer */
-        $synchronizer = $this->webTestCase->getContainer()->get('app.event_synchronizer');
-        $synchronizer->synchronize();
+        /** @var \Application\EventImporter $importer */
+        $importer = $this->webTestCase->getContainer()->get('app.event_importer');
+        $importer->importUpcoming();
     }
 
     /**

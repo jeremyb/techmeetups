@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Application\Event;
+namespace Application;
 
 use Domain\ReadModel\Event;
 use Domain\ReadModel\Events;
