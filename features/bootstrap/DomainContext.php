@@ -76,6 +76,7 @@ final class DomainContext implements Context
                         'description' => 'lorem ipsum',
                         'link' => 'https://www.meetup.com/',
                         'duration' => 120,
+                        'created_at' => new \DateTimeImmutable(),
                         'planned_at' => new \DateTimeImmutable(),
                         'venue_city' => 'Montpellier',
                         'group_name' => 'AFUP Montpellier',

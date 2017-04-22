@@ -23,6 +23,7 @@ class CalendarFactorySpec extends ObjectBehavior
                 'event_id' => $index,
                 'name' => sprintf('Event #%d', $index),
                 'description' => 'lorem ipsum',
+                'created_at' => new \DateTimeImmutable(),
                 'planned_at' => new \DateTimeImmutable(sprintf('+%d month', $index)),
                 'venue_name' => 'Meetup',
                 'group_name' => 'Group',

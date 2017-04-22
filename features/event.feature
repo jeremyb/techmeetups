@@ -12,3 +12,4 @@ Feature: TechMeetups events
     Scenario: Successfully display events
         Then I should see some events on the homepage
         And a RSS feed is available
+        And an iCal feed is available

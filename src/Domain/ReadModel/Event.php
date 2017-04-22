@@ -49,7 +49,10 @@ final class Event
                 ));
             }
 
-            if (in_array($fieldName, ['created_at', 'planned_at'], true)) {
+            if (
+                is_string($fieldValue) &&
+                in_array($fieldName, ['created_at', 'planned_at'], true)
+            ) {
                 $fieldValue = new \DateTime($fieldValue);
             }
 

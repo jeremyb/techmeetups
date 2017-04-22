@@ -6,6 +6,7 @@ use Behat\Behat\Context\Context;
 use Domain\Model\City\CityConfigurationRepository;
 use Meetup\Resource\Events;
 use Prophecy\Argument;
+use Sabre\VObject\Reader;
 use Symfony\Component\HttpFoundation\Response;
 use Webmozart\Assert\Assert;
 
@@ -116,9 +117,20 @@ final class WebContext implements Context
 
         Assert::eq($client->getResponse()->getStatusCode(), Response::HTTP_OK);
         Assert::eq(1, $crawler->filter('rss item')->count());
-        Assert::eq(
-            $crawler->filter('rss item title')->text(),
-            'First event'
-        );
+        Assert::eq('First event', $crawler->filter('rss item title')->text());
+    }
+
+    /**
+     * @Then an iCal feed is available
+     */
+    public function anICalFeedIsAvailable()
+    {
+        $client = $this->webTestCase->getClient();
+        $client->request('GET', '/montpellier.ical');
+        Assert::eq($client->getResponse()->getStatusCode(), Response::HTTP_OK);
+
+        $calendar = Reader::read($client->getResponse()->getContent());
+        Assert::eq(1, count($calendar->VEVENT));
+        Assert::eq('First event', (string) $calendar->VEVENT[0]->SUMMARY);
     }
 }
