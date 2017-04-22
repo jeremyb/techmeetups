@@ -8,10 +8,10 @@ final class CityConfiguration
 {
     /** @var City */
     private $city;
-    /** @var array */
+    /** @var string[] */
     private $meetups;
 
-    public function __construct(City $city, array $meetups)
+    public function __construct(City $city, string ...$meetups)
     {
         $this->city = $city;
         $this->meetups = $meetups;

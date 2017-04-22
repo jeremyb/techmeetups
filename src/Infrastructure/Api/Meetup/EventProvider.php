@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Infrastructure\Api\Meetup;
 
 use Application\Event\DTO\EventDTO;
+use Application\Event\DTO\EventDTOCollection;
 use Application\Event\EventProvider as EventProviderInterface;
+use Domain\Model\City\CityConfiguration;
 use Meetup\Meetup;
 
 final class EventProvider implements EventProviderInterface
@@ -18,41 +20,41 @@ final class EventProvider implements EventProviderInterface
         $this->meetup = $meetup;
     }
 
-    public function getEvents(array $sources) : array
+    public function getEvents(CityConfiguration $cityConfiguration) : EventDTOCollection
     {
         $events = [];
-        foreach ($sources as $group) {
-            $eventsDto = $this->meetup->events()->ofGroup($group);
+        foreach ($cityConfiguration->getMeetups() as $group) {
+            $meetupEvents = $this->meetup->events()->ofGroup($group);
 
-            foreach ($eventsDto as $eventDto) {
+            foreach ($meetupEvents as $meetupEvent) {
                 $data = [
-                    'provider_id' => $eventDto->id,
-                    'name' => $eventDto->name,
-                    'description' => $eventDto->description,
-                    'link' => $eventDto->link,
-                    'duration' => $eventDto->duration,
-                    'planned_at' => $eventDto->time,
+                    'provider_id' => $meetupEvent->id,
+                    'name' => $meetupEvent->name,
+                    'description' => $meetupEvent->description,
+                    'link' => $meetupEvent->link,
+                    'duration' => $meetupEvent->duration,
+                    'planned_at' => $meetupEvent->time,
                 ];
 
-                if (null !== $eventDto->venue) {
+                if (null !== $meetupEvent->venue) {
                     $data = array_merge($data, [
-                        'venue_name' => $eventDto->venue->name,
-                        'venue_lat' => $eventDto->venue->lat,
-                        'venue_lon' => $eventDto->venue->lon,
-                        'venue_address' => $eventDto->venue->address1,
-                        'venue_city' => $eventDto->venue->city,
-                        'venue_country' => $eventDto->venue->localizedCountryName,
+                        'venue_name' => $meetupEvent->venue->name,
+                        'venue_lat' => $meetupEvent->venue->lat,
+                        'venue_lon' => $meetupEvent->venue->lon,
+                        'venue_address' => $meetupEvent->venue->address1,
+                        'venue_city' => $meetupEvent->venue->city,
+                        'venue_country' => $meetupEvent->venue->localizedCountryName,
                     ]);
                 }
 
-                if (null !== $eventDto->group) {
-                    $data['group_name'] = $eventDto->group->name;
+                if (null !== $meetupEvent->group) {
+                    $data['group_name'] = $meetupEvent->group->name;
                 }
 
                 $events[] = EventDTO::fromData($data);
             }
         }
 
-        return $events;
+        return new EventDTOCollection(...$events);
     }
 }

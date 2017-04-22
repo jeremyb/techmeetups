@@ -3,6 +3,7 @@
 namespace spec\Application\Event;
 
 use Application\Event\DTO\EventDTO;
+use Application\Event\DTO\EventDTOCollection;
 use Application\Event\EventProvider;
 use Application\Event\Synchronizer;
 use Domain\Model\City\City;
@@ -42,24 +43,26 @@ class SynchronizerSpec extends ObjectBehavior
         EventRepository $eventRepository
     ) {
         $cityConfigurationRepository->findAll()->shouldBeCalled()->willReturn([
-            new CityConfiguration(
+            $cityConfiguration = new CityConfiguration(
                 City::named('Montpellier'),
-                ['Montpellier-PHP-Meetup']
+                'Montpellier-PHP-Meetup'
             ),
         ]);
 
-        $provider->getEvents(['Montpellier-PHP-Meetup'])->shouldBeCalled()->willReturn([
-            EventDTO::fromData([
-                'provider_id' => '123',
-                'name' => 'First event',
-                'description' => 'lorem ipsum',
-                'link' => 'https://www.meetup.com/',
-                'duration' => 120,
-                'planned_at' => new \DateTimeImmutable(),
-                'venue_city' => 'Montpellier',
-                'group_name' => 'AFUP Montpellier',
-            ])
-        ]);
+        $provider->getEvents($cityConfiguration)->shouldBeCalled()->willReturn(
+            new EventDTOCollection(
+                EventDTO::fromData([
+                    'provider_id' => '123',
+                    'name' => 'First event',
+                    'description' => 'lorem ipsum',
+                    'link' => 'https://www.meetup.com/',
+                    'duration' => 120,
+                    'planned_at' => new \DateTimeImmutable(),
+                    'venue_city' => 'Montpellier',
+                    'group_name' => 'AFUP Montpellier',
+                ])
+            )
+        );
 
         $eventRepository
             ->contains(EventId::fromString('123'))

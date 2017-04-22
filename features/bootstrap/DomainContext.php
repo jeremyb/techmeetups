@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 use Application\Event\DTO\EventDTO;
+use Application\Event\DTO\EventDTOCollection;
 use Application\Event\EventProvider;
 use Application\Event\Synchronizer;
+use Domain\Model\City\CityConfiguration;
 use Behat\Behat\Context\Context;
 use Domain\Model\City\City;
 use Domain\Model\City\CityConfigurationRepository;
@@ -13,7 +17,7 @@ use Infrastructure\ReadModel\InMemory\InMemoryEventFinder;
 use Psr\Log\NullLogger;
 use Webmozart\Assert\Assert;
 
-class DomainContext implements Context
+final class DomainContext implements Context
 {
     /** @var InMemoryCityRepository */
     private $cities;
@@ -63,9 +67,9 @@ class DomainContext implements Context
     {
         /** @var EventProvider $eventProvider */
         $eventProvider = new class implements EventProvider {
-            public function getEvents(array $sources): array
+            public function getEvents(CityConfiguration $cityConfiguration): EventDTOCollection
             {
-                return [
+                return new EventDTOCollection(
                     EventDTO::fromData([
                         'provider_id' => '123',
                         'name' => 'First event',
@@ -75,8 +79,8 @@ class DomainContext implements Context
                         'planned_at' => new \DateTimeImmutable(),
                         'venue_city' => 'Montpellier',
                         'group_name' => 'AFUP Montpellier',
-                    ]),
-                ];
+                    ])
+                );
             }
         };
 
@@ -91,9 +95,9 @@ class DomainContext implements Context
     }
 
     /**
-     * @Then I should have some new events
+     * @Then I should have some new events synchronized
      */
-    public function iShouldHaveSomeNewEvents()
+    public function iShouldHaveSomeNewEventsSynchronized()
     {
         Assert::count($this->eventFinder->findNextEvents(), 1);
     }

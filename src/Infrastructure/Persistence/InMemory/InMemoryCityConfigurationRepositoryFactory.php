@@ -23,10 +23,11 @@ final class InMemoryCityConfigurationRepositoryFactory
 
             return new CityConfiguration(
                 $city,
-                $cityConfig['providers']['meetup.com']
+                // @todo improve this part to handle different providers?
+                ...$cityConfig['providers']['meetup.com']
             );
         }, $config);
 
-        return new InMemoryCityConfigurationRepository($citiesConfiguration);
+        return new InMemoryCityConfigurationRepository(...$citiesConfiguration);
     }
 }

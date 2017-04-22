@@ -43,9 +43,7 @@ final class Synchronizer
                 sprintf('City: %s', (string) $cityConfiguration->getCity())
             );
 
-            $eventsDto = $this->provider->getEvents(
-                $cityConfiguration->getMeetups()
-            );
+            $eventsDto = $this->provider->getEvents($cityConfiguration);
 
             foreach ($eventsDto as $eventDto) {
                 if (!$eventDto instanceof EventDTO) {

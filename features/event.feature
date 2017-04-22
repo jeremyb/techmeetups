@@ -1,6 +1,14 @@
-Feature: Techmeetups events
+Feature: TechMeetups events
 
-    Scenario: Successfully synchronize events
+    Background:
         Given a city is configured with some Meetup groups to fetch
         When the events are synchronized
-        Then I should have some new events
+
+    @domain
+    Scenario: Successfully synchronize events
+        Then I should have some new events synchronized
+
+    @ui
+    Scenario: Successfully display events
+        Then I should see some events on the homepage
+        And a RSS feed is available

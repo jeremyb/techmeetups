@@ -7,6 +7,7 @@ namespace Infrastructure\ReadModel\Doctrine;
 use Doctrine\DBAL\Connection;
 use Domain\ReadModel\Event;
 use Domain\ReadModel\EventFinder;
+use Domain\ReadModel\Events;
 
 final class DbalEventFinder implements EventFinder
 {
@@ -18,7 +19,7 @@ final class DbalEventFinder implements EventFinder
         $this->connection = $connection;
     }
 
-    public function findNextEvents() : iterable
+    public function findNextEvents() : Events
     {
         $results = $this->connection
             ->executeQuery(
@@ -29,8 +30,8 @@ final class DbalEventFinder implements EventFinder
             )
             ->fetchAll();
 
-        return array_map(function (array $event) {
+        return new Events(...array_map(function (array $event) {
             return Event::fromData($event);
-        }, $results);
+        }, $results));
     }
 }

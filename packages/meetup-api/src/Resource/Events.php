@@ -8,7 +8,7 @@ use Http\Client\Common\HttpMethodsClient;
 use Meetup\DTO\Event;
 use Meetup\Http\ResponseConverter;
 
-final class Events
+class Events
 {
     /** @var HttpMethodsClient */
     private $httpClient;

@@ -53,16 +53,21 @@ class AppKernel extends Kernel
             'templating' => ['engines' => ['twig']],
             'profiler' => [
                 'enabled' => $this->isDebug(),
-                //'enabled' => true,
                 'only_exceptions' => false,
                 'dsn' => 'file:%kernel.cache_dir%/profiler',
             ],
         ]);
 
+        if ('test' === $this->getEnvironment()) {
+            $c->prependExtensionConfig('framework', [
+                'test' => null,
+            ]);
+        }
+
         $c->loadFromExtension('twig', [
             'debug' => true,
             'paths' => [
-                __DIR__ . '/../../UI/views' => '__main__',
+                __DIR__ . '/../../UI/templates' => '__main__',
             ],
         ]);
 

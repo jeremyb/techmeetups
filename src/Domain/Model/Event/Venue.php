@@ -9,9 +9,9 @@ final class Venue
     /** @var string */
     private $name;
     /** @var float */
-    public $lat;
+    private $lat;
     /** @var float */
-    public $lon;
+    private $lon;
     /** @var string */
     private $address;
     /** @var string */

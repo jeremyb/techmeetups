@@ -7,6 +7,7 @@ namespace Infrastructure\ReadModel\InMemory;
 use Domain\Model\Event\Event;
 use Domain\ReadModel\Event as EventReadModel;
 use Domain\ReadModel\EventFinder;
+use Domain\ReadModel\Events;
 use Infrastructure\Persistence\InMemory\InMemoryEventRepository;
 
 final class InMemoryEventFinder implements EventFinder
@@ -19,9 +20,9 @@ final class InMemoryEventFinder implements EventFinder
         $this->eventRepository = $eventRepository;
     }
 
-    public function findNextEvents() : iterable
+    public function findNextEvents() : Events
     {
-        return array_map(
+        return new Events(...array_map(
             function (Event $event) {
                 $venue = $event->getVenue();
 
@@ -42,6 +43,6 @@ final class InMemoryEventFinder implements EventFinder
                 ]);
             },
             $this->eventRepository->findAll()
-        );
+        ));
     }
 }

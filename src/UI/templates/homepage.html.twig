@@ -8,19 +8,20 @@
     {% for event_per_month in calendar %}
         <header>
             <h3>{{ event_per_month.month | localizeddate('none', 'none', 'fr', null, 'MMMM YYYY') | capitalize }}</h3>
-            <p>{{ event_per_month | length }} meetups</p>
+            <p><strong>{{ event_per_month | length }} meetups</strong></p>
+            <hr>
         </header>
 
         <ul class="alt">
             {% for event in event_per_month %}
             <li class="row">
                 <header class="4u 12u(mobilep)">
-                    <h5><strong>{{ event.groupName }}</strong></h5>
-                    <h4>
+                    <h3>
                         <a href="{{ event.link }}" target="_blank">
                             <strong>{{ event.name }}</strong>
                         </a>
-                    </h4>
+                    </h3>
+                    <h4><strong>{{ event.groupName }}</strong></h4>
                     <p>
                         <strong>{{ event.plannedAt | localizeddate('full', 'none', 'fr') }}</strong><br>
                         <strong>{{ event.plannedAt | localizeddate('none', 'short', 'fr') }}</strong>

@@ -12,7 +12,7 @@ final class InMemoryCityConfigurationRepository implements CityConfigurationRepo
     /** @var CityConfiguration[] */
     private $citiesConfiguration;
 
-    public function __construct(array $citiesConfiguration = [])
+    public function __construct(CityConfiguration ...$citiesConfiguration)
     {
         $this->citiesConfiguration = $citiesConfiguration;
     }

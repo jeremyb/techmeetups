@@ -70,6 +70,11 @@ final class Event
         return $this->id;
     }
 
+    public function getCity() : City
+    {
+        return $this->city;
+    }
+
     public function getName() : string
     {
         return $this->name;

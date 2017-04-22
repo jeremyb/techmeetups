@@ -6,8 +6,5 @@ namespace Domain\ReadModel;
 
 interface EventFinder
 {
-    /**
-     * @return Event[]
-     */
-    public function findNextEvents() : iterable;
+    public function findNextEvents() : Events;
 }

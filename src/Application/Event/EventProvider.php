@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace Application\Event;
 
-use Application\Event\DTO\EventDTO;
+use Application\Event\DTO\EventDTOCollection;
+use Domain\Model\City\CityConfiguration;
 
 interface EventProvider
 {
-    /**
-     * @param array $sources
-     *
-     * @return EventDTO[]
-     */
-    public function getEvents(array $sources) : array;
+    public function getEvents(CityConfiguration $cityConfiguration) : EventDTOCollection;
 }

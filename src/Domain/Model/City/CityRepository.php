@@ -6,11 +6,6 @@ namespace Domain\Model\City;
 
 interface CityRepository
 {
-    /**
-     * @param City $city
-     *
-     * @return void
-     */
     public function add(City $city) : void;
 
     /**

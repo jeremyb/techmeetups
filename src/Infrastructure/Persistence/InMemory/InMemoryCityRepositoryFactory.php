@@ -17,6 +17,6 @@ final class InMemoryCityRepositoryFactory
             return City::named($cityConfig['city']);
         }, $config);
 
-        return new InMemoryCityRepository($cities);
+        return new InMemoryCityRepository(...$cities);
     }
 }

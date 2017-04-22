@@ -1,4 +1,30 @@
 services:
+    doctrine.dbal_connection:
+        class: Doctrine\DBAL\Connection
+        factory: ['Doctrine\DBAL\DriverManager', getConnection]
+        arguments:
+            -
+                url: "%env(DATABASE_DSN)%"
+                driver: 'pdo_pgsql'
+
+    doctrine.dbal_schema.definition:
+        class: Infrastructure\Persistence\Doctrine\SchemaDefinition
+
+    doctrine.dbal_schema.base_command:
+        class: DbalSchema\DbalSchemaCommand
+        arguments:
+            - '@doctrine.dbal_connection'
+            - '@doctrine.dbal_schema.definition'
+
+    doctrine.dbal_schema.command.update_command:
+        class: DbalSchema\Command\UpdateCommand
+        arguments: ['@doctrine.dbal_schema.base_command']
+        tags: [ { name: console.command } ]
+    doctrine.dbal_schema.command.purge_command:
+        class: DbalSchema\Command\PurgeCommand
+        arguments: ['@doctrine.dbal_schema.base_command']
+        tags: [ { name: console.command } ]
+
     app.meetup_client:
         class: Meetup\Meetup
         factory: ['Meetup\MeetupApiKeyFactory', create]
@@ -19,36 +45,6 @@ services:
         arguments:
             - '@app.city_repository'
             - '%app.techmeetups.cities%'
-
-    doctrine.dbal_configuration:
-        class: Doctrine\DBAL\Configuration
-
-    doctrine.dbal_connection:
-        class: Doctrine\DBAL\Connection
-        factory: ['Doctrine\DBAL\DriverManager', getConnection]
-        arguments:
-            -
-                url: "%env(DATABASE_DSN)%"
-                driver: 'pdo_pgsql'
-            - '@doctrine.dbal_configuration'
-
-    doctrine.dbal_schema.definition:
-        class: Infrastructure\Persistence\Doctrine\SchemaDefinition
-
-    doctrine.dbal_schema.base_command:
-        class: DbalSchema\DbalSchemaCommand
-        arguments:
-            - '@doctrine.dbal_connection'
-            - '@doctrine.dbal_schema.definition'
-
-    doctrine.dbal_schema.command.update_command:
-        class: DbalSchema\Command\UpdateCommand
-        arguments: ['@doctrine.dbal_schema.base_command']
-        tags: [ { name: console.command } ]
-    doctrine.dbal_schema.command.purge_command:
-        class: DbalSchema\Command\PurgeCommand
-        arguments: ['@doctrine.dbal_schema.base_command']
-        tags: [ { name: console.command } ]
 
     app.event_repository:
         class: Infrastructure\Persistence\Doctrine\DbalEventRepository
