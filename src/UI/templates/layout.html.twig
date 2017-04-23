@@ -9,9 +9,9 @@
 		<title>TechMeetups</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<link rel="stylesheet" href="/assets/css/main.css" />
+		<link rel="stylesheet" href="/assets/css/icomoon.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="/assets/css/ie8.css" /><![endif]-->
         <link rel="alternate" type="application/rss+xml" href="/montpellier.rss" title="Flux RSS des meetups de Montpellier">
         <link rel="alternate" type="application/atom+xml" href="/montpellier.atom" title="Flux Atom des meetups de Montpellier">
     </head>
@@ -27,8 +27,16 @@
 				<h2>TechMeetups</h2>
 				<p>L'agenda des meetups du numérique à Montpellier.</p>
 				<ul class="actions">
-					<li><a href="#" class="button special">Sign Up</a></li>
-					<li><a href="#" class="button">Learn More</a></li>
+					<li>
+                        <a href="#cta" class="button special">
+                            S'abonner à la newsletter
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#footer" class="button">
+                            A propos
+                        </a>
+                    </li>
 				</ul>
 			</section>
 
@@ -39,31 +47,51 @@
 			</section>
 
 			<section id="cta">
-				<h2>Sign up for beta access</h2>
-				<p>Blandit varius ut praesent nascetur eu penatibus nisi risus faucibus nunc.</p>
+				<h2>S'abonner à la newsletter</h2>
+				<p>
+                    Pour ne plus rater les prochains meetups de Montpellier,
+                    inscrivez-vous à la newsletter :
+                </p>
 				<form>
 					<div class="row uniform 50%">
 						<div class="8u 12u(mobilep)">
-							<input type="email" name="email" id="email" placeholder="Email Address" />
+							<input type="email" name="email" id="email" placeholder="Email" />
 						</div>
 						<div class="4u 12u(mobilep)">
-							<input type="submit" value="Sign Up" class="fit" />
+							<input type="submit" value="Je m'inscris !" />
 						</div>
 					</div>
 				</form>
 			</section>
 
 			<footer id="footer">
+                <h3>A propos</h3>
+                <p>
+                    La majorité des événements affichés proviennent de la
+                    plateforme <a href="https://www.meetup.com">meetup.com</a>.
+                </p>
 				<ul class="icons">
-					<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-					<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-					<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
-					<li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
-					<li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
-					<li><a href="#" class="icon fa-google-plus"><span class="label">Google+</span></a></li>
+                    <li>
+                        <a href="{{ url('feed_mtp', { _format: 'rss' }) }}" target="_blank">
+                            <span class="icon-rss_feed"></span> RSS
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('feed_mtp', { _format: 'atom' }) }}" target="_blank">
+                            <span class="icon-rss_feed"></span> Atom
+                        </a>
+                    </li>
+                    <li>
+                        <a href="webcal://{{ app.request.httpHost }}/{{ path('ical_mtp') }}">
+                            <span class="icon-date_range"></span> iCal
+                        </a>
+                    </li>
 				</ul>
 				<ul class="copyright">
-					<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					<li>
+                        Design :
+                        <a href="http://html5up.net" target="_blank">HTML5 UP</a>
+                    </li>
 				</ul>
 			</footer>
 
