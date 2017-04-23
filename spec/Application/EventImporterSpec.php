@@ -2,7 +2,6 @@
 
 namespace spec\Application;
 
-use Application\DTO\EventDTO;
 use Application\DTO\EventDTOCollection;
 use Application\EventImporter;
 use Application\EventProvider;
@@ -37,7 +36,7 @@ class EventImporterSpec extends ObjectBehavior
         $this->shouldHaveType(EventImporter::class);
     }
 
-    function it_should_import_upcoming_events(
+    function it_should_import_past_events(
         CityConfigurationRepository $cityConfigurationRepository,
         EventProvider $provider,
         EventRepository $eventRepository
@@ -49,22 +48,8 @@ class EventImporterSpec extends ObjectBehavior
             ),
         ]);
 
-        $provider->getUpcomingEvents($cityConfiguration)->shouldBeCalled()->willReturn(
-            new EventDTOCollection(
-                EventDTO::fromData([
-                    'provider_id' => '123',
-                    'name' => 'First event',
-                    'description' => 'lorem ipsum',
-                    'link' => 'https://www.meetup.com/',
-                    'duration' => 120,
-                    'created_at' => new \DateTimeImmutable(),
-                    'planned_at' => new \DateTimeImmutable(),
-                    'number_of_members' => 50,
-                    'limit_of_members' => 60,
-                    'venue_city' => 'Montpellier',
-                    'group_name' => 'AFUP Montpellier',
-                ])
-            )
+        $provider->importPastEvents($cityConfiguration)->shouldBeCalled()->willReturn(
+            new EventDTOCollection(EventUtil::generateEvent())
         );
 
         $eventRepository
@@ -74,6 +59,6 @@ class EventImporterSpec extends ObjectBehavior
 
         $eventRepository->add(Argument::type(Event::class))->shouldBeCalled();
 
-        $this->importUpcoming();
+        $this->import();
     }
 }

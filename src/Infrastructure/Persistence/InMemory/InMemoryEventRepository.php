@@ -23,6 +23,10 @@ final class InMemoryEventRepository implements EventRepository
         $this->events[(string) $event->getId()] = $event;
     }
 
+    public function update(Event $event) : void
+    {
+    }
+
     public function contains(EventId $eventId) : bool
     {
         return isset($this->events[(string) $eventId]);

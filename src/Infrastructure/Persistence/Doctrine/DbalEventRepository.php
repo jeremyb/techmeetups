@@ -21,6 +21,31 @@ final class DbalEventRepository implements EventRepository
 
     public function add(Event $event) : void
     {
+        $this->connection->insert('events', $this->convertEventToArray($event));
+    }
+
+    public function update(Event $event) : void
+    {
+        $this->connection->update(
+            'events',
+            $this->convertEventToArray($event),
+            ['event_id' => (string) $event->getId()]
+        );
+    }
+
+    public function contains(EventId $eventId) : bool
+    {
+        $count = (int) $this->connection
+            ->fetchColumn(
+                'SELECT COUNT(event_id) FROM events WHERE event_id = ?',
+                [(string) $eventId]
+            );
+
+        return $count > 0;
+    }
+
+    private function convertEventToArray(Event $event) : array
+    {
         $data = [
             'event_id' => (string) $event->getId(),
             'city' => $event->getCity()->getId(),
@@ -44,17 +69,6 @@ final class DbalEventRepository implements EventRepository
             $data['venue_lon'] = $venue->getLon();
         }
 
-        $this->connection->insert('events', $data);
-    }
-
-    public function contains(EventId $eventId) : bool
-    {
-        $count = (int) $this->connection
-            ->fetchColumn(
-                'SELECT COUNT(event_id) FROM events WHERE event_id = ?',
-                [(string) $eventId]
-            );
-
-        return $count > 0;
+        return $data;
     }
 }

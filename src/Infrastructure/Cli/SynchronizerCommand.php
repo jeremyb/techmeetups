@@ -4,35 +4,35 @@ declare(strict_types=1);
 
 namespace Infrastructure\Cli;
 
-use Application\EventImporter;
+use Application\EventSynchronizer;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class ImporterCommand extends Command
+final class SynchronizerCommand extends Command
 {
-    /** @var EventImporter */
-    private $eventImporter;
+    /** @var EventSynchronizer */
+    private $eventSynchronizer;
 
-    public function __construct(EventImporter $eventImporter)
+    public function __construct(EventSynchronizer $eventSynchronizer)
     {
         parent::__construct();
 
-        $this->eventImporter = $eventImporter;
+        $this->eventSynchronizer = $eventSynchronizer;
     }
 
     protected function configure() : void
     {
         $this
-            ->setName('event:import')
-            ->setDescription('Import past city events')
+            ->setName('event:sync')
+            ->setDescription('Synchronize upcoming city events')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) : void
     {
-        $output->writeln('<info>Import past events</info>');
-        $count = $this->eventImporter->import();
+        $output->writeln('<info>Synchronize upcoming events</info>');
+        $count = $this->eventSynchronizer->synchronize();
         $output->writeln(sprintf('<info>%s imported events</info>', $count));
     }
 }

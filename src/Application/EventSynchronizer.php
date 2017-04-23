@@ -9,7 +9,7 @@ use Domain\Model\Event\EventId;
 use Domain\Model\Event\EventRepository;
 use Psr\Log\LoggerInterface;
 
-final class EventImporter
+final class EventSynchronizer
 {
     /** @var CityConfigurationRepository */
     private $cityConfigurationRepository;
@@ -32,19 +32,27 @@ final class EventImporter
         $this->logger = $logger;
     }
 
-    public function import() : int
+    public function synchronize() : int
     {
         $imported = 0;
         foreach ($this->cityConfigurationRepository->findAll() as $cityConfiguration) {
             $city = $cityConfiguration->getCity();
             $this->logger->info(sprintf('City: %s', (string) $city));
 
-            $eventsDto = $this->provider->importPastEvents($cityConfiguration);
+            $eventsDto = $this->provider->getUpcomingEvents($cityConfiguration);
 
             foreach ($eventsDto as $eventDto) {
                 $eventId = EventId::fromString($eventDto->providerId);
 
                 if ($this->eventRepository->contains($eventId)) {
+                    $event = EventFactory::create($eventDto, $city);
+                    $this->eventRepository->update($event);
+
+                    $this->logger->info(sprintf('Event updated on group "%s": %s',
+                        $event->getGroup()->getName(),
+                        $event->getName()
+                    ));
+
                     continue;
                 }
 

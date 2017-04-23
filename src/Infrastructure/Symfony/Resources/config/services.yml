@@ -64,17 +64,31 @@ services:
         class: Infrastructure\Api\Meetup\EventProvider
         arguments: ['@app.meetup_client']
 
-    app.event_importer:
-        class: Application\EventImporter
+    app.base_event_manager:
+        abstract:  true
         arguments:
             - '@app.city_configuration_repository'
             - '@app.event_provider.meetup'
             - '@app.event_repository'
             - '@logger'
 
+    app.event_importer:
+        class: Application\EventImporter
+        parent: app.base_event_manager
+
+    app.event_synchronizer:
+        class: Application\EventSynchronizer
+        parent: app.base_event_manager
+
     app.command.event_importer:
         class: Infrastructure\Cli\ImporterCommand
         arguments: ['@app.event_importer']
+        tags:
+            - { name: console.command }
+
+    app.command.event_synchronizer:
+        class: Infrastructure\Cli\SynchronizerCommand
+        arguments: ['@app.event_synchronizer']
         tags:
             - { name: console.command }
 

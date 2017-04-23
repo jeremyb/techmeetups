@@ -86,9 +86,9 @@ final class WebContext implements Context
                 ])
             ]);
 
-        /** @var \Application\EventImporter $importer */
-        $importer = $this->webTestCase->getContainer()->get('app.event_importer');
-        $importer->importUpcoming();
+        /** @var \Application\EventSynchronizer $synchronizer */
+        $synchronizer = $this->webTestCase->getContainer()->get('app.event_synchronizer');
+        $synchronizer->synchronize();
     }
 
     /**

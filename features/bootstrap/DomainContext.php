@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 use Application\DTO\EventDTO;
 use Application\DTO\EventDTOCollection;
-use Application\EventImporter;
 use Application\EventProvider;
+use Application\EventSynchronizer;
 use Domain\Model\City\CityConfiguration;
 use Behat\Behat\Context\Context;
 use Domain\Model\City\City;
@@ -92,13 +92,13 @@ final class DomainContext implements Context
             }
         };
 
-        $importer = new EventImporter(
+        $synchronizer = new EventSynchronizer(
             $this->citiesConfiguration,
             $eventProvider,
             $this->events,
             new NullLogger()
         );
-        $importer->importUpcoming();
+        $synchronizer->synchronize();
     }
 
     /**
