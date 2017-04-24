@@ -2438,6 +2438,7 @@
 			cursor: default;
 			list-style: none;
 			padding-left: 0;
+            font-size: 1.5em;
 		}
 
 			ul.icons li {
@@ -3231,7 +3232,7 @@
 		/* Basic */
 
 			body, input, select, textarea {
-				font-size: 13pt;
+				font-size: 14pt;
 			}
 
 		/* Banner */
@@ -3245,12 +3246,6 @@
 /* Normal */
 
 	@media screen and (max-width: 1280px) {
-
-		/* Basic */
-
-			body, input, select, textarea {
-				font-size: 11pt;
-			}
 
 		/* Header */
 
@@ -3277,7 +3272,7 @@
 		/* Basic */
 
 			body, input, select, textarea {
-				font-size: 11pt;
+				font-size: 12pt;
 			}
 
 	}
@@ -3297,7 +3292,7 @@
 			}
 
 			body, input, select, textarea {
-				font-size: 11pt;
+				font-size: 12pt;
 			}
 
 			h2 br, h3 br, h4 br, h5 br, h6 br {
@@ -3518,7 +3513,7 @@
 		/* Basic */
 
 			body, input, select, textarea {
-				font-size: 11pt;
+				font-size: 12pt;
 			}
 
 			h2 {
