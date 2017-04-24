@@ -3127,14 +3127,6 @@
 		text-align: center;
 	}
 
-		#footer .icons a {
-			-moz-transition: opacity 0.2s ease-in-out;
-			-webkit-transition: opacity 0.2s ease-in-out;
-			-ms-transition: opacity 0.2s ease-in-out;
-			transition: opacity 0.2s ease-in-out;
-			opacity: 0.35;
-		}
-
 			#footer .icons a:hover {
 				opacity: 0.75;
 			}

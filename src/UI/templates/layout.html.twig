@@ -9,6 +9,8 @@
 		<title>TechMeetups</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
 		<link rel="stylesheet" href="/assets/css/main.css" />
 		<link rel="stylesheet" href="/assets/css/icomoon.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="/assets/css/ie8.css" /><![endif]-->
@@ -27,11 +29,13 @@
 				<h2>TechMeetups</h2>
 				<p>L'agenda des meetups du numérique à Montpellier.</p>
 				<ul class="actions">
+                    {#
 					<li>
                         <a href="#cta" class="button special">
                             S'abonner à la newsletter
                         </a>
                     </li>
+                    #}
                     <li>
                         <a href="#footer" class="button">
                             A propos
@@ -46,6 +50,7 @@
                 </section>
 			</section>
 
+            {#
 			<section id="cta">
 				<h2>S'abonner à la newsletter</h2>
 				<p>
@@ -63,12 +68,26 @@
 					</div>
 				</form>
 			</section>
+			#}
 
 			<footer id="footer">
                 <h3>A propos</h3>
                 <p>
+                    L'objectif de ce site est de vous permettre de découvrir les
+                    différents meetups et événements organisés à Montpellier.<br>
+                    Et si vous les connaissez déjà, de ne plus rater les prochains
+                    grâce aux flux RSS/Atom et iCal présents ci-dessous.
+                </p>
+                <p>
                     La majorité des événements affichés proviennent de la
                     plateforme <a href="https://www.meetup.com">meetup.com</a>.
+                </p>
+                <p>
+                    Si vous êtes intéressé par les Communautés Montpelliéraines
+                    n'hésitez pas à
+                    <a href="https://comm-montpellier-invit.herokuapp.com/" target="_blank">
+                        rejoindre le Slack
+                    </a>.
                 </p>
 				<ul class="icons">
                     <li>
