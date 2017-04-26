@@ -72,6 +72,33 @@ final class Event
         return substr(strip_tags($this->description), 0, 250) . '...';
     }
 
+    public function getWeekDay() : string
+    {
+        return $this->plannedAtFormatter('EEEE')->format($this->plannedAt);
+    }
+
+    public function getDay()
+    {
+        return $this->plannedAt->format('j');
+    }
+
+    public function getMonth() : string
+    {
+        return $this->plannedAtFormatter('MMMM')->format($this->plannedAt);
+    }
+
+    public function getYear() : string
+    {
+        return $this->plannedAtFormatter('YYYY')->format($this->plannedAt);
+    }
+
+    public function getHour() : string
+    {
+        $date = $this->plannedAt;
+
+        return sprintf('%sh%s', $date->format('G'), $date->format('i'));
+    }
+
     public function fullPlannedAt() : string
     {
         $formatter = \IntlDateFormatter::create(
@@ -82,6 +109,18 @@ final class Event
         );
 
         return $formatter->format($this->plannedAt->getTimestamp());
+    }
+
+    private function plannedAtFormatter(string $pattern) : \IntlDateFormatter
+    {
+        return \IntlDateFormatter::create(
+            'fr',
+            \IntlDateFormatter::NONE,
+            \IntlDateFormatter::NONE,
+            $this->plannedAt->getTimezone(),
+            null,
+            $pattern
+        );
     }
 
     public function getEndedAt() : \DateTime

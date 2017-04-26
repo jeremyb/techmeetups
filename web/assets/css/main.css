@@ -1961,6 +1961,14 @@
 		line-height: 1.5em;
 	}
 
+    header h3 small {
+        font-size: 0.75em;
+        font-style: italic;
+        padding-left: 10px;
+        position: relative;
+        top: -0.1em;
+    }
+
 	header h4 + p,
 	header h5 + p,
 	header h6 + p {
@@ -3054,6 +3062,10 @@
 			padding: 0;
 		}
 
+        #banner a {
+            border-bottom: 0;
+        }
+
 		#banner p {
 			font-size: 1.25em;
 			margin-bottom: 1.75em;
@@ -3745,3 +3757,24 @@
 			}
 
 	}
+
+/* Event date */
+
+.event-date {
+    text-align: center;
+    line-height: 1.5em;
+}
+
+    .event-date strong {
+        font-size: 1.7em;
+    }
+
+    .event-date .day {
+        position: relative;
+        bottom: -0.1em;
+    }
+
+    .event-date span {
+        font-size: 0.9em;
+        white-space: nowrap;
+    }

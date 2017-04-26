@@ -3,56 +3,71 @@
 {% block main %}
     <section class="special">
         <h2>Prochains meetups à Montpellier</h2>
+        <p>
+            Ce site agrège les meetups des différents groupes
+            <a href="https://www.meetup.com/" target="_blank">Meetup.com</a>
+            de Montpellier.<br>
+            Si le vôtre est manquant, n'hésitez à créer une
+            <a href="https://github.com/jeremyb/techmeetups/issues" target="_blank">issue sur Github</a>.
+        </p>
     </section>
 
     {% for event_per_month in calendar %}
         <header>
-            <h3>{{ event_per_month.month | localizeddate('none', 'none', 'fr', null, 'MMMM YYYY') | capitalize }}</h3>
-            <p><strong>{{ event_per_month | length }} meetups</strong></p>
-            <hr>
+            <h3>
+                {{ event_per_month.month | localizeddate('none', 'none', 'fr', null, 'MMMM YYYY') | capitalize }}
+                <small>({{ event_per_month | length }} meetups)</small>
+            </h3>
         </header>
-
+        <hr>
         <ul class="alt">
             {% for event in event_per_month %}
             <li class="row">
-                <header class="4u 12u(mobilep)">
-                    <h3>
-                        <a href="{{ event.link }}" target="_blank">
-                            <strong>{{ event.name }}</strong>
-                        </a>
-                    </h3>
-                    <h4><strong>{{ event.groupName }}</strong></h4>
-                    <p>
-                        <strong>{{ event.plannedAt | localizeddate('full', 'none', 'fr') }}</strong><br>
-                        <strong>{{ event.plannedAt | localizeddate('none', 'short', 'fr') }}</strong>
-                    </p>
+                <header class="5u 12u(mobilep) row">
+                    <div class="4u 12u(mobilep) event-date">
+                        {{ event.weekDay }}<br>
+                        <strong class="day">{{ event.day }}</strong><br>
+                        <span>{{ event.month }} {{ event.year }}</span>
+                        <strong>{{ event.hour }}</strong><br>
+                    </div>
+
+                    <div class="8u 12u(mobilep)">
+                        <h3>
+                            <a href="{{ event.link }}" target="_blank">
+                                <strong>{{ event.name }}</strong>
+                            </a>
+                        </h3>
+                        <h4><strong>{{ event.groupName }}</strong></h4>
+                    </div>
                 </header>
 
-                <div class="8u 12u(mobilep)">
+                <div class="7u 12u(mobilep)">
                     <blockquote>
                         {{ event.description | striptags | slice(0, 400) }}...
                     </blockquote>
 
-                    <p>
-                        {{ event.numberOfMembers }} inscrit(s)
-                        {% if event.limitOfMembers %}
-                            (max : {{ event.limitOfMembers }})
-                        {% endif %}
-                    </p>
+                    {% if event.venueName %}
+                        <p>
+                            <a href="{{ event.link }}" target="_blank">
+                                {{ event.venueName }}
+                            </a><br>
+                            {{ event.venueAddress }}, {{ event.venueCity }}
+                        </p>
+                    {% endif %}
 
                     <div class="row">
                         <div class="3u 12u(mobilep)">
                             <p>
                                 <a href="{{ event.link }}" class="button special small" target="_blank">
-                                    Y aller !
+                                    J'y vais !
                                 </a>
                             </p>
                         </div>
                         <p class="9u 12u(mobilep)">
-                            <a href="{{ event.link }}" target="_blank">
-                                {{ event.venueName }}
-                            </a><br>
-                            {{ event.venueAddress }}, {{ event.venueCity }} (<a href="{{ event.link }}" target="_blank">plan</a>)
+                            {{ event.numberOfMembers }} inscrit(s)
+                            {% if event.limitOfMembers %}
+                                (max : {{ event.limitOfMembers }})
+                            {% endif %}
                         </p>
                     </div>
                 </div>

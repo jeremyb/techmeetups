@@ -26,16 +26,18 @@
 		<div id="page-wrapper">
 
 			<section id="banner">
-				<h2>TechMeetups</h2>
+				<h2>
+                    <a href="{{ path('homepage') }}">
+                        TechMeetups
+                    </a>
+                </h2>
 				<p>L'agenda des meetups du numérique à Montpellier.</p>
 				<ul class="actions">
-                    {#
 					<li>
                         <a href="#cta" class="button special">
                             S'abonner à la newsletter
                         </a>
                     </li>
-                    #}
                     <li>
                         <a href="#footer" class="button">
                             A propos
@@ -84,8 +86,11 @@
                     grâce aux flux RSS/Atom et iCal présents ci-dessous.
                 </p>
                 <p>
-                    La majorité des événements affichés proviennent de la
-                    plateforme <a href="https://www.meetup.com">meetup.com</a>.
+                    Ce site agrège les meetups des différents groupes
+                    <a href="https://www.meetup.com/" target="_blank">Meetup.com</a>
+                    de Montpellier.<br>
+                    Si le vôtre est manquant, n'hésitez à créer une
+                    <a href="https://github.com/jeremyb/techmeetups/issues" target="_blank">issue sur Github</a>.
                 </p>
                 <p>
                     Si vous êtes intéressé par les Communautés Montpelliéraines
