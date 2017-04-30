@@ -46,6 +46,12 @@ final class DbalEventRepository implements EventRepository
 
     private function convertEventToArray(Event $event) : array
     {
+        $convertDateTimeToUTC = function (\DateTimeImmutable $date) {
+            return $date
+                ->setTimezone(new \DateTimeZone('UTC'))
+                ->format('Y-m-d H:i:s.uP');
+        };
+
         $data = [
             'event_id' => (string) $event->getId(),
             'city' => $event->getCity()->getId(),
@@ -53,8 +59,8 @@ final class DbalEventRepository implements EventRepository
             'description' => $event->getDescription(),
             'link' => $event->getLink(),
             'duration' => $event->getDuration(),
-            'created_at' => $event->getCreatedAt()->format('Y-m-d H:i:s.uP'),
-            'planned_at' => $event->getPlannedAt()->format('Y-m-d H:i:s.uP'),
+            'created_at' => $convertDateTimeToUTC($event->getCreatedAt()),
+            'planned_at' => $convertDateTimeToUTC($event->getPlannedAt()),
             'number_of_members' => $event->getNumberOfMembers(),
             'limit_of_members' => $event->getLimitOfMembers(),
             'group_name' => $event->getGroup() ? $event->getGroup()->getName() : null,
