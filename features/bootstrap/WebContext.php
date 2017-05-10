@@ -100,9 +100,9 @@ final class WebContext implements Context
         $crawler = $client->request('GET', '/');
 
         Assert::eq($client->getResponse()->getStatusCode(), Response::HTTP_OK);
-        Assert::eq(1, $crawler->filter('#main ul')->count());
+        Assert::eq(1, $crawler->filter('#events')->count());
         Assert::contains(
-            $crawler->filter('#main ul li:first-child h3 a')->text(),
+            $crawler->filter('#events li:first-child h3 a')->text(),
             'First event'
         );
     }

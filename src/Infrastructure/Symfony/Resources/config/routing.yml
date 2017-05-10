@@ -2,6 +2,10 @@ homepage:
     path:     /
     defaults: { _controller: app.actions.homepage }
 
+stats:
+    path:     /stats
+    defaults: { _controller: app.actions.stats }
+
 feed_mtp:
     path:     /montpellier.{_format}
     defaults: { _controller: app.actions.feed }

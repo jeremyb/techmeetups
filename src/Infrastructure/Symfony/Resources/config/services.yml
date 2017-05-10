@@ -55,6 +55,10 @@ services:
         class: Infrastructure\ReadModel\Doctrine\DbalEventFinder
         arguments: ['@doctrine.dbal_connection']
 
+    app.stats_generator:
+        class: Infrastructure\ReadModel\Doctrine\DbalStatsGenerator
+        arguments: ['@doctrine.dbal_connection']
+
     app.meetup_client:
         class: Meetup\Meetup
         factory: ['Meetup\MeetupApiKeyFactory', create]
@@ -76,15 +80,15 @@ services:
         class: Application\EventImporter
         parent: app.base_event_manager
 
-    app.event_synchronizer:
-        class: Application\EventSynchronizer
-        parent: app.base_event_manager
-
     app.command.event_importer:
         class: Infrastructure\Cli\ImporterCommand
         arguments: ['@app.event_importer']
         tags:
             - { name: console.command }
+
+    app.event_synchronizer:
+        class: Application\EventSynchronizer
+        parent: app.base_event_manager
 
     app.command.event_synchronizer:
         class: Infrastructure\Cli\SynchronizerCommand
@@ -97,6 +101,10 @@ services:
     app.actions.homepage:
         class: UI\Action\Homepage
         arguments: ['@app.event_finder', '@twig']
+
+    app.actions.stats:
+        class: UI\Action\Stats
+        arguments: ['@app.stats_generator', '@twig']
 
     app.actions.feed:
         class: UI\Action\Feed

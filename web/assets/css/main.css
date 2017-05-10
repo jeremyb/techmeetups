@@ -2470,6 +2470,7 @@
 			cursor: default;
 			list-style: none;
 			padding-left: 0;
+            font-size: 1.2em;
 		}
 
 			ul.actions li {
@@ -2532,6 +2533,10 @@
 					ul.actions.fit.small li {
 						padding: 0 0 0 0.5em;
 					}
+
+            ul.actions .current {
+                font-weight: bold;
+            }
 
 	dl {
 		margin: 0 0 2em 0;

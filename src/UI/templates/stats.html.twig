@@ -1,0 +1,106 @@
+{% extends "layout.html.twig" %}
+
+{% block main %}
+    <h4 class="align-center">
+        TechMeetups recense <strong>{{ stats.number_of_events }}</strong> meetups
+        avec un nombre d'inscription moyen de
+        <strong>{{ stats.average_registrations | round }}</strong>.
+    </h4>
+    <br>
+    <div class="row">
+        <div class="4u 12u(mobilep)">
+            <table>
+                <thead>
+                    <tr>
+                        <td colspan="2" class="align-center">
+                            <strong>Nombre de meetups par an</strong>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for eventsPerYear in stats.number_of_events_per_year %}
+                        <tr>
+                            <td width="50%" class="align-center">{{ eventsPerYear.year }}</td>
+                            <td width="50%" class="align-center"><strong>{{ eventsPerYear.total_events }}</strong></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="8u 12u(mobilep)">
+            <table>
+                <thead>
+                    <tr>
+                        <td colspan="4" class="align-center">
+                            <strong>Nombre de meetups par mois</strong>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set half = (stats.number_of_events_per_month | length) / 2 %}
+                    {% set firstColumn = stats.number_of_events_per_month | slice(0, half) %}
+                    {% set secondColumn = stats.number_of_events_per_month | slice(half, stats.number_of_events_per_month | length) %}
+                    {% for i in 0..half-1 %}
+                        {% set firstColumnEvent = firstColumn[i] %}
+                        {% set secondColumnEvent = secondColumn[i] %}
+                        <tr>
+                            <td class="align-center">
+                                {{ firstColumnEvent.month }}/{{ firstColumnEvent.year }}
+                            </td>
+                            <td class="align-center"><strong>{{ firstColumnEvent.total_events }}</strong></td>
+                            <td class="align-center">
+                                {{ secondColumnEvent.month }}/{{ secondColumnEvent.year }}
+                            </td>
+                            <td class="align-center"><strong>{{ secondColumnEvent.total_events }}</strong></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="6u 12u(mobilep)">
+            <table>
+                <thead>
+                    <tr>
+                        <td colspan="2" class="align-center">
+                            <strong>Meetups avec le plus d'inscrits</strong>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in stats.popular_events %}
+                        <tr>
+                            <td>
+                                <a href="{{ event.link }}" target="_blank">
+                                    <strong>{{ event.name }}</strong>
+                                </a>
+                            </td>
+                            <td class="align-center"><strong>{{ event.number_of_members }}</strong></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="6u 12u(mobilep)">
+            <table>
+                <thead>
+                    <tr>
+                        <td colspan="4" class="align-center">
+                            <strong>Groupes organisateur de plus de meetups</strong>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for group in stats.popular_groups %}
+                        <tr>
+                            <td>{{ group.group_name }}</td>
+                            <td class="align-center"><strong>{{ group.total_events }}</strong></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

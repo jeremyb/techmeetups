@@ -1,17 +1,6 @@
 {% extends "layout.html.twig" %}
 
 {% block main %}
-    <section class="special">
-        <h2>Prochains meetups à Montpellier</h2>
-        <p>
-            Ce site agrège les meetups des différents groupes
-            <a href="https://www.meetup.com/" target="_blank">Meetup.com</a>
-            de Montpellier.<br>
-            Si le vôtre est manquant, n'hésitez à créer une
-            <a href="https://github.com/jeremyb/techmeetups/issues" target="_blank">issue sur Github</a>.
-        </p>
-    </section>
-
     {% for event_per_month in calendar %}
         <header>
             <h3>
@@ -20,7 +9,7 @@
             </h3>
         </header>
         <hr>
-        <ul class="alt">
+        <ul id="events" class="alt">
             {% for event in event_per_month %}
             <li class="row">
                 <header class="5u 12u(mobilep) row">

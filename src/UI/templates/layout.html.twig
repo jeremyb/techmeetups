@@ -48,6 +48,32 @@
 
 			<section id="main" class="container">
                 <section class="box">
+                    <section class="special">
+                        <h2>Prochains meetups à Montpellier</h2>
+                        <p>
+                            Ce site agrège les meetups des différents groupes
+                            <a href="https://www.meetup.com/" target="_blank">Meetup.com</a>
+                            de Montpellier.<br>
+                            Si le vôtre est manquant, n'hésitez à créer une
+                            <a href="https://github.com/jeremyb/techmeetups/issues" target="_blank">issue sur Github</a>.
+                        </p>
+
+                        {% set current_route = app.request.attributes.get('_route') %}
+                        <ul class="actions">
+                            <li>
+                                <a href="{{ path('homepage') }}"{% if current_route == 'homepage' %} class="current"{% endif %}>
+                                    Prochains événements
+                                </a>
+                            </li>
+                            <li>-</li>
+                            <li>
+                                <a href="{{ path('stats') }}#main"{% if current_route == 'stats' %} class="current"{% endif %}>
+                                    Statistiques
+                                </a>
+                            </li>
+                        </ul>
+                    </section>
+
                     {% block main %}{% endblock %}
                 </section>
 			</section>
