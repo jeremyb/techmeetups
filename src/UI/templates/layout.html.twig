@@ -61,7 +61,7 @@
                         {% set current_route = app.request.attributes.get('_route') %}
                         <ul class="actions">
                             <li>
-                                <a href="{{ path('homepage') }}"{% if current_route == 'homepage' %} class="current"{% endif %}>
+                                <a href="{{ path('homepage') }}#main"{% if current_route == 'homepage' %} class="current"{% endif %}>
                                     Prochains événements
                                 </a>
                             </li>
