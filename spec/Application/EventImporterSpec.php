@@ -2,29 +2,30 @@
 
 namespace spec\Application;
 
-use Application\DTO\EventDTOCollection;
 use Application\EventImporter;
 use Application\EventProvider;
+use Domain\Model\City\Cities;
 use Domain\Model\City\City;
-use Domain\Model\City\CityConfiguration;
-use Domain\Model\City\CityConfigurationRepository;
-use Domain\Model\Event\Event;
 use Domain\Model\Event\EventId;
 use Domain\Model\Event\EventRepository;
+use Domain\Model\Event\Events;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Psr\Log\LoggerInterface;
 
 class EventImporterSpec extends ObjectBehavior
 {
+    /** @var City */
+    private $city;
+
     function let(
-        CityConfigurationRepository $cityConfigurationRepository,
         EventProvider $provider,
         EventRepository $eventRepository,
         LoggerInterface $logger
     ) {
+        $this->city = City::named('Montpellier', 43.6, 3.8833);
+
         $this->beConstructedWith(
-            $cityConfigurationRepository,
+            new Cities($this->city),
             $provider,
             $eventRepository,
             $logger
@@ -37,27 +38,18 @@ class EventImporterSpec extends ObjectBehavior
     }
 
     function it_should_import_past_events(
-        CityConfigurationRepository $cityConfigurationRepository,
         EventProvider $provider,
         EventRepository $eventRepository
     ) {
-        $cityConfigurationRepository->findAll()->shouldBeCalled()->willReturn([
-            $cityConfiguration = new CityConfiguration(
-                City::named('Montpellier'),
-                'Montpellier-PHP-Meetup'
-            ),
-        ]);
-
-        $provider->importPastEvents($cityConfiguration)->shouldBeCalled()->willReturn(
-            new EventDTOCollection(EventUtil::generateEvent())
-        );
+        $event = EventUtil::generateEvent($this->city);
+        $provider->importPastEvents($this->city)->shouldBeCalled()->willReturn(new Events($event));
 
         $eventRepository
             ->contains(EventId::fromString('123'))
             ->shouldBeCalled()
             ->willReturn(false);
 
-        $eventRepository->add(Argument::type(Event::class))->shouldBeCalled();
+        $eventRepository->add($event)->shouldBeCalled();
 
         $this->import();
     }

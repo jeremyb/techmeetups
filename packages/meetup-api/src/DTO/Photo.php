@@ -6,24 +6,14 @@ namespace Meetup\DTO;
 
 use Meetup\Hydrator\HydratorFactory;
 
-final class Venue
+final class Photo
 {
     /** @var string */
-    public $id;
+    public $highresLink;
     /** @var string */
-    public $name;
-    /** @var float */
-    public $lat;
-    /** @var float */
-    public $lon;
+    public $photoLink;
     /** @var string */
-    public $address1;
-    /** @var string */
-    public $city;
-    /** @var string */
-    public $country;
-    /** @var string */
-    public $localizedCountryName;
+    public $thumbLink;
 
     public static function fromData(array $data) : self
     {

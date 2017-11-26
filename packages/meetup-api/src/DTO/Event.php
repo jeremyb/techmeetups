@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Meetup\DTO;
 
 use DateTimeImmutable;
+use Meetup\Hydrator\HydratorFactory;
 
 final class Event
 {
@@ -28,7 +29,7 @@ final class Event
     public $link;
     /** @var string */
     public $description;
-    /** @var string */
+    /** @var EventVisibility */
     public $visibility;
     /** @var int */
     public $numberOfMembers;
@@ -39,25 +40,22 @@ final class Event
     /** @var Group */
     public $group;
 
-    public static function fromData(array $data)
+    public static function fromData(array $data) : self
     {
-        $self = new self();
-        $self->id = (string) $data['id'];
-        $self->created = (new DateTimeImmutable())->setTimestamp($data['created']/1000);
-        $self->duration = isset($data['duration']) ? $data['duration']/1000/60 : null;
-        $self->name = (string) $data['name'];
-        $self->status = new EventStatus($data['status']);
-        $self->time = (new DateTimeImmutable())->setTimestamp($data['time']/1000);
-        $self->updated = (new DateTimeImmutable())->setTimestamp($data['updated']/1000);
-        $self->utcOffset = $data['utc_offset']/1000;
-        $self->link = $data['link'];
-        $self->description = isset($data['description']) ? (string) $data['description'] : null;
-        $self->visibility = $data['visibility'];
-        $self->numberOfMembers = (int) ($data['yes_rsvp_count'] ?? 0);
-        $self->limitOfMembers = (int) ($data['rsvp_limit'] ?? 0);
-        $self->venue = isset($data['venue']) ? Venue::fromData($data['venue']) : null;
-        $self->group = Group::fromData($data['group']);
+        /** @var self $event */
+        $event = HydratorFactory::create()->hydrate($data, new self());
+        $event->visibility = new EventVisibility($data['visibility']);
+        $event->status = isset($data['status']) ? new EventStatus($data['status']) : null;
+        $event->created = isset($data['created']) ? (new DateTimeImmutable())->setTimestamp($data['created']/1000) : null;
+        $event->updated = isset($data['updated']) ? (new DateTimeImmutable())->setTimestamp($data['updated']/1000) : null;
+        $event->duration = isset($data['duration']) ? $data['duration']/1000/60 : null;
+        $event->time = (new DateTimeImmutable())->setTimestamp($data['time']/1000);
+        $event->utcOffset = $data['utc_offset']/1000;
+        $event->numberOfMembers = (int) ($data['yes_rsvp_count'] ?? 0);
+        $event->limitOfMembers = (int) ($data['rsvp_limit'] ?? 0);
+        $event->venue = isset($data['venue']) ? Venue::fromData($data['venue']) : null;
+        $event->group = Group::fromData($data['group']);
 
-        return $self;
+        return $event;
     }
 }

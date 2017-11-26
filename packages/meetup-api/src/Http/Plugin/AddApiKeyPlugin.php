@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Meetup\Http\Plugin;
 
 use Http\Client\Common\Plugin;
+use Http\Promise\Promise;
 use Psr\Http\Message\RequestInterface;
 
 final class AddApiKeyPlugin implements Plugin
@@ -17,12 +18,15 @@ final class AddApiKeyPlugin implements Plugin
         $this->key = $key;
     }
 
-    public function handleRequest(RequestInterface $request, callable $next, callable $first)
+    public function handleRequest(RequestInterface $request, callable $next, callable $first) : Promise
     {
-        $request->withUri(
-            $request->getUri()->withQuery(sprintf('key=%s', $this->key))
-        );
+        $query = implode('&', array_filter([
+            $request->getUri()->getQuery(),
+            sprintf('key=%s', $this->key),
+        ]));
 
-        return $next($request);
+        return $next(
+            $request->withUri($request->getUri()->withQuery($query))
+        );
     }
 }

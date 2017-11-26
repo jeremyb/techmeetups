@@ -24,7 +24,20 @@ class AddApiKeyPluginSpec extends ObjectBehavior
         UriInterface $uri
     ) {
         $request->getUri()->shouldBeCalled()->willReturn($uri);
+        $uri->getQuery()->shouldBeCalled()->willReturn('');
         $uri->withQuery('key=secret_key')->shouldBeCalled()->willReturn($uri);
+        $request->withUri($uri)->shouldBeCalled();
+
+        $this->handleRequest($request, function () {}, function () {});
+    }
+
+    function it_should_add_api_key_to_existing_query_string(
+        RequestInterface $request,
+        UriInterface $uri
+    ) {
+        $request->getUri()->shouldBeCalled()->willReturn($uri);
+        $uri->getQuery()->shouldBeCalled()->willReturn('query=lorem');
+        $uri->withQuery('query=lorem&key=secret_key')->shouldBeCalled()->willReturn($uri);
         $request->withUri($uri)->shouldBeCalled();
 
         $this->handleRequest($request, function () {}, function () {});

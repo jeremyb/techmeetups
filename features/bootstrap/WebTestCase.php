@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Behat\Features;
+
 use Doctrine\DBAL\DriverManager;
 use Infrastructure\Symfony\AppKernel;
 use Meetup\Meetup;

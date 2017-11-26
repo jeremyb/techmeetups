@@ -1,0 +1,83 @@
+[
+    {
+        "score": 1.0,
+        "id": 18724486,
+        "name": "AFUP Montpellier",
+        "status": "active",
+        "link": "https://www.meetup.com/Montpellier-PHP-Meetup/",
+        "urlname": "Montpellier-PHP-Meetup",
+        "description": "<p>Ce groupe a pour objectif de rassembler les développeurs et utilisateurs PHP de Montpellier, quelque soit leurs niveaux et leurs pratiques. Il est mis en place pour échanger sur les différentes pratiques, framework et application du langage.</p>",
+        "created": 1436255797000,
+        "city": "Montpellier",
+        "country": "FR",
+        "localized_country_name": "France",
+        "localized_location": "Montpellier, France",
+        "state": "",
+        "join_mode": "open",
+        "visibility": "public",
+        "lat": 43.61,
+        "lon": 3.87,
+        "members": 637,
+        "organizer": {
+            "id": 116779712,
+            "name": "Brice",
+            "bio": "",
+            "photo": {
+                "id": 207307482,
+                "highres_link": "https://secure.meetupstatic.com/photos/member/1/d/3/a/highres_207307482.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/member/1/d/3/a/member_207307482.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/member/1/d/3/a/thumb_207307482.jpeg",
+                "type": "member",
+                "base_url": "https://secure.meetupstatic.com"
+            }
+        },
+        "who": "Membres",
+        "group_photo": {
+            "id": 461492481,
+            "highres_link": "https://secure.meetupstatic.com/photos/event/7/e/e/1/highres_461492481.jpeg",
+            "photo_link": "https://secure.meetupstatic.com/photos/event/7/e/e/1/600_461492481.jpeg",
+            "thumb_link": "https://secure.meetupstatic.com/photos/event/7/e/e/1/thumb_461492481.jpeg",
+            "type": "event",
+            "base_url": "https://secure.meetupstatic.com"
+        },
+        "key_photo": {
+            "id": 460440873,
+            "highres_link": "https://secure.meetupstatic.com/photos/event/3/6/9/highres_460440873.jpeg",
+            "photo_link": "https://secure.meetupstatic.com/photos/event/3/6/9/600_460440873.jpeg",
+            "thumb_link": "https://secure.meetupstatic.com/photos/event/3/6/9/thumb_460440873.jpeg",
+            "type": "event",
+            "base_url": "https://secure.meetupstatic.com"
+        },
+        "timezone": "Europe/Paris",
+        "next_event": {
+            "id": "242948843",
+            "name": "Wordpress, Drupal et autres CMS",
+            "yes_rsvp_count": 58,
+            "time": 1511890200000,
+            "utc_offset": 3600000
+        },
+        "category": {
+            "id": 34,
+            "name": "Tech",
+            "shortname": "tech",
+            "sort_name": "Tech"
+        },
+        "meta_category": {
+            "id": 292,
+            "shortname": "tech",
+            "name": "Tech",
+            "sort_name": "Tech",
+            "photo": {
+                "id": 450131949,
+                "highres_link": "https://secure.meetupstatic.com/photos/event/2/e/a/d/highres_450131949.jpeg",
+                "photo_link": "https://secure.meetupstatic.com/photos/event/2/e/a/d/600_450131949.jpeg",
+                "thumb_link": "https://secure.meetupstatic.com/photos/event/2/e/a/d/thumb_450131949.jpeg",
+                "type": "event",
+                "base_url": "https://secure.meetupstatic.com"
+            },
+            "category_ids": [
+                34
+            ]
+        }
+    }
+]
