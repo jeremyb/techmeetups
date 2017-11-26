@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Application;
 
-use Application\DTO\EventDTOCollection;
-use Domain\Model\City\CityConfiguration;
+use Domain\Model\City\City;
+use Domain\Model\Event\Events;
 
 interface EventProvider
 {
-    public function importPastEvents(CityConfiguration $cityConfiguration) : EventDTOCollection;
-    public function getUpcomingEvents(CityConfiguration $cityConfiguration) : EventDTOCollection;
+    public function importPastEvents(City $city) : Events;
+    public function getUpcomingEvents(City $city) : Events;
 }

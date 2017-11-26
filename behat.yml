@@ -3,8 +3,8 @@ default:
         domain:
             filters:  { tags: "~ui" }
             contexts:
-                - DomainContext
+                - Behat\Features\DomainContext
         web:
             filters:  { tags: "critical,ui" }
             contexts:
-                - WebContext
+                - Behat\Features\WebContext

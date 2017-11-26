@@ -12,17 +12,19 @@ use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\MessageFactoryDiscovery;
 use Http\Discovery\UriFactoryDiscovery;
 use Meetup\Http\Plugin\AddApiKeyPlugin;
+use Meetup\Http\Plugin\RateLimitExceededPlugin;
+use Meetup\Hydrator\HydratorFactory;
 use Meetup\Plugin\LoggerPlugin;
 use Psr\Log\LoggerInterface;
 
-abstract class MeetupApiKeyFactory
+final class MeetupApiKeyFactory
 {
-    public static function create(string $key, LoggerInterface $logger): Meetup
+    public static function create(string $key, LoggerInterface $logger) : Meetup
     {
         $httpClient = HttpClientDiscovery::find();
         $messageFactory = MessageFactoryDiscovery::find();
 
-        return new Meetup(
+        return new MeetupClient(
             new PluginClient($httpClient, [
                 new AddHostPlugin(
                     UriFactoryDiscovery::find()->createUri(Meetup::BASE_URL)
@@ -33,9 +35,15 @@ abstract class MeetupApiKeyFactory
                 ]),
                 new AddApiKeyPlugin($key),
                 new LoggerPlugin($logger),
-                new ErrorPlugin()
+                new ErrorPlugin(),
+                new RateLimitExceededPlugin(),
             ]),
-            $messageFactory
+            $messageFactory,
+            HydratorFactory::create()
         );
+    }
+
+    private function __construct()
+    {
     }
 }

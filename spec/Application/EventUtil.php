@@ -4,24 +4,33 @@ declare(strict_types=1);
 
 namespace spec\Application;
 
-use Application\DTO\EventDTO;
+use Domain\Model\City\City;
+use Domain\Model\Event\Event;
+use Domain\Model\Event\EventId;
+use Domain\Model\Event\Group;
+use Domain\Model\Event\Venue;
 
 final class EventUtil
 {
-    public static function generateEvent() : EventDTO
+    public static function generateEvent(City $city) : Event
     {
-        return EventDTO::fromData([
-            'provider_id' => '123',
-            'name' => 'First event',
-            'description' => 'lorem ipsum',
-            'link' => 'https://www.meetup.com/',
-            'duration' => 120,
-            'created_at' => new \DateTimeImmutable(),
-            'planned_at' => new \DateTimeImmutable(),
-            'number_of_members' => 50,
-            'limit_of_members' => 60,
-            'venue_city' => 'Montpellier',
-            'group_name' => 'AFUP Montpellier',
-        ]);
+        return Event::create(
+            EventId::fromString('123'),
+            $city,
+            'First event',
+            'lorem ipsum',
+            'https://www.meetup.com/',
+            120,
+            new \DateTimeImmutable(),
+            new \DateTimeImmutable(),
+            50,
+            60,
+            (function () {
+                return new Venue('Somewhere', null, null, null, 'Montpellier', null);
+            })(),
+            (function () {
+                return new Group('Group', 'group', '', '', new \DateTimeImmutable('-2 years'));
+            })()
+        );
     }
 }

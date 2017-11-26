@@ -2,8 +2,12 @@
 
 declare(strict_types=1);
 
+namespace Behat\Features;
+
 use Behat\Behat\Context\Context;
-use Domain\Model\City\CityConfigurationRepository;
+use Domain\Model\City\Cities;
+use Meetup\DTO\Event;
+use Meetup\DTO\Query\FindUpcomingEventsQuery;
 use Meetup\Resource\Events;
 use Prophecy\Argument;
 use Sabre\VObject\Reader;
@@ -41,11 +45,9 @@ final class WebContext implements Context
      */
     public function aCityIsConfiguredWithSomeMeetupGroupsToFetch()
     {
-        /** @var CityConfigurationRepository $repository */
-        $repository = $this->webTestCase
-            ->getContainer()->get('app.city_configuration_repository');
-
-        Assert::count($repository->findAll(), 1);
+        /** @var Cities $cities */
+        $cities = $this->webTestCase->getContainer()->get('app.cities');
+        Assert::count($cities, 1);
     }
 
     /**
@@ -57,10 +59,10 @@ final class WebContext implements Context
         $events = $this->webTestCase->getProphet()->prophesize(Events::class);
         $meetup->events()->willReturn($events);
         $events
-            ->ofGroup(Argument::type('string'), 'upcoming')
+            ->findUpcomingEvents(Argument::type(FindUpcomingEventsQuery::class))
             ->shouldBeCalled()
             ->willReturn([
-                \Meetup\DTO\Event::fromData([
+                Event::fromData([
                     'id' => '235957132',
                     'created' => 1480599839000,
                     'time' => strtotime('+1 week') * 1000,
@@ -74,6 +76,7 @@ final class WebContext implements Context
                         'id' => 18724486,
                         'created' => 1436255797000,
                         'name' => 'AFUP Montpellier',
+                        'description' => '',
                         'join_mode' => 'open',
                         'lat' => 43.61000061035156,
                         'lon' => 3.869999885559082,

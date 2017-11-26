@@ -1,0 +1,55 @@
+{
+    "city": {
+        "id": 1011747,
+        "city": "Montpellier",
+        "lat": 43.61,
+        "lon": 3.87,
+        "state": "",
+        "country": "fr",
+        "zip": "meetup8",
+        "member_count": 99
+    },
+    "events": [
+        {
+            "created": 1504086638000,
+            "duration": 10800000,
+            "id": "242948843",
+            "name": "Meetup dédié aux CMS : Wordpress, Drupal et eZ Publish",
+            "rsvp_limit": 70,
+            "status": "upcoming",
+            "time": 1511890200000,
+            "local_date": "2017-11-28",
+            "local_time": "18:30",
+            "updated": 1511364333000,
+            "utc_offset": 3600000,
+            "waitlist_count": 6,
+            "yes_rsvp_count": 70,
+            "venue": {
+                "id": 7543032,
+                "name": "Wonderful",
+                "lat": 43.63775634765625,
+                "lon": 3.916459083557129,
+                "repinned": false,
+                "address_1": "50, rue Didier Daurat - ZA Jean Mermoz ",
+                "city": "34170 Castelnau-le-Lez",
+                "country": "fr",
+                "localized_country_name": "France"
+            },
+            "group": {
+                "created": 1436255797000,
+                "name": "AFUP Montpellier",
+                "id": 18724486,
+                "join_mode": "open",
+                "lat": 43.61000061035156,
+                "lon": 3.869999885559082,
+                "urlname": "Montpellier-PHP-Meetup",
+                "who": "Membres",
+                "localized_location": "Montpellier, France",
+                "region": "en_US"
+            },
+            "link": "https://www.meetup.com/Montpellier-PHP-Meetup/events/242948843/",
+            "description": "<p>Pour cette soirée dédiée aux CMS avec PHP nous aurons le plaisir d'accueillir 3 speakers : </p> <p> \u2022 Jeremy Desvaux (<a href=\"http://jdmweb.com/\" class=\"linkified\">http://jdmweb.com/</a>) nous parlera d'industrialisation avec Wordpress.</p> <p><br/>\u2022 Edouard Cunibil (<a href=\"https://twitter.com/DuaelFr\" class=\"linkified\">https://twitter.com/DuaelFr</a>) viendra nous parler de Drupal.</p> <p>\u2022 Steve Cohen (<a href=\"https://stevecohen.fr/\" class=\"linkified\">https://stevecohen.fr/</a>), quand à lui, nous parlera de eZ Publish.</p> <p>Ce meetup est accueilli par Wonderful, situé au \"50 Rue Didier Daurat, 34170 Castelnau-le-Lez\". Wonderful nous fait également le plaisir de sponsoriser l'apéritif après les présentations, merci à eux !</p> <p>Accueil à partir de 18h30,<br/>Début des conférences à 19h00,<br/>Fin des conférences à 20h30,<br/>Apéritif offert à partir de 20h30.</p> ",
+            "visibility": "public"
+        }
+    ]
+}

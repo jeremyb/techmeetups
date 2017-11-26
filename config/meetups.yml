@@ -1,27 +1,6 @@
 techmeetups:
     cities:
         -
-            city: Montpellier
-            providers:
-                meetup.com:
-                    - Aperos-Agiles-Montpellier
-                    - Big-Data-Montpellier
-                    - CocoaHeads-Montpellier
-                    - FLUPA-Montpellier
-#                    - graphdb-montpellier
-                    - HumanTalks-Montpellier
-                    - JUG-Montpellier
-                    - Lean-Startup-Workshop-Montpellier
-                    - MontpellierJS
-                    - Montpellier-CPP
-                    - Montpellier-Amazon-Web-Services
-                    - Montpellier-Android-User-Group
-                    - Montpellier-DevOps
-                    - Montpellier-PHP-Meetup
-                    - Montpellier-Scala-User-Group
-                    - Montpellier-Symfony-Meetup
-                    - MUG-Montpellier
-                    - MyApero-Montpellier
-                    - Open-Source-School-Talks
-                    - Prestashop-Montpellier-Ecommerce-Meetup
-                    - WordPress-Meetup-Montpellier
+            name: Montpellier
+            lat: 43.6
+            lon: 3.8833

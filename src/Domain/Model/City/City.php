@@ -10,16 +10,22 @@ final class City
     private $id;
     /** @var string */
     private $name;
+    /** @var float */
+    private $lat;
+    /** @var float */
+    private $lon;
 
-    public static function named(string $name) : City
+    public static function named(string $name, float $lat, float $lon) : City
     {
-        return new self(strtolower($name), $name);
+        return new self(strtolower($name), $name, $lat, $lon);
     }
 
-    private function __construct(string $id, string $name)
+    private function __construct(string $id, string $name, float $lat, float $lon)
     {
         $this->id = $id;
         $this->name = $name;
+        $this->lat = $lat;
+        $this->lon = $lon;
     }
 
     public function __toString() : string
@@ -35,5 +41,15 @@ final class City
     public function getName() : string
     {
         return $this->name;
+    }
+
+    public function getLat() : float
+    {
+        return $this->lat;
+    }
+
+    public function getLon() : float
+    {
+        return $this->lon;
     }
 }

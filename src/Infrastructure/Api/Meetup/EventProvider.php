@@ -4,75 +4,109 @@ declare(strict_types=1);
 
 namespace Infrastructure\Api\Meetup;
 
-use Application\DTO\EventDTO;
-use Application\DTO\EventDTOCollection;
 use Application\EventProvider as EventProviderInterface;
-use Domain\Model\City\CityConfiguration;
+use Domain\Model\City\City;
+use Domain\Model\Event\Events;
 use Meetup\DTO\Event;
+use Meetup\DTO\EventVisibility;
+use Meetup\DTO\Group;
+use Meetup\DTO\Query\FindGroupsQuery;
+use Meetup\DTO\Query\FindUpcomingEventsQuery;
+use Meetup\DTO\Query\GroupEventsQuery;
+use Meetup\Http\RateLimitExceeded;
 use Meetup\Meetup;
-use Meetup\Resource\Events;
+use Psr\Log\LoggerInterface;
 
 final class EventProvider implements EventProviderInterface
 {
+    private const TECH_CATEGORY_ID = 34;
+    private const TECH_TOPIC_ID = 292;
+
     /** @var Meetup */
     private $meetup;
+    /** @var LoggerInterface */
+    private $logger;
 
-    public function __construct(Meetup $meetup)
+    public function __construct(Meetup $meetup, LoggerInterface $logger)
     {
         $this->meetup = $meetup;
+        $this->logger = $logger;
     }
 
-    public function importPastEvents(CityConfiguration $cityConfiguration): EventDTOCollection
+    public function importPastEvents(City $city) : Events
     {
-        return $this->getEvents($cityConfiguration, Events::PAST);
-    }
+        /** @var array $groups */
+        $groups = $this->retry(function () use ($city) {
+            return $this->meetup->groups()->findGroups(
+                FindGroupsQuery::from([
+                    'location' => $city->getName(),
+                    'radius' => 0,
+                    'category' => self::TECH_CATEGORY_ID,
+                ])
+            );
+        });
 
-    public function getUpcomingEvents(CityConfiguration $cityConfiguration) : EventDTOCollection
-    {
-        return $this->getEvents($cityConfiguration, Events::UPCOMING);
-    }
+        $events = [[]];
+        /** @var Group $group */
+        foreach ($groups as $group) {
+            $eventsOfGroup = $this->retry(function () use ($group) {
+                $events = $this->meetup->events()->ofGroup(
+                    $group->urlname,
+                    GroupEventsQuery::from([
+                        'status' => GroupEventsQuery::PAST,
+                    ])
+                );
 
-    private function getEvents(
-        CityConfiguration $cityConfiguration,
-        string $status
-    ) : EventDTOCollection {
-        $events = [];
-        foreach ($cityConfiguration->getMeetups() as $group) {
-            $meetupEvents = $this->meetup->events()->ofGroup($group, $status);
+                return array_filter($events, function (Event $event) {
+                    return EventVisibility::PUBLIC_LIMITED !== $event->visibility->value;
+                });
+            });
 
-            /** @var Event $meetupEvent */
-            foreach ($meetupEvents as $meetupEvent) {
-                $data = [
-                    'provider_id' => $meetupEvent->id,
-                    'name' => $meetupEvent->name,
-                    'description' => $meetupEvent->description,
-                    'link' => $meetupEvent->link,
-                    'duration' => $meetupEvent->duration,
-                    'created_at' => $meetupEvent->created,
-                    'planned_at' => $meetupEvent->time,
-                    'number_of_members' => $meetupEvent->numberOfMembers,
-                    'limit_of_members' => $meetupEvent->limitOfMembers,
-                ];
-
-                if (null !== $meetupEvent->venue) {
-                    $data = array_merge($data, [
-                        'venue_name' => $meetupEvent->venue->name,
-                        'venue_lat' => $meetupEvent->venue->lat,
-                        'venue_lon' => $meetupEvent->venue->lon,
-                        'venue_address' => $meetupEvent->venue->address1,
-                        'venue_city' => $meetupEvent->venue->city,
-                        'venue_country' => $meetupEvent->venue->localizedCountryName,
-                    ]);
-                }
-
-                if (null !== $meetupEvent->group) {
-                    $data['group_name'] = $meetupEvent->group->name;
-                }
-
-                $events[] = EventDTO::fromData($data);
-            }
+            $events[] = array_map(function (Event $event) use ($city) {
+                return EventFactory::create($city, $event);
+            }, $eventsOfGroup);
         }
 
-        return new EventDTOCollection(...$events);
+        return new Events(...array_merge(...$events));
+    }
+
+    public function getUpcomingEvents(City $city) : Events
+    {
+        $events = $this->retry(function () use ($city) {
+            $events = $this->meetup->events()->findUpcomingEvents(
+                FindUpcomingEventsQuery::from([
+                    'lat' => $city->getLat(),
+                    'lon' => $city->getLon(),
+                    'radius' => 'smart',
+                    'order' => 'time',
+                    'topic_category' => self::TECH_TOPIC_ID,
+                    'page' => 100,
+                ])
+            );
+
+            return array_filter($events, function (Event $event) {
+                return EventVisibility::PUBLIC_LIMITED !== $event->visibility->value;
+            });
+        });
+
+        return new Events(
+            ...array_map(function (Event $event) use ($city) {
+                return EventFactory::create($city, $event);
+            }, $events)
+        );
+    }
+
+    private function retry(callable $fn)
+    {
+        beginning:
+        try {
+            return $fn();
+        } catch (RateLimitExceeded $e) {
+            $this->logger->info($e->getMessage());
+            $this->logger->info(sprintf('Waiting: %d second(s)', $e->getRateLimitReset()));
+            sleep($e->getRateLimitReset());
+
+            goto beginning;
+        }
     }
 }

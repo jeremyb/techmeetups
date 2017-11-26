@@ -5,22 +5,25 @@ namespace spec\Meetup;
 use Http\Client\Common\HttpMethodsClient;
 use Http\Client\HttpClient;
 use Http\Message\MessageFactory;
-use Meetup\Meetup;
+use Meetup\MeetupClient;
 use Meetup\Resource\Events;
+use Meetup\Resource\Groups;
 use PhpSpec\ObjectBehavior;
+use Zend\Hydrator\HydratorInterface;
 
-class MeetupSpec extends ObjectBehavior
+class MeetupClientSpec extends ObjectBehavior
 {
     function let(
         HttpClient $httpClient,
-        MessageFactory $messageFactory
+        MessageFactory $messageFactory,
+        HydratorInterface $hydrator
     ) {
-        $this->beConstructedWith($httpClient, $messageFactory);
+        $this->beConstructedWith($httpClient, $messageFactory, $hydrator);
     }
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(Meetup::class);
+        $this->shouldHaveType(MeetupClient::class);
     }
 
     function it_should_have_http_client()
@@ -31,5 +34,10 @@ class MeetupSpec extends ObjectBehavior
     function it_should_have_events_api()
     {
         $this->events()->shouldBeAnInstanceOf(Events::class);
+    }
+
+    function it_should_have_groups_api()
+    {
+        $this->groups()->shouldBeAnInstanceOf(Groups::class);
     }
 }

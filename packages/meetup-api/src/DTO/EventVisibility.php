@@ -6,15 +6,15 @@ namespace Meetup\DTO;
 
 final class EventVisibility
 {
-    const PUBLIC = 'public';
-    const PUBLIC_LIMITED = 'public_limited';
-    const MEMBERS = 'members';
+    public const PUBLIC = 'public';
+    public const PUBLIC_LIMITED = 'public_limited';
+    public const MEMBERS = 'members';
 
     /** @var string */
-    public $status;
+    public $value;
 
-    public function __construct($status)
+    public function __construct(string $value)
     {
-        $this->status = $status;
+        $this->value = $value;
     }
 }

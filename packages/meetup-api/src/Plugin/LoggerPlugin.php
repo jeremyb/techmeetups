@@ -80,8 +80,8 @@ final class LoggerPlugin implements Plugin
             'request' => $request->getHeaders(),
             'response' => [
                 'StatusCode' => $response->getStatusCode(),
-                'X-Meetup-server' => $headers['X-Meetup-server'],
-                'X-Total-Count' => $headers['X-Total-Count'],
+                'X-Meetup-server' => $headers['X-Meetup-server'] ?? null,
+                'X-Total-Count' => $headers['X-Total-Count'] ?? null,
                 'X-Meetup-Request-ID' => $headers['X-Meetup-Request-ID'],
                 'X-RateLimit-Limit' => $headers['X-RateLimit-Limit'],
                 'X-RateLimit-Remaining' => $headers['X-RateLimit-Remaining'],

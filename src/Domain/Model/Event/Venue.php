@@ -25,8 +25,8 @@ final class Venue
         ?float $lon,
         ?string $address,
         ?string $city,
-        ?string $country)
-    {
+        ?string $country
+    ) {
         $this->name = $name;
         $this->lat = $lat;
         $this->lon = $lon;

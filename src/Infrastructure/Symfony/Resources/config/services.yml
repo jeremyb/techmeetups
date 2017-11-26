@@ -32,17 +32,10 @@ services:
     # Cities
     # --------------------------------------------------------------------------
 
-    app.city_repository:
-        class: Infrastructure\Persistence\InMemory\InMemoryCityRepository
-        factory: ['Infrastructure\Persistence\InMemory\InMemoryCityRepositoryFactory', create]
+    app.cities:
+        class: Domain\Model\City\Cities
+        factory: ['Infrastructure\Symfony\Factory\CitiesFactory', create]
         arguments: ['%app.techmeetups.cities%']
-
-    app.city_configuration_repository:
-        class: Infrastructure\Persistence\InMemory\InMemoryCityConfigurationRepository
-        factory: ['Infrastructure\Persistence\InMemory\InMemoryCityConfigurationRepositoryFactory', create]
-        arguments:
-            - '@app.city_repository'
-            - '%app.techmeetups.cities%'
 
     # Events
     # --------------------------------------------------------------------------
@@ -66,12 +59,12 @@ services:
 
     app.event_provider.meetup:
         class: Infrastructure\Api\Meetup\EventProvider
-        arguments: ['@app.meetup_client']
+        arguments: ['@app.meetup_client', '@logger']
 
     app.base_event_manager:
         abstract:  true
         arguments:
-            - '@app.city_configuration_repository'
+            - '@app.cities'
             - '@app.event_provider.meetup'
             - '@app.event_repository'
             - '@logger'
