@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Meetup\Plugin;
+namespace Meetup\Http\Plugin;
 
 use Http\Client\Common\Plugin;
 use Http\Client\Exception;
 use Http\Message\Formatter;
 use Http\Message\Formatter\SimpleFormatter;
+use Http\Promise\Promise;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -25,7 +26,7 @@ final class LoggerPlugin implements Plugin
         $this->formatter = $formatter ?: new SimpleFormatter();
     }
 
-    public function handleRequest(RequestInterface $request, callable $next, callable $first)
+    public function handleRequest(RequestInterface $request, callable $next, callable $first) : Promise
     {
         $this->logger->debug(
             sprintf('Emit request: "%s"', $this->formatter->formatRequest($request)),

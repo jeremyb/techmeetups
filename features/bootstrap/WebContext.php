@@ -29,7 +29,16 @@ final class WebContext implements Context
      */
     public function beforeScenario()
     {
+        $this->webTestCase->bootKernel();
         $this->webTestCase->initializeDatabase();
+    }
+
+    /**
+     * @AfterScenario
+     */
+    public function afterScenario()
+    {
+        $this->webTestCase->ensureKernelShutdown();
     }
 
     /**

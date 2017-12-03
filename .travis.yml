@@ -5,7 +5,8 @@ services:
 
 before_script:
     - touch docker/env
-    - docker-compose run composer install -n --ignore-platform-reqs
+    - docker-compose run --rm composer install -n --ignore-platform-reqs
+    - docker-compose build php
 
 script:
-    - docker-compose run php make tests
+    - docker-compose run --rm php make tests

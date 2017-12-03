@@ -12,9 +12,9 @@ use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\MessageFactoryDiscovery;
 use Http\Discovery\UriFactoryDiscovery;
 use Meetup\Http\Plugin\AddApiKeyPlugin;
+use Meetup\Http\Plugin\LoggerPlugin;
 use Meetup\Http\Plugin\RateLimitExceededPlugin;
 use Meetup\Hydrator\HydratorFactory;
-use Meetup\Plugin\LoggerPlugin;
 use Psr\Log\LoggerInterface;
 
 final class MeetupApiKeyFactory

@@ -8,9 +8,11 @@ use Doctrine\DBAL\DriverManager;
 use Infrastructure\Symfony\AppKernel;
 use Meetup\Meetup;
 use Prophecy\Prophet;
+use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\Console\Output\NullOutput;
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ResettableContainerInterface;
+use Symfony\Component\HttpKernel\Kernel;
 
 final class WebTestCase
 {
@@ -21,11 +23,9 @@ final class WebTestCase
     /** @var Prophet */
     private $prophet;
 
-    private function bootKernel() : void
+    public function bootKernel() : void
     {
-        if (null !== $this->kernel) {
-            return;
-        }
+        $this->ensureKernelShutdown();
 
         error_reporting(-1);
 
@@ -54,11 +54,32 @@ final class WebTestCase
         );
     }
 
-    public function getContainer() : Container
+    public function ensureKernelShutdown() : void
     {
-        $this->bootKernel();
+        if (null !== $this->kernel) {
+            $container = $this->kernel->getContainer();
+            $this->kernel->shutdown();
+            if ($container instanceof ResettableContainerInterface) {
+                $container->reset();
+            }
 
-        return $this->kernel->getContainer();
+            $this->client = null;
+        }
+    }
+
+    public function getKernel() : Kernel
+    {
+        if (null === $this->kernel) {
+            throw new \RuntimeException('Kernel must be booted!');
+        }
+
+        return $this->kernel;
+    }
+
+
+    public function getContainer() : ContainerInterface
+    {
+        return $this->getKernel()->getContainer();
     }
 
     public function getClient() : Client
@@ -68,7 +89,7 @@ final class WebTestCase
         }
 
         $this->client = $this->getContainer()->get('test.client');
-        $this->client->disableReboot();
+        $this->client->setServerParameters([]);
 
         return $this->client;
     }
