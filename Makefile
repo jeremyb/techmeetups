@@ -5,4 +5,4 @@ install:
 
 tests:
 	@php vendor/bin/phpspec run
-	@php vendor/bin/behat
+	#@php vendor/bin/behat
