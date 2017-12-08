@@ -1,8 +1,8 @@
 <?php
 
-use Infrastructure\Symfony\AppKernel;
-use Symfony\Component\HttpFoundation\Request;
+use Infrastructure\Symfony\Kernel;
 use Symfony\Component\Debug\Debug;
+use Symfony\Component\HttpFoundation\Request;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
@@ -13,7 +13,7 @@ if ($debug) {
     Debug::enable();
 }
 
-$kernel = new AppKernel($env, $debug);
+$kernel = new Kernel($env, $debug);
 
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);

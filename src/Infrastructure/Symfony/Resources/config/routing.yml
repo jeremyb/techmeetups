@@ -1,17 +1,17 @@
 homepage:
     path:     /
-    defaults: { _controller: app.actions.homepage }
+    defaults: { _controller: UI\Action\Homepage }
 
 stats:
     path:     /stats
-    defaults: { _controller: app.actions.stats }
+    defaults: { _controller: UI\Action\Stats }
 
 feed_mtp:
     path:     /montpellier.{_format}
-    defaults: { _controller: app.actions.feed }
+    defaults: { _controller: UI\Action\Feed }
     requirements:
         _format: atom|rss
 
 ical_mtp:
     path:     /montpellier.ical
-    defaults: { _controller: app.actions.ical }
+    defaults: { _controller: UI\Action\ICal }

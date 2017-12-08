@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Infrastructure\Symfony\DependencyInjection;
 
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 final class UIExtension extends Extension
 {
@@ -15,10 +13,6 @@ final class UIExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.yml');
-
         $container->setParameter('app.techmeetups.cities', $config['cities']);
     }
 

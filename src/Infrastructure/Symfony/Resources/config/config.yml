@@ -1,0 +1,72 @@
+framework:
+    secret: 'S0ME_SECRET'
+    templating:
+        engines: ['twig']
+    php_errors:
+        log: true
+
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    paths:
+        '%kernel.project_dir%/src/UI/templates': '__main__'
+    date:
+        timezone: 'Europe/Paris'
+
+services:
+    # Autowiring
+    # --------------------------------------------------------------------------
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Application\:
+        resource: '%kernel.project_dir%/src/Application/*'
+    Application\EventSynchronizer:
+        public: true
+    Domain\:
+        resource: '%kernel.project_dir%/src/Domain/*'
+    Infrastructure\:
+        resource: '%kernel.project_dir%/src/Infrastructure/*'
+        exclude: '%kernel.project_dir%/src/Infrastructure/{Persistence/InMemory,ReadModel/InMemory}'
+    UI\:
+        resource: '%kernel.project_dir%/src/UI/*'
+        tags: ['controller.service_arguments']
+
+    DbalSchema\:
+        resource: '%kernel.project_dir%/vendor/mnapoli/dbal-schema/src/*'
+        public: true
+
+    Twig_Extensions_Extension_Intl:
+        class: Twig_Extensions_Extension_Intl
+
+    # Factories
+    # --------------------------------------------------------------------------
+    Doctrine\DBAL\Connection:
+        class: Doctrine\DBAL\Connection
+        factory: ['Doctrine\DBAL\DriverManager', getConnection]
+        arguments:
+            -
+                url: "%env(DATABASE_DSN)%"
+                driver: 'pdo_pgsql'
+        public: true
+
+    Domain\Model\City\Cities:
+        class: Domain\Model\City\Cities
+        factory: ['Infrastructure\Symfony\Factory\CitiesFactory', create]
+        arguments: ['%app.techmeetups.cities%']
+        public: true
+
+    Meetup\Meetup:
+        class: Meetup\Meetup
+        factory: ['Meetup\MeetupApiKeyFactory', create]
+        arguments: ['%env(MEETUP_API_KEY)%', '@logger']
+
+    # Interfaces
+    # --------------------------------------------------------------------------
+    Application\EventProvider: '@Infrastructure\Api\Meetup\EventProvider'
+    Domain\Model\Event\EventRepository: '@Infrastructure\Persistence\Doctrine\DbalEventRepository'
+    Domain\ReadModel\EventFinder: '@Infrastructure\ReadModel\Doctrine\DbalEventFinder'
+    Domain\ReadModel\StatsGenerator: '@Infrastructure\ReadModel\Doctrine\DbalStatsGenerator'
+    DbalSchema\SchemaDefinition: '@Infrastructure\Persistence\Doctrine\SchemaDefinition'

@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Behat\Features;
 
+use Application\EventProvider;
+use Application\EventSynchronizer;
 use Behat\Behat\Context\Context;
 use Domain\Model\City\Cities;
-use Meetup\DTO\Event;
-use Meetup\DTO\Query\FindUpcomingEventsQuery;
-use Meetup\Resource\Events;
+use Domain\Model\City\City;
+use Domain\Model\Event\Events;
 use Prophecy\Argument;
 use Sabre\VObject\Reader;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,20 +43,12 @@ final class WebContext implements Context
     }
 
     /**
-     * @AfterStep
-     */
-    public function afterStep()
-    {
-        $this->webTestCase->getProphet()->checkPredictions();
-    }
-
-    /**
      * @Given a city is configured with some Meetup groups to fetch
      */
     public function aCityIsConfiguredWithSomeMeetupGroupsToFetch()
     {
         /** @var Cities $cities */
-        $cities = $this->webTestCase->getContainer()->get('app.cities');
+        $cities = $this->webTestCase->getContainer()->get(Cities::class);
         Assert::count($cities, 1);
     }
 
@@ -64,42 +57,8 @@ final class WebContext implements Context
      */
     public function theEventsAreSynchronized()
     {
-        $meetup = $this->webTestCase->getContainer()->get('app.meetup_client.prophecy');
-        $events = $this->webTestCase->getProphet()->prophesize(Events::class);
-        $meetup->events()->willReturn($events);
-        $events
-            ->findUpcomingEvents(Argument::type(FindUpcomingEventsQuery::class))
-            ->shouldBeCalled()
-            ->willReturn([
-                Event::fromData([
-                    'id' => '235957132',
-                    'created' => 1480599839000,
-                    'time' => strtotime('+1 week') * 1000,
-                    'updated' => 1480601873000,
-                    'name' => 'First event',
-                    'status' => 'upcoming',
-                    'utc_offset' => 3600000,
-                    'waitlist_count' => 0,
-                    'yes_rsvp_count' => 10,
-                    'group' => [
-                        'id' => 18724486,
-                        'created' => 1436255797000,
-                        'name' => 'AFUP Montpellier',
-                        'description' => '',
-                        'join_mode' => 'open',
-                        'lat' => 43.61000061035156,
-                        'lon' => 3.869999885559082,
-                        'urlname' => 'Montpellier-PHP-Meetup',
-                        'who' => 'Membres'
-                    ],
-                    'link' => 'https://www.meetup.com/Montpellier-PHP-Meetup/events/235957132/',
-                    'description' => '<p>Lorem ipsum</p>',
-                    'visibility' => 'public',
-                ])
-            ]);
-
         /** @var \Application\EventSynchronizer $synchronizer */
-        $synchronizer = $this->webTestCase->getContainer()->get('app.event_synchronizer');
+        $synchronizer = $this->webTestCase->getContainer()->get(EventSynchronizer::class);
         $synchronizer->synchronize();
     }
 
@@ -112,9 +71,10 @@ final class WebContext implements Context
         $crawler = $client->request('GET', '/');
 
         Assert::eq($client->getResponse()->getStatusCode(), Response::HTTP_OK);
-        Assert::eq(1, $crawler->filter('#events')->count());
+        //echo $client->getResponse()->getContent(); exit;
+        Assert::eq(1, $crawler->filter('.events-per-month')->count());
         Assert::contains(
-            $crawler->filter('#events li:first-child h3 a')->text(),
+            $crawler->filter('.events-per-month li:first-child h3 a')->text(),
             'First event'
         );
     }

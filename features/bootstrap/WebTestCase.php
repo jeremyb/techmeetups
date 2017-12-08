@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace Behat\Features;
 
-use Doctrine\DBAL\DriverManager;
-use Infrastructure\Symfony\AppKernel;
-use Meetup\Meetup;
+use DbalSchema\DbalSchemaCommand;
+use Infrastructure\Symfony\Kernel;
 use Prophecy\Prophet;
 use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\DependencyInjection\ResettableContainerInterface;
-use Symfony\Component\HttpKernel\Kernel;
 
 final class WebTestCase
 {
-    /** @var AppKernel */
+    /** @var Kernel */
     private $kernel;
     /** @var Client */
     private $client;
@@ -29,29 +27,8 @@ final class WebTestCase
 
         error_reporting(-1);
 
-        $this->prophet = new Prophet();
-
-        $this->kernel = new AppKernel('test', true);
+        $this->kernel = new FunctionalTestKernel();
         $this->kernel->boot();
-
-        $this->kernel->getContainer()->set(
-            'doctrine.dbal_connection',
-            DriverManager::getConnection([
-                'driver' => 'pdo_sqlite',
-                'path' => sprintf('%s/data.sqlite', __DIR__.'/../../var/cache/test'),
-            ])
-        );
-
-        $meetupProphesized = $this->prophet->prophesize(Meetup::class);
-
-        $this->kernel->getContainer()->set(
-            'app.meetup_client',
-            $meetupProphesized->reveal()
-        );
-        $this->kernel->getContainer()->set(
-            'app.meetup_client.prophecy',
-            $meetupProphesized
-        );
     }
 
     public function ensureKernelShutdown() : void
@@ -101,8 +78,7 @@ final class WebTestCase
 
     public function initializeDatabase() : void
     {
-        /** @var \DbalSchema\DbalSchemaCommand $schema */
-        $schema = $this->getContainer()->get('doctrine.dbal_schema.base_command');
+        $schema = $this->getContainer()->get(DbalSchemaCommand::class);
 
         $output = new NullOutput();
         $schema->purge(true, $output);

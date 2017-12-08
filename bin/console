@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-use Infrastructure\Symfony\AppKernel;
+use Infrastructure\Symfony\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Debug\Debug;
@@ -18,6 +18,6 @@ if ($debug) {
     Debug::enable();
 }
 
-$kernel = new AppKernel($env, $debug);
+$kernel = new Kernel($env, $debug);
 $application = new Application($kernel);
 $application->run($input);

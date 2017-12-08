@@ -8,19 +8,19 @@ use Domain\ReadModel\CalendarFactory;
 use Domain\ReadModel\EventFinder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Twig_Environment;
+use Symfony\Component\Templating\EngineInterface;
 
 final class Homepage implements Action
 {
     /** @var EventFinder */
     private $eventFinder;
-    /** @var Twig_Environment */
-    private $twig;
+    /** @var EngineInterface */
+    private $templating;
 
-    public function __construct(EventFinder $eventFinder, Twig_Environment $twig)
+    public function __construct(EventFinder $eventFinder, EngineInterface $templating)
     {
         $this->eventFinder = $eventFinder;
-        $this->twig = $twig;
+        $this->templating = $templating;
     }
 
     public function __invoke(Request $request) : Response
@@ -28,7 +28,7 @@ final class Homepage implements Action
         $events = $this->eventFinder->findNextEvents();
 
         return new Response(
-            $this->twig->render('homepage.html.twig', [
+            $this->templating->render('homepage.html.twig', [
                 'calendar' => CalendarFactory::create(...$events),
             ])
         );
