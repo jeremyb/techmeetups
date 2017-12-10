@@ -1,27 +1,20 @@
-version: '2'
-
-volumes:
-    postgres-data:
-        driver: local
+version: '3'
 
 services:
     nginx:
         image: nginx:latest
         ports:
-            - "8080:80"
+            - "8000:80"
         volumes:
             - ./docker/nginx/:/etc/nginx/conf.d/
-        volumes_from:
-            - php
-        links:
+            - ./web:/var/www/app/web/
+        depends_on:
             - php
 
     php:
         build: ./docker/php/
-        links:
+        depends_on:
             - postgres
-        expose:
-            - "9000"
         volumes:
             - ./:/var/www/app/
         working_dir: /var/www/app/
@@ -33,22 +26,22 @@ services:
             - ./docker/env
 
     postgres:
-        restart: always
         image: postgres:latest
-        expose:
-            - "5432"
         ports:
-            - "5432"
+            - "5432:5432"
         volumes:
-            - postgres-data:/var/lib/postgresql/data
+            - postgres-data:/var/lib/postgresql/data:rw
         environment:
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=postgres
             - POSTGRES_DB=techmeetups
 
-    composer:
-        restart: 'no'
-        image: composer/composer:php7
-        command: install
-        volumes:
-            - .:/app
+    pgadmin4:
+        image: dpage/pgadmin4
+        links:
+            - postgres
+        ports:
+            - "8080:80"
+
+volumes:
+    postgres-data: {}
