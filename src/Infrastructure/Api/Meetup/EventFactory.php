@@ -8,6 +8,7 @@ use Domain\Model\City\City;
 use Domain\Model\Event\Event;
 use Domain\Model\Event\EventId;
 use Domain\Model\Event\Group;
+use Domain\Model\Event\GroupId;
 use Domain\Model\Event\Venue;
 use Meetup\DTO\Event as EventDTO;
 use Meetup\DTO\Group as GroupDTO;
@@ -44,8 +45,9 @@ final class EventFactory
             })($eventDTO->venue),
             (function (GroupDTO $groupDTO) {
                 return new Group(
+                    GroupId::fromString((string) $groupDTO->id),
                     $groupDTO->name,
-                    $groupDTO->urlname,
+                    sprintf('https://www.meetup.com/%s/', $groupDTO->urlname),
                     $groupDTO->description,
                     null !== $groupDTO->keyPhoto ? $groupDTO->keyPhoto->photoLink : null,
                     $groupDTO->created

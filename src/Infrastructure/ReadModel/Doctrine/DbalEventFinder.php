@@ -21,13 +21,18 @@ final class DbalEventFinder implements EventFinder
 
     public function findNextEvents() : Events
     {
+        $sql = <<<SQL
+SELECT e.*, g.name AS group_name, g.link AS group_link 
+FROM events AS e 
+INNER JOIN groups AS g ON (e.group_id = g.group_id) 
+WHERE e.planned_at > ? 
+ORDER BY e.planned_at;
+SQL;
+
         $results = $this->connection
-            ->executeQuery(
-                'SELECT * FROM events WHERE planned_at > ? ORDER BY planned_at;',
-                [
-                    (new \DateTimeImmutable())->format(DATE_ATOM),
-                ]
-            )
+            ->executeQuery($sql, [
+                (new \DateTimeImmutable())->format(DATE_ATOM),
+            ])
             ->fetchAll();
 
         return new Events(...array_map(function (array $event) {

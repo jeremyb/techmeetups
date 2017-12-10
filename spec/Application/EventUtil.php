@@ -8,6 +8,7 @@ use Domain\Model\City\City;
 use Domain\Model\Event\Event;
 use Domain\Model\Event\EventId;
 use Domain\Model\Event\Group;
+use Domain\Model\Event\GroupId;
 use Domain\Model\Event\Venue;
 
 final class EventUtil
@@ -29,7 +30,14 @@ final class EventUtil
                 return new Venue('Somewhere', null, null, null, 'Montpellier', null);
             })(),
             (function () {
-                return new Group('Group', 'group', '', '', new \DateTimeImmutable('-2 years'));
+                return new Group(
+                    GroupId::fromString('321'),
+                    'Group',
+                    'group',
+                    '',
+                    '',
+                    new \DateTimeImmutable('-2 years')
+                );
             })()
         );
     }

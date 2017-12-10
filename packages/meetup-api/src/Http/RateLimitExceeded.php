@@ -28,16 +28,16 @@ final class RateLimitExceeded extends HttpException
 
     public function getRateLimit() : int
     {
-        return (int) $this->response->getHeader('X-RateLimit-Limit');
+        return (int) $this->response->getHeaderLine('X-RateLimit-Limit');
     }
 
     public function getRateLimitRemaining() : int
     {
-        return (int) $this->response->getHeader('X-RateLimit-Remaining');
+        return (int) $this->response->getHeaderLine('X-RateLimit-Remaining');
     }
 
     public function getRateLimitReset() : int
     {
-        return (int) $this->response->getHeader('X-RateLimit-Reset');
+        return (int) $this->response->getHeaderLine('X-RateLimit-Reset');
     }
 }

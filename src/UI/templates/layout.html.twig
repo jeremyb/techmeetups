@@ -76,6 +76,12 @@
                             </li>
                             <li>-</li>
                             <li>
+                                <a href="{{ path('groups') }}#main"{% if current_route == 'groups' %} class="current"{% endif %}>
+                                    Communautés
+                                </a>
+                            </li>
+                            <li>-</li>
+                            <li>
                                 <a href="{{ path('stats') }}#main"{% if current_route == 'stats' %} class="current"{% endif %}>
                                     Statistiques
                                 </a>

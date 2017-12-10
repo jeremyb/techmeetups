@@ -1,0 +1,13 @@
+diff.ago.second: '{1} Il y a une seconde | ]1,Inf] Il y a %count% secondes'
+diff.ago.minute: '{1} Il y a une minute | ]1,Inf] Il y a %count% minutes'
+diff.ago.hour: '{1} Il y a une heure | ]1,Inf] Il y a %count% heures'
+diff.ago.day: '{1} Hier | ]1,Inf] Il y a %count% jours'
+diff.ago.month: '{1} Le mois dernier | ]1,Inf] Il y a %count% mois'
+diff.ago.year: '{1} Il y a un an | ]1,Inf] Il y a %count% ans'
+
+diff.in.second: '{1} dans une seconde | ]1,Inf] dans %count% secondes'
+diff.in.minute: '{1} dans une minute | ]1,Inf] dans %count% minutes'
+diff.in.hour: '{1} dans une heure | ]1,Inf] dans %count% heures'
+diff.in.day: '{1} demain | ]1,Inf] dans %count% jours'
+diff.in.month: '{1} le mois prochain | ]1,Inf] dans %count% mois'
+diff.in.year: '{1} dans un an | ]1,Inf] dans %count% ans'

@@ -7,6 +7,7 @@ namespace Application;
 use Domain\Model\City\Cities;
 use Domain\Model\Event\Event;
 use Domain\Model\Event\EventRepository;
+use Domain\Model\Event\GroupRepository;
 use Psr\Log\LoggerInterface;
 
 final class EventSynchronizer
@@ -15,6 +16,8 @@ final class EventSynchronizer
     private $cities;
     /** @var EventProvider */
     private $provider;
+    /** @var GroupRepository */
+    private $groupRepository;
     /** @var EventRepository */
     private $eventRepository;
     /** @var LoggerInterface */
@@ -23,11 +26,13 @@ final class EventSynchronizer
     public function __construct(
         Cities $cities,
         EventProvider $provider,
+        GroupRepository $groupRepository,
         EventRepository $eventRepository,
         LoggerInterface $logger
     ) {
         $this->cities = $cities;
         $this->provider = $provider;
+        $this->groupRepository = $groupRepository;
         $this->eventRepository = $eventRepository;
         $this->logger = $logger;
     }
@@ -41,6 +46,8 @@ final class EventSynchronizer
             $events = $this->provider->getUpcomingEvents($city);
             /** @var Event $event */
             foreach ($events as $event) {
+                $this->groupRepository->addOrUpdate($event->getGroup());
+
                 if ($this->eventRepository->contains($event->getId())) {
                     $this->eventRepository->update($event);
 
@@ -51,8 +58,6 @@ final class EventSynchronizer
 
                     continue;
                 }
-
-                // @todo add or update group
 
                 $this->eventRepository->add($event);
 

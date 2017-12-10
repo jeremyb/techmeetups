@@ -2,6 +2,10 @@ homepage:
     path:     /
     defaults: { _controller: UI\Action\Homepage }
 
+groups:
+    path:     /groups
+    defaults: { _controller: UI\Action\Groups }
+
 stats:
     path:     /stats
     defaults: { _controller: UI\Action\Stats }
