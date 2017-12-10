@@ -15,7 +15,7 @@ final class City
     /** @var float */
     private $lon;
 
-    public static function named(string $name, float $lat, float $lon) : City
+    public static function named(string $name, float $lat, float $lon) : self
     {
         return new self(strtolower($name), $name, $lat, $lon);
     }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Infrastructure\ReadModel\Doctrine;
 
@@ -25,7 +25,7 @@ final class DbalEventFinder implements EventFinder
             ->executeQuery(
                 'SELECT * FROM events WHERE planned_at > ? ORDER BY planned_at;',
                 [
-                    (new \DateTimeImmutable())->format(DATE_ATOM)
+                    (new \DateTimeImmutable())->format(DATE_ATOM),
                 ]
             )
             ->fetchAll();

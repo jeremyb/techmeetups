@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Infrastructure\Persistence\Doctrine;
 
@@ -9,7 +9,7 @@ use Doctrine\DBAL\Schema\Schema;
 
 final class SchemaDefinition implements SchemaDefinitionInterface
 {
-    public function define(Schema $schema)
+    public function define(Schema $schema) : void
     {
         $events = $schema->createTable('events');
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Infrastructure\Symfony\Kernel;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\HttpFoundation\Request;

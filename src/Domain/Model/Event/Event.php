@@ -107,7 +107,7 @@ final class Event
         return $this->duration;
     }
 
-    public function getCreatedAt(): \DateTimeImmutable
+    public function getCreatedAt() : \DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -117,12 +117,12 @@ final class Event
         return $this->plannedAt;
     }
 
-    public function getNumberOfMembers(): int
+    public function getNumberOfMembers() : int
     {
         return $this->numberOfMembers;
     }
 
-    public function getLimitOfMembers(): int
+    public function getLimitOfMembers() : int
     {
         return $this->limitOfMembers;
     }

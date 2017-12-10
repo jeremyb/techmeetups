@@ -41,7 +41,7 @@ class Kernel extends BaseKernel
         return $bundles;
     }
 
-    protected function configureRoutes(RouteCollectionBuilder $routes)
+    protected function configureRoutes(RouteCollectionBuilder $routes) : void
     {
         if ($this->isDebug()) {
             $routes->import('@WebProfilerBundle/Resources/config/routing/wdt.xml', '/_wdt');
@@ -49,10 +49,10 @@ class Kernel extends BaseKernel
             $routes->import('@TwigBundle/Resources/config/routing/errors.xml', '/_error');
         }
 
-        $routes->import(__DIR__ . '/Resources/config/routing.yml');
+        $routes->import(__DIR__.'/Resources/config/routing.yml');
     }
 
-    protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader)
+    protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader) : void
     {
         $container->setParameter('container.autowiring.strict_mode', true);
         $container->setParameter('container.dumper.inline_class_loader', true);

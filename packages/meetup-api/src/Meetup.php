@@ -11,7 +11,10 @@ use Meetup\Resource\Groups;
 interface Meetup
 {
     public const BASE_URL = 'https://api.meetup.com';
+
     public function events() : Events;
+
     public function groups() : Groups;
+
     public function getHttpClient() : HttpMethodsClient;
 }

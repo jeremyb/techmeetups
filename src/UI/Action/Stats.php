@@ -24,7 +24,7 @@ final class Stats implements Action
         $this->twig = $twig;
     }
 
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request) : Response
     {
         return new Response(
             $this->twig->render('stats.html.twig', [

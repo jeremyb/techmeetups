@@ -10,5 +10,6 @@ use Domain\Model\Event\Events;
 interface EventProvider
 {
     public function importPastEvents(City $city) : Events;
+
     public function getUpcomingEvents(City $city) : Events;
 }

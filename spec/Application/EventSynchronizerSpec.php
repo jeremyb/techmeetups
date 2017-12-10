@@ -1,21 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\Application;
 
-use Application\DTO\EventDTOCollection;
-use Application\EventFactory;
 use Application\EventProvider;
 use Application\EventSynchronizer;
 use Domain\Model\City\Cities;
 use Domain\Model\City\City;
-use Domain\Model\City\CityConfiguration;
-use Domain\Model\City\CityConfigurationRepository;
-use Domain\Model\Event\Event;
 use Domain\Model\Event\EventId;
 use Domain\Model\Event\EventRepository;
 use Domain\Model\Event\Events;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Psr\Log\LoggerInterface;
 
 class EventSynchronizerSpec extends ObjectBehavior

@@ -23,7 +23,7 @@ final class FunctionalTestKernel extends Kernel
         parent::__construct('test', true);
     }
 
-    protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader)
+    protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader) : void
     {
         parent::configureContainer($container, $loader);
 

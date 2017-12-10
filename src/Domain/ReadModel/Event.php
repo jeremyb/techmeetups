@@ -62,7 +62,7 @@ final class Event
             return '';
         }
 
-        return substr(strip_tags($this->description), 0, 250) . '...';
+        return substr(strip_tags($this->description), 0, 250).'...';
     }
 
     public function getWeekDay() : string

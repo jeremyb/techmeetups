@@ -43,7 +43,7 @@ final class LoggerPlugin implements Plugin
             );
 
             return $response;
-        }, function (Exception $exception) use ($request) {
+        }, function (Exception $exception) use ($request) : void {
             if ($exception instanceof Exception\HttpException) {
                 $this->logger->error(
                     sprintf('Error: "%s" with response: "%s" when emitting request: "%s"',

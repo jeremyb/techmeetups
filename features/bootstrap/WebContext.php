@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Behat\Features;
 
-use Application\EventProvider;
 use Application\EventSynchronizer;
 use Behat\Behat\Context\Context;
 use Domain\Model\City\Cities;
 use Domain\Model\City\City;
 use Domain\Model\Event\Events;
-use Prophecy\Argument;
 use Sabre\VObject\Reader;
 use Symfony\Component\HttpFoundation\Response;
 use Webmozart\Assert\Assert;
@@ -28,7 +26,7 @@ final class WebContext implements Context
     /**
      * @BeforeScenario
      */
-    public function beforeScenario()
+    public function beforeScenario() : void
     {
         $this->webTestCase->bootKernel();
         $this->webTestCase->initializeDatabase();
@@ -37,7 +35,7 @@ final class WebContext implements Context
     /**
      * @AfterScenario
      */
-    public function afterScenario()
+    public function afterScenario() : void
     {
         $this->webTestCase->ensureKernelShutdown();
     }
@@ -45,7 +43,7 @@ final class WebContext implements Context
     /**
      * @Given a city is configured with some Meetup groups to fetch
      */
-    public function aCityIsConfiguredWithSomeMeetupGroupsToFetch()
+    public function aCityIsConfiguredWithSomeMeetupGroupsToFetch() : void
     {
         /** @var Cities $cities */
         $cities = $this->webTestCase->getContainer()->get(Cities::class);
@@ -55,7 +53,7 @@ final class WebContext implements Context
     /**
      * @When the events are synchronized
      */
-    public function theEventsAreSynchronized()
+    public function theEventsAreSynchronized() : void
     {
         /** @var \Application\EventSynchronizer $synchronizer */
         $synchronizer = $this->webTestCase->getContainer()->get(EventSynchronizer::class);
@@ -65,7 +63,7 @@ final class WebContext implements Context
     /**
      * @Then I should see some events on the homepage
      */
-    public function iShouldSeeSomeEventsOnTheHomepage()
+    public function iShouldSeeSomeEventsOnTheHomepage() : void
     {
         $client = $this->webTestCase->getClient();
         $crawler = $client->request('GET', '/');
@@ -82,7 +80,7 @@ final class WebContext implements Context
     /**
      * @Then a RSS feed is available
      */
-    public function aRssFeedIsAvailable()
+    public function aRssFeedIsAvailable() : void
     {
         $client = $this->webTestCase->getClient();
         $crawler = $client->request('GET', '/montpellier.rss');
@@ -95,7 +93,7 @@ final class WebContext implements Context
     /**
      * @Then an iCal feed is available
      */
-    public function anICalFeedIsAvailable()
+    public function anICalFeedIsAvailable() : void
     {
         $client = $this->webTestCase->getClient();
         $client->request('GET', '/montpellier.ical');

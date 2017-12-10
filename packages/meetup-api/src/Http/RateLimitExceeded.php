@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Meetup\Http;
 
+use Http\Client\Exception\HttpException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Http\Client\Exception\HttpException;
 
 final class RateLimitExceeded extends HttpException
 {

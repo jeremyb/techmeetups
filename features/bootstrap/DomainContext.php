@@ -39,7 +39,7 @@ final class DomainContext implements Context
     /**
      * @Given a city is configured with some Meetup groups to fetch
      */
-    public function aCityIsConfiguredWithSomeMeetupGroupsToFetch()
+    public function aCityIsConfiguredWithSomeMeetupGroupsToFetch() : void
     {
         $this->defaultCity = City::named('Montpellier', 43.6, 3.8833);
         $this->cities = new Cities($this->defaultCity);
@@ -48,16 +48,16 @@ final class DomainContext implements Context
     /**
      * @When the events are synchronized
      */
-    public function theEventsAreSynchronized()
+    public function theEventsAreSynchronized() : void
     {
         /** @var EventProvider $eventProvider */
-        $eventProvider = new class implements EventProvider {
-            public function importPastEvents(City $city): Events
+        $eventProvider = new class() implements EventProvider {
+            public function importPastEvents(City $city) : Events
             {
                 throw new \RuntimeException('Not supported on test');
             }
 
-            public function getUpcomingEvents(City $city): Events
+            public function getUpcomingEvents(City $city) : Events
             {
                 return new Events(
                     Event::create(
@@ -94,7 +94,7 @@ final class DomainContext implements Context
     /**
      * @Then I should have some new events synchronized
      */
-    public function iShouldHaveSomeNewEventsSynchronized()
+    public function iShouldHaveSomeNewEventsSynchronized() : void
     {
         Assert::count($this->eventFinder->findNextEvents(), 1);
     }

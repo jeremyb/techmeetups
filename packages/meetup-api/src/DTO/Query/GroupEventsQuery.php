@@ -19,7 +19,7 @@ final class GroupEventsQuery
     public const SUGGESTED = 'suggested';
     public const UPCOMING = 'upcoming';
 
-    /** @var boolean */
+    /** @var bool */
     public $desc;
     /** @var string */
     public $fields;

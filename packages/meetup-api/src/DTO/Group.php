@@ -38,7 +38,7 @@ final class Group
     {
         /** @var self $group */
         $group = HydratorFactory::create()->hydrate($data, new self());
-        $group->created = (new DateTimeImmutable())->setTimestamp($data['created']/1000);
+        $group->created = (new DateTimeImmutable())->setTimestamp($data['created'] / 1000);
         $group->keyPhoto = isset($data['key_photo']) ? Photo::fromData($data['key_photo']) : null;
 
         return $group;

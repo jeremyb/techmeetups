@@ -53,7 +53,6 @@ final class WebTestCase
         return $this->kernel;
     }
 
-
     public function getContainer() : ContainerInterface
     {
         return $this->getKernel()->getContainer();

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Infrastructure\Persistence\InMemory;
 
 use Domain\Model\Event\Event;
-use Domain\Model\Event\EventRepository;
 use Domain\Model\Event\EventId;
+use Domain\Model\Event\EventRepository;
 
 final class InMemoryEventRepository implements EventRepository
 {
