@@ -35,13 +35,11 @@ final class DbalEventRepository implements EventRepository
 
     public function contains(EventId $eventId) : bool
     {
-        $count = (int) $this->connection
+        return (bool) $this->connection
             ->fetchColumn(
-                'SELECT COUNT(event_id) FROM events WHERE event_id = ?',
+                'SELECT EXISTS(SELECT 1 FROM events WHERE event_id = ?)',
                 [(string) $eventId]
             );
-
-        return $count > 0;
     }
 
     private function convertEventToArray(Event $event) : array
@@ -54,6 +52,7 @@ final class DbalEventRepository implements EventRepository
 
         $data = [
             'event_id' => (string) $event->getId(),
+            'group_id' => (string) $event->getGroup()->getId(),
             'city' => $event->getCity()->getId(),
             'name' => $event->getName(),
             'description' => $event->getDescription(),
@@ -63,7 +62,6 @@ final class DbalEventRepository implements EventRepository
             'planned_at' => $convertDateTimeToUTC($event->getPlannedAt()),
             'number_of_members' => $event->getNumberOfMembers(),
             'limit_of_members' => $event->getLimitOfMembers(),
-            'group_name' => $event->getGroup() ? $event->getGroup()->getName() : null,
         ];
 
         if (null !== $venue = $event->getVenue()) {

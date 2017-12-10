@@ -11,6 +11,7 @@ use Domain\Model\City\City;
 use Domain\Model\Event\EventId;
 use Domain\Model\Event\EventRepository;
 use Domain\Model\Event\Events;
+use Domain\Model\Event\GroupRepository;
 use PhpSpec\ObjectBehavior;
 use Psr\Log\LoggerInterface;
 
@@ -21,6 +22,7 @@ class EventImporterSpec extends ObjectBehavior
 
     function let(
         EventProvider $provider,
+        GroupRepository $groupRepository,
         EventRepository $eventRepository,
         LoggerInterface $logger
     ) {
@@ -29,6 +31,7 @@ class EventImporterSpec extends ObjectBehavior
         $this->beConstructedWith(
             new Cities($this->city),
             $provider,
+            $groupRepository,
             $eventRepository,
             $logger
         );
@@ -41,10 +44,13 @@ class EventImporterSpec extends ObjectBehavior
 
     function it_should_import_past_events(
         EventProvider $provider,
+        GroupRepository $groupRepository,
         EventRepository $eventRepository
     ) {
         $event = EventUtil::generateEvent($this->city);
         $provider->importPastEvents($this->city)->shouldBeCalled()->willReturn(new Events($event));
+
+        $groupRepository->addOrUpdate($event->getGroup())->shouldBeCalled();
 
         $eventRepository
             ->contains(EventId::fromString('123'))

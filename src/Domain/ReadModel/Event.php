@@ -40,6 +40,8 @@ final class Event
     public $venueCountry;
     /** @var string */
     public $groupName;
+    /** @var string */
+    public $groupLink;
 
     public static function fromData(array $data) : self
     {

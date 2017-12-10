@@ -13,8 +13,10 @@ use Domain\Model\Event\Event;
 use Domain\Model\Event\EventId;
 use Domain\Model\Event\Events;
 use Domain\Model\Event\Group;
+use Domain\Model\Event\GroupId;
 use Domain\Model\Event\Venue;
 use Infrastructure\Persistence\InMemory\InMemoryEventRepository;
+use Infrastructure\Persistence\InMemory\InMemoryGroupRepository;
 use Infrastructure\ReadModel\InMemory\InMemoryEventFinder;
 use Psr\Log\NullLogger;
 use Webmozart\Assert\Assert;
@@ -25,6 +27,8 @@ final class DomainContext implements Context
     private $cities;
     /** @var City */
     private $defaultCity;
+    /** @var InMemoryGroupRepository */
+    private $groups;
     /** @var InMemoryEventRepository */
     private $events;
     /** @var InMemoryEventFinder */
@@ -32,6 +36,7 @@ final class DomainContext implements Context
 
     public function __construct()
     {
+        $this->groups = new InMemoryGroupRepository();
         $this->events = new InMemoryEventRepository();
         $this->eventFinder = new InMemoryEventFinder($this->events);
     }
@@ -75,7 +80,14 @@ final class DomainContext implements Context
                             return new Venue('Somewhere', null, null, null, 'Montpellier', null);
                         })(),
                         (function () {
-                            return new Group('Group', 'group', '', '', new \DateTimeImmutable('-2 years'));
+                            return new Group(
+                                GroupId::fromString('321'),
+                                'Group',
+                                'group',
+                                '',
+                                '',
+                                new \DateTimeImmutable('-2 years')
+                            );
                         })()
                     )
                 );
@@ -85,6 +97,7 @@ final class DomainContext implements Context
         $synchronizer = new EventSynchronizer(
             $this->cities,
             $eventProvider,
+            $this->groups,
             $this->events,
             new NullLogger()
         );

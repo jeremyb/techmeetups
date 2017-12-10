@@ -1,5 +1,9 @@
 framework:
     secret: 'S0ME_SECRET'
+    default_locale: fr
+    translator:
+        paths:
+            - '%kernel.project_dir%/src/Infrastructure/Symfony/Resources/translations'
     templating:
         engines: ['twig']
     php_errors:
@@ -40,6 +44,8 @@ services:
 
     Twig_Extensions_Extension_Intl:
         class: Twig_Extensions_Extension_Intl
+    Twig_Extensions_Extension_Date:
+        class: Twig_Extensions_Extension_Date
 
     # Factories
     # --------------------------------------------------------------------------
@@ -67,6 +73,8 @@ services:
     # --------------------------------------------------------------------------
     Application\EventProvider: '@Infrastructure\Api\Meetup\EventProvider'
     Domain\Model\Event\EventRepository: '@Infrastructure\Persistence\Doctrine\DbalEventRepository'
+    Domain\Model\Event\GroupRepository: '@Infrastructure\Persistence\Doctrine\DbalGroupRepository'
     Domain\ReadModel\EventFinder: '@Infrastructure\ReadModel\Doctrine\DbalEventFinder'
+    Domain\ReadModel\GroupFinder: '@Infrastructure\ReadModel\Doctrine\DbalGroupFinder'
     Domain\ReadModel\StatsGenerator: '@Infrastructure\ReadModel\Doctrine\DbalStatsGenerator'
     DbalSchema\SchemaDefinition: '@Infrastructure\Persistence\Doctrine\SchemaDefinition'

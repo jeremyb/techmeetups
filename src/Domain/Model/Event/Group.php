@@ -6,10 +6,12 @@ namespace Domain\Model\Event;
 
 final class Group
 {
+    /** @var GroupId */
+    private $id;
     /** @var string */
     private $name;
     /** @var string */
-    public $slug;
+    public $link;
     /** @var string */
     public $description;
     /** @var string */
@@ -18,17 +20,24 @@ final class Group
     public $createdAt;
 
     public function __construct(
+        GroupId $id,
         string $name,
-        string $slug,
+        string $link,
         ?string $description,
         ?string $photoUrl,
         \DateTimeImmutable $createdAt
     ) {
+        $this->id = $id;
         $this->name = $name;
-        $this->slug = $slug;
+        $this->link = $link;
         $this->description = $description;
         $this->photoUrl = $photoUrl;
         $this->createdAt = $createdAt;
+    }
+
+    public function getId() : GroupId
+    {
+        return $this->id;
     }
 
     public function getName() : string
@@ -36,12 +45,12 @@ final class Group
         return $this->name;
     }
 
-    public function getSlug() : string
+    public function getLink() : string
     {
-        return $this->slug;
+        return $this->link;
     }
 
-    public function getDescription() : string
+    public function getDescription() : ?string
     {
         return $this->description;
     }

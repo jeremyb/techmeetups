@@ -20,6 +20,12 @@ final class DbalStatsGenerator implements StatsGenerator
 
     public function generate() : Stats
     {
+        $convertDateToQuery = function (string $date) {
+            return (new \DateTime($date))
+                ->setTimezone(new \DateTimeZone('UTC'))
+                ->format('Y-m-d H:i:s.uP');
+        };
+
         $eventStats = $this->connection->createQueryBuilder()
             ->addSelect('COUNT(*) AS number_of_events')
             ->addSelect('AVG(number_of_members) AS average_registrations')
@@ -34,16 +40,15 @@ final class DbalStatsGenerator implements StatsGenerator
             ->addSelect('EXTRACT(year from planned_at) AS year')
             ->addSelect('COUNT(*) AS total_events')
             ->from('events')
+            ->where('planned_at >= ? AND planned_at <= ?')
+            ->setParameters([
+                $convertDateToQuery('first day of -5 years 00:00'),
+                $convertDateToQuery('last day of this year 00:00'),
+            ])
             ->groupBy('year')
             ->orderBy('year')
             ->execute()
             ->fetchAll();
-
-        $convertDateToQuery = function (string $date) {
-            return (new \DateTime($date))
-                ->setTimezone(new \DateTimeZone('UTC'))
-                ->format('Y-m-d H:i:s.uP');
-        };
 
         $numberOfEventsPerMonth = $this->connection->createQueryBuilder()
             ->addSelect('EXTRACT(year from planned_at) AS year')
@@ -69,9 +74,10 @@ final class DbalStatsGenerator implements StatsGenerator
             ->fetchAll();
 
         $popularGroups = $this->connection->createQueryBuilder()
-            ->select('group_name, COUNT(*) AS total_events')
-            ->from('events')
-            ->groupBy('group_name')
+            ->select('g.name, COUNT(e.event_id) AS total_events')
+            ->from('groups', 'g')
+            ->innerJoin('g', 'events', 'e', 'g.group_id = e.group_id')
+            ->groupBy('g.name')
             ->orderBy('total_events', 'DESC')
             ->setMaxResults(10)
             ->execute()
