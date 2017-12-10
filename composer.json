@@ -38,7 +38,8 @@
     "require-dev": {
         "symfony/var-dumper": "^3.1",
         "phpspec/phpspec": "^4.0",
-        "behat/behat": "^3.0"
+        "behat/behat": "^3.0",
+        "friendsofphp/php-cs-fixer": "^2.9"
     },
     "repositories": [
         {

@@ -1,0 +1,30 @@
+<?php
+
+return PhpCsFixer\Config::create()
+    ->setRiskyAllowed(true)
+    ->setRules([
+        'psr4' => true,
+        '@PSR2' => true,
+        '@Symfony' => true,
+        '@Symfony:risky' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'combine_consecutive_unsets' => true,
+        'heredoc_to_nowdoc' => true,
+        'no_unreachable_default_argument_value' => true,
+        'no_useless_else' => true,
+        'no_useless_return' => true,
+        'ordered_imports' => true,
+        'phpdoc_order' => true,
+        'strict_param' => true,
+        '@PHP70Migration' => true,
+        '@PHP70Migration:risky' => true,
+        '@PHP71Migration' => true,
+        '@PHP71Migration:risky' => true,
+        'return_type_declaration' => ['space_before' => 'one'],
+    ])
+    ->setFinder(
+        PhpCsFixer\Finder::create()
+            ->exclude(['spec', 'var', 'vendor'])
+            ->in(__DIR__)
+    )
+;
