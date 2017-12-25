@@ -1,29 +1,41 @@
 {% extends "layout.html.twig" %}
 
 {% block main %}
-    <section class="box features">
-        {% for group in groups %}
-            {% if loop.index is odd %}<div class="features-row">{% endif %}
-
-            <section>
-                <h3><a href="{{ group.link }}">{{ group.name }}</a></h3>
-                <p>{{ group.description }}</p>
-                <p>
-                    <strong>{{ group.numberOfEvents }}</strong> événement(s),
-                    groupe créé {{ group.createdAt | time_diff | lower }}.
-                </p>
-                <p>
-                    {% if group.lastEvent %}
-                    Dernier événement {{ group.lastEvent | time_diff | lower }}
-                    <br>
-                    {% endif %}
-                    {% if group.nextEvent %}
-                    Prochain événement {{ group.nextEvent | time_diff | lower }}
-                    {% endif %}
-                </p>
-            </section>
-
-            {% if loop.index is even %}</div>{% endif %}
+    <h2 class="title">Communautés à Montpellier</h2>
+    <h4 class="subtitle">
+        Ce site agrège différents groupes <a href="https://www.meetup.com/" target="_blank">Meetup.com</a> de Montpellier.
+    </h4>
+    <hr>
+    <br>
+    {% for group_row in groups | batch(3) %}
+        <div class="columns">
+        {% for group in group_row %}
+            <article class="column is-one-third">
+                <div class="card">
+                    <div class="card-content">
+                        <h3 class="title is-4"><a href="{{ group.link }}">{{ group.name }}</a></h3>
+                        <div class="content">
+                            <p>{{ group.description }}</p>
+                            <p>
+                                <small>
+                                    <strong>{{ group.numberOfEvents }}</strong> événement(s),
+                                    créé {{ group.createdAt | time_diff | lower }}
+                                </small>
+                            </p>
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <p class="card-footer-item">
+                            Dernier événement<br>{{ group.lastEvent ? (group.lastEvent | time_diff | lower) : 'aucun' }}
+                        </p>
+                        <p class="card-footer-item">
+                            Prochain événement<br>
+                            {% if group.nextEvent %}<strong>{{ group.nextEvent | time_diff | lower }}</strong>{% else %}aucun{% endif %}
+                        </p>
+                    </footer>
+                </div>
+            </article>
         {% endfor %}
-    </section>
+        </div>
+    {% endfor %}
 {% endblock %}

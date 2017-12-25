@@ -67,6 +67,15 @@ final class Event
         return substr(strip_tags($this->description), 0, 250).'...';
     }
 
+    public function fullDate()
+    {
+        return implode(' ', [
+            $this->getWeekDay(),
+            $this->getDay(),
+            $this->getMonth(),
+        ]);
+    }
+
     public function getWeekDay() : string
     {
         return $this->plannedAtFormatter('EEEE')->format($this->plannedAt);

@@ -4,10 +4,10 @@ services:
     nginx:
         image: nginx:latest
         ports:
-            - "8000:80"
+            - "8080:80"
         volumes:
             - ./docker/nginx/:/etc/nginx/conf.d/
-            - ./web:/var/www/app/web/
+            - ./public:/var/www/app/public/
         depends_on:
             - php
 
@@ -16,7 +16,7 @@ services:
         depends_on:
             - postgres
         volumes:
-            - ./:/var/www/app/
+            - ./:/var/www/app/:rw
         working_dir: /var/www/app/
         environment:
             - SYMFONY_ENV=dev
@@ -24,6 +24,11 @@ services:
             - DATABASE_DSN=pgsql:host=postgres;port=5432;dbname=techmeetups;user=postgres;password=postgres
         env_file:
             - ./docker/env
+
+    node:
+        build: ./docker/node
+        volumes:
+            - ./:/usr/src/client:rw
 
     postgres:
         image: postgres:latest
@@ -37,11 +42,14 @@ services:
             - POSTGRES_DB=techmeetups
 
     pgadmin4:
-        image: dpage/pgadmin4
-        links:
+        image: fenglc/pgadmin4:latest
+        depends_on:
             - postgres
         ports:
-            - "8080:80"
+            - "5050:5050"
+        environment:
+            - DEFAULT_USER=admin
+            - DEFAULT_PASSWORD=password
 
 volumes:
     postgres-data: {}

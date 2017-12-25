@@ -6,6 +6,8 @@ framework:
             - '%kernel.project_dir%/src/Infrastructure/Symfony/Resources/translations'
     templating:
         engines: ['twig']
+    assets:
+        json_manifest_path: '%kernel.project_dir%/public/build/manifest.json'
     php_errors:
         log: true
 

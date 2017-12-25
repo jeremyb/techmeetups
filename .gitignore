@@ -1,4 +1,7 @@
 .php_cs.cache
+/docker/env
+/node_modules
+/public/build
 /var/*
 !/var/cache
 /var/cache/*
@@ -12,5 +15,4 @@
 !/var/profiler
 /var/profiler/*
 !var/profiler/.gitkeep
-/docker/env
 /vendor/

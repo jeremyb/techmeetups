@@ -41,7 +41,7 @@ class Kernel extends BaseKernel
         return $bundles;
     }
 
-    protected function configureRoutes(RouteCollectionBuilder $routes) : void
+    protected function configureRoutes(RouteCollectionBuilder $routes)
     {
         if ($this->isDebug()) {
             $routes->import('@WebProfilerBundle/Resources/config/routing/wdt.xml', '/_wdt');
@@ -52,7 +52,7 @@ class Kernel extends BaseKernel
         $routes->import(__DIR__.'/Resources/config/routing.yml');
     }
 
-    protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader) : void
+    protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader)
     {
         $container->setParameter('container.autowiring.strict_mode', true);
         $container->setParameter('container.dumper.inline_class_loader', true);

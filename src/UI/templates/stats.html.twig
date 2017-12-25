@@ -1,72 +1,30 @@
 {% extends "layout.html.twig" %}
 
 {% block main %}
-    <h4 class="align-center">
-        TechMeetups recense <strong>{{ stats.number_of_events }}</strong> meetups
-        avec un nombre d'inscription moyen de
-        <strong>{{ stats.average_registrations | round }}</strong>.
+    <h2 class="title">Statistiques</h2>
+    <h4 class="subtitle">
+        TechMeetups recense <strong>{{ stats.number_of_events }}</strong> meetups à Montpellier avec
+        en moyenne {{ stats.average_registrations | round }} inscriptions.
     </h4>
+    <hr>
     <br>
-    <div class="row">
-        <div class="4u 12u(mobilep)">
-            <table>
-                <thead>
-                    <tr>
-                        <td colspan="2" class="align-center">
-                            <strong>Nombre de meetups par an</strong>
-                        </td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for eventsPerYear in stats.number_of_events_per_year %}
-                        <tr>
-                            <td width="50%" class="align-center">{{ eventsPerYear.year }}</td>
-                            <td width="50%" class="align-center"><strong>{{ eventsPerYear.total_events }}</strong></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <div class="columns">
+        <div class="column">
+            <div id="events-per-year-chart"></div>
         </div>
-        <div class="8u 12u(mobilep)">
-            <table>
-                <thead>
-                    <tr>
-                        <td colspan="4" class="align-center">
-                            <strong>Nombre de meetups par mois</strong>
-                        </td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% set half = (stats.number_of_events_per_month | length) / 2 %}
-                    {% set firstColumn = stats.number_of_events_per_month | slice(0, half) %}
-                    {% set secondColumn = stats.number_of_events_per_month | slice(half, stats.number_of_events_per_month | length) %}
-                    {% for i in 0..half-1 %}
-                        {% set firstColumnEvent = firstColumn[i] %}
-                        {% set secondColumnEvent = secondColumn[i] %}
-                        <tr>
-                            <td class="align-center">
-                                {{ firstColumnEvent.month }}/{{ firstColumnEvent.year }}
-                            </td>
-                            <td class="align-center"><strong>{{ firstColumnEvent.total_events }}</strong></td>
-                            <td class="align-center">
-                                {{ secondColumnEvent.month }}/{{ secondColumnEvent.year }}
-                            </td>
-                            <td class="align-center"><strong>{{ secondColumnEvent.total_events }}</strong></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="column">
+            <div id="events-per-month-chart"></div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="6u 12u(mobilep)">
-            <table>
+    <div class="columns">
+        <div class="column">
+            <table class="table is-striped is-fullwidth">
                 <thead>
                     <tr>
-                        <td colspan="2" class="align-center">
-                            <strong>Meetups avec le plus d'inscrits</strong>
-                        </td>
+                        <th colspan="2" class="has-text-centered">
+                            Meetups avec le plus d'inscrits
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -83,13 +41,13 @@
                 </tbody>
             </table>
         </div>
-        <div class="6u 12u(mobilep)">
-            <table>
+        <div class="column">
+            <table class="table is-striped is-fullwidth">
                 <thead>
                     <tr>
-                        <td colspan="4" class="align-center">
-                            <strong>Groupes organisateur de plus de meetups</strong>
-                        </td>
+                        <th colspan="4" class="has-text-centered">
+                            Groupes organisateur de plus de meetups
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -103,4 +61,58 @@
             </table>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages': ['corechart']});
+        google.charts.setOnLoadCallback(function () {
+            var eventsPerYear = google.visualization.arrayToDataTable([
+                ['Year', 'Meetups'],
+                {% for eventsPerYear in stats.number_of_events_per_year %}
+                ['{{ eventsPerYear.year }}', {{ eventsPerYear.total_events }}],
+                {% endfor %}
+            ]);
+
+            var eventsPerYearChart = new google.visualization.ColumnChart(
+                document.getElementById('events-per-year-chart')
+            );
+            eventsPerYearChart.draw(eventsPerYear, {
+                title: 'Nombre de meetups par an',
+                titlePosition: 'out',
+                titleTextStyle: {
+                    fontSize: 16,
+                    bold: false
+                },
+                height: 400,
+                legend: { position: 'none' }
+            });
+
+            var eventsPerMonth = google.visualization.arrayToDataTable([
+                ['Year', 'Meetups'],
+                {% for eventsPerMonth in stats.number_of_events_per_month %}
+                ['{{ eventsPerMonth.date | localizeddate('none', 'none', 'fr', null, 'LLL y') }}', {{ eventsPerMonth.total_events }}],
+                {% endfor %}
+            ]);
+
+            var eventsPerMonthChart = new google.visualization.AreaChart(
+                document.getElementById('events-per-month-chart')
+            );
+            eventsPerMonthChart.draw(eventsPerMonth, {
+                title: 'Nombre de meetups par mois',
+                titlePosition: 'out',
+                titleTextStyle: {
+                    fontSize: 16,
+                    bold: false
+                },
+                height: 400,
+                hAxis: {
+                    slantedText: true,
+                    slantedTextAngle: -90
+                },
+                legend: { position: 'none' }
+            });
+        });
+    </script>
 {% endblock %}

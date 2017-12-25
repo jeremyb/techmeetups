@@ -1,19 +1,13 @@
 <!DOCTYPE HTML>
-<!--
-	Alpha by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html>
 	<head>
-		<title>TechMeetups - L'agenda des meetups du numérique à Montpellier</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
-        <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
-		<link rel="stylesheet" href="/assets/css/main.css" />
-		<link rel="stylesheet" href="/assets/css/icomoon.css" />
-		<!--[if lte IE 8]><link rel="stylesheet" href="/assets/css/ie8.css" /><![endif]-->
+        <meta charset="utf-8">
+        <title>TechMeetups - L'agenda des meetups du numérique à Montpellier</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+        <link rel="stylesheet" href="{{ asset('build/styles.css') }}">
         <link rel="alternate" type="application/rss+xml" href="/montpellier.rss" title="Flux RSS des meetups de Montpellier">
         <link rel="alternate" type="application/atom+xml" href="/montpellier.atom" title="Flux Atom des meetups de Montpellier">
         <script>
@@ -26,146 +20,144 @@
           ga('send', 'pageview');
         </script>
     </head>
-	<body class="landing">
+	<body>
+    {% set current_route = app.request.attributes.get('_route') %}
 
 		<a href="https://github.com/jeremyb/techmeetups">
 			<img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png">
 		</a>
 
-		<div id="page-wrapper">
-
-			<section id="banner">
-				<h2>
-                    <a href="{{ path('homepage') }}">
-                        TechMeetups
-                    </a>
-                </h2>
-				<p>L'agenda des meetups du numérique à Montpellier.</p>
-				<ul class="actions">
-					<li>
-                        <a href="#cta" class="button special">
-                            S'abonner à la newsletter
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#footer" class="button">
-                            A propos
-                        </a>
-                    </li>
-				</ul>
-			</section>
-
-			<section id="main" class="container">
-                <section class="box">
-                    <section class="special">
-                        <h2>Prochains meetups à Montpellier</h2>
-                        <p>
-                            Ce site agrège les meetups des différents groupes
-                            <a href="https://www.meetup.com/" target="_blank">Meetup.com</a>
-                            de Montpellier.<br>
-                            Si le vôtre est manquant, n'hésitez à créer une
-                            <a href="https://github.com/jeremyb/techmeetups/issues" target="_blank">issue sur Github</a>.
-                        </p>
-
-                        {% set current_route = app.request.attributes.get('_route') %}
-                        <ul class="actions">
-                            <li>
-                                <a href="{{ path('homepage') }}#main"{% if current_route == 'homepage' %} class="current"{% endif %}>
-                                    Prochains événements
-                                </a>
-                            </li>
-                            <li>-</li>
-                            <li>
-                                <a href="{{ path('groups') }}#main"{% if current_route == 'groups' %} class="current"{% endif %}>
-                                    Communautés
-                                </a>
-                            </li>
-                            <li>-</li>
-                            <li>
-                                <a href="{{ path('stats') }}#main"{% if current_route == 'stats' %} class="current"{% endif %}>
-                                    Statistiques
-                                </a>
-                            </li>
-                        </ul>
-                    </section>
-
-                    {% block main %}{% endblock %}
-                </section>
-			</section>
-
-			<section id="cta">
-				<h2>S'abonner à la newsletter</h2>
-				<p>
-                    Pour ne plus rater les prochains meetups de Montpellier,
-                    inscrivez-vous à la newsletter :
-                </p>
-                <div id="mc_embed_signup">
-                    <form action="//test.us7.list-manage.com/subscribe/post?u=0e9908af2ac6112997ebb96df&amp;id=77d16b689f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-                        <div id="mc_embed_signup_scroll" class="row uniform 50%">
-                            <div class="mc-field-group 8u 12u(mobilep)">
-                                <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email">
-                            </div>
-                            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_0e9908af2ac6112997ebb96df_77d16b689f" tabindex="-1" value=""></div>
-                            <div class="4u 12u(mobilep)">
-                                <input type="submit" value="Je m'inscris !" name="subscribe" id="mc-embedded-subscribe" class="button">
-                            </div>
-                            <div id="mce-responses" class="clear">
-                                <div class="response" id="mce-error-response" style="display:none"></div>
-                                <div class="response" id="mce-success-response" style="display:none"></div>
+        <header class="hero is-info {{ current_route == 'homepage' ? 'is-large' : 'is-medium' }}">
+            <div class="hero-head">
+                <nav class="navbar">
+                    <div class="container">
+                        <div class="navbar-menu">
+                            <div class="navbar-end">
+                                <a href="#newsletter" class="navbar-item">S'abonner à la newsletter</a>
+                                <a href="#about" class="navbar-item">A propos</a>
                             </div>
                         </div>
-                    </form>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="hero-body">
+                <div class="container has-text-centered">
+                    <h1 class="title"><a href="{{ path('homepage') }}">TechMeetups</a></h1>
+                    <p class="subtitle">L'agenda des meetups du numérique à Montpellier.</p>
                 </div>
-			</section>
+            </div>
 
-			<footer id="footer">
-                <h3>A propos</h3>
-                <p>
-                    L'objectif de ce site est de vous permettre de découvrir les
-                    différents meetups et événements organisés à Montpellier.<br>
-                    Et si vous les connaissez déjà, de ne plus rater les prochains
-                    grâce aux flux RSS/Atom et iCal présents ci-dessous.
-                </p>
-                <p>
-                    Ce site agrège les meetups des différents groupes
-                    <a href="https://www.meetup.com/" target="_blank">Meetup.com</a>
-                    de Montpellier.<br>
-                    Si le vôtre est manquant, n'hésitez à créer une
-                    <a href="https://github.com/jeremyb/techmeetups/issues" target="_blank">issue sur Github</a>.
-                </p>
-                <p>
-                    Si vous êtes intéressé par les Communautés Montpelliéraines
-                    n'hésitez pas à
-                    <a href="https://comm-montpellier-invit.herokuapp.com/" target="_blank">
-                        rejoindre le Slack
-                    </a>.
-                </p>
-				<ul class="icons">
-                    <li>
-                        <a href="{{ url('feed_mtp', { _format: 'rss' }) }}" target="_blank">
-                            <span class="icon-rss_feed"></span> RSS
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ url('feed_mtp', { _format: 'atom' }) }}" target="_blank">
-                            <span class="icon-rss_feed"></span> Atom
-                        </a>
-                    </li>
-                    <li>
-                        <a href="webcal:{{ url('ical_mtp', {}, true) }}">
-                            <span class="icon-date_range"></span> iCal
-                        </a>
-                    </li>
-				</ul>
-				<ul class="copyright">
-					<li>
-                        Design :
-                        <a href="http://html5up.net" target="_blank">HTML5 UP</a>
-                    </li>
-				</ul>
-			</footer>
+            <div class="hero-foot">
+                <nav class="tabs is-centered is-boxed is-medium">
+                    <ul>
+                        <li{% if current_route == 'homepage' %} class="is-active"{% endif %}>
+                            <a href="{{ path('homepage') }}">Prochains événements</a>
+                        </li>
+                        <li{% if current_route == 'groups' %} class="is-active"{% endif %}>
+                            <a href="{{ path('groups') }}">Communautés</a>
+                        </li>
+                        <li{% if current_route == 'stats' %} class="is-active"{% endif %}>
+                            <a href="{{ path('stats') }}">Statistiques</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
 
-		</div>
+        <section class="section">
+            <div class="container">
+                {% block main %}{% endblock %}
+            </div>
+        </section>
 
+        <footer class="footer">
+            <div class="container">
+                <div class="columns">
+                    <div id="about" class="column is-three-fifths">
+                        <div class="content">
+                            <h4 class="title is-4">A propos</h4>
+                            <p>
+                                L'objectif de ce site est de vous permettre de découvrir les différentes communautés et événements organisés à Montpellier.<br>
+                                Et si vous les connaissez déjà, de ne plus rater les prochains grâce aux flux RSS/Atom et iCal.
+                            </p>
+                            <p>
+                                Retrouvez les communautés Montpelliéraines sur Slack :
+                                <span class="tags has-addons">
+                                    <a href="https://bit.ly/comm-mtp" target="_blank" class="tag is-link">Communautés Montpellier</a>
+                                    <a href="https://bit.ly/comm-mtp" target="_blank" class="tag is-dark"><i class="icomoon-slack"></i></a>
+                                </span>
+                            </p>
+                            <p>
+                                Les événements de ce site proviennent de la plateforme <a href="https://www.meetup.com/" target="_blank">Meetup.com</a>.<br>
+                                Si le vôtre est manquant, n'hésitez à créer une <a href="https://github.com/jeremyb/techmeetups/issues" target="_blank">issue sur Github</a>.
+                            </p>
+                            <p>
+                                Crédit photo : <a href="https://www.flickr.com/photos/wolfgangstaudt/2377437375/" target="_blank">https://www.flickr.com/photos/wolfgangstaudt/2377437375/</a>.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <section class="content">
+                            <div class="field is-grouped is-grouped-multiline">
+                                <div class="control">
+                                    <div class="tags has-addons">
+                                        <a href="{{ url('feed_mtp', { _format: 'rss' }) }}" class="tag is-link">RSS</a>
+                                        <a href="{{ url('feed_mtp', { _format: 'rss' }) }}" class="tag is-dark"><i class="icomoon-rss"></i></a>
+                                    </div>
+                                </div>
+                                <div class="control">
+                                    <div class="tags has-addons">
+                                        <a href="{{ url('feed_mtp', { _format: 'atom' }) }}" class="tag is-link">Atom</a>
+                                        <a href="{{ url('feed_mtp', { _format: 'atom' }) }}" class="tag is-dark"><i class="icomoon-rss"></i></a>
+                                    </div>
+                                </div>
+                                <div class="control">
+                                    <div class="tags has-addons">
+                                        <a href="webcal:{{ url('ical_mtp', {}, true) }}" class="tag is-link">iCal</a>
+                                        <a href="webcal:{{ url('ical_mtp', {}, true) }}" class="tag is-dark"><i class="icomoon-calendar"></i></a>
+                                    </div>
+                                </div>
+                                <div class="control">
+                                    <div class="tags has-addons">
+                                        <a href="https://github.com/jeremyb/techmeetups" class="tag is-link">techmeetups</a>
+                                        <a href="https://github.com/jeremyb/techmeetups" class="tag is-dark"><i class="icomoon-github"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <br>
+                        <section id="newsletter">
+                            <h4 class="title is-4">S'abonner à la newsletter</h4>
+                            <div id="mc_embed_signup">
+                                <form action="//test.us7.list-manage.com/subscribe/post?u=0e9908af2ac6112997ebb96df&amp;id=77d16b689f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                                    <label for="mce-EMAIL">
+                                        Pour ne plus rater les prochains meetups de Montpellier,
+                                        inscrivez-vous à la newsletter :
+                                    </label>
+                                    <div id="mc_embed_signup_scroll" class="row uniform 50%">
+                                        <div class="field has-addons">
+                                            <div class="mc-field-group control">
+                                                <input type="email" value="" name="EMAIL" class="input required email" id="mce-EMAIL" placeholder="Email">
+                                            </div>
+                                            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_0e9908af2ac6112997ebb96df_77d16b689f" tabindex="-1" value=""></div>
+                                            <div class="control">
+                                                <input type="submit" value="Je m'inscris !" name="subscribe" id="mc-embedded-subscribe" class="button is-info">
+                                            </div>
+                                        </div>
+                                        <div id="mce-responses" class="clear">
+                                            <div class="response" id="mce-error-response" style="display:none"></div>
+                                            <div class="response" id="mce-success-response" style="display:none"></div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        {% block javascripts %}{% endblock %}
 	</body>
 </html>

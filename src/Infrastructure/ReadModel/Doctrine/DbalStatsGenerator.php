@@ -65,6 +65,16 @@ final class DbalStatsGenerator implements StatsGenerator
             ->execute()
             ->fetchAll();
 
+        $numberOfEventsPerMonth = array_map(function (array $data) {
+            return [
+                'date' => new \DateTimeImmutable(
+                    sprintf('%d-%02s-01', $data['year'], $data['month']),
+                    new \DateTimeZone('Europe/Paris')
+                ),
+                'total_events' => $data['total_events'],
+            ];
+        }, $numberOfEventsPerMonth);
+
         $popularEvents = $this->connection->createQueryBuilder()
             ->select('number_of_members, name, link')
             ->from('events')
@@ -83,15 +93,12 @@ final class DbalStatsGenerator implements StatsGenerator
             ->execute()
             ->fetchAll();
 
-        // popular venues:
-        //SELECT venue_name, COUNT(*) as count FROM events WHERE venue_name IS NOT NULL GROUP BY venue_name HAVING COUNT(*) > 1 ORDER BY count DESC LIMIT 10
-
         return Stats::create(
             array_merge(
                 $eventStats,
                 [
                     'number_of_events_per_year' => $numberOfEventsPerYear,
-                    'number_of_events_per_month' => array_reverse($numberOfEventsPerMonth),
+                    'number_of_events_per_month' => $numberOfEventsPerMonth,
                     'popular_events' => $popularEvents,
                     'popular_groups' => $popularGroups,
                 ]
