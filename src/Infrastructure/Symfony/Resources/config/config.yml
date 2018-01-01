@@ -56,7 +56,7 @@ services:
         factory: ['Doctrine\DBAL\DriverManager', getConnection]
         arguments:
             -
-                url: "%env(DATABASE_DSN)%"
+                url: "%env(DATABASE_URL)%"
                 driver: 'pdo_pgsql'
         public: true
 

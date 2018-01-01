@@ -4,5 +4,10 @@ imports:
 monolog:
     handlers:
         main:
-            type: error_log
-            action_level: warning
+            type: fingers_crossed
+            action_level: error
+            handler: nested
+        nested:
+            type: stream
+            path:  "php://stderr"
+            level: debug

@@ -21,7 +21,7 @@ services:
         environment:
             - SYMFONY_ENV=dev
             - PGHOST=postgres
-            - DATABASE_DSN=pgsql:host=postgres;port=5432;dbname=techmeetups;user=postgres;password=postgres
+            - DATABASE_URL=postgres://postgres:postgres@postgres:5432/techmeetups
         env_file:
             - ./docker/env
 

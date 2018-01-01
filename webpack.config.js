@@ -7,7 +7,7 @@ Encore
     .addStyleEntry('styles', './src/UI/assets/css/app.scss')
     .enableSassLoader()
     .enableSourceMaps(!Encore.isProduction())
-    .enableBuildNotifications()
+    .enableBuildNotifications(!Encore.isProduction())
     .enableVersioning()
 ;
 
