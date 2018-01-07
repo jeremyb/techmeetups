@@ -77,7 +77,7 @@ final class EventProvider implements EventProviderInterface
                 FindUpcomingEventsQuery::from([
                     'lat' => $city->getLat(),
                     'lon' => $city->getLon(),
-                    'radius' => 'smart',
+                    'radius' => '10',
                     'order' => 'time',
                     'topic_category' => self::TECH_TOPIC_ID,
                     'page' => 100,
