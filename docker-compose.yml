@@ -12,7 +12,9 @@ services:
             - php
 
     php:
-        build: ./docker/php/
+        build:
+            context: .
+            dockerfile: ./docker/php/Dockerfile
         depends_on:
             - postgres
         volumes:

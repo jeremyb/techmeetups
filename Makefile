@@ -2,6 +2,7 @@
 
 install:
 	@composer install -n
+	@php bin/console cache:clear
 	@php bin/console dbal:schema:update --force
 
 build:
