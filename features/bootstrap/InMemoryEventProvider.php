@@ -10,6 +10,7 @@ use Domain\Model\Event\Event;
 use Domain\Model\Event\EventId;
 use Domain\Model\Event\Events;
 use Domain\Model\Event\Group;
+use Domain\Model\Event\GroupId;
 use Domain\Model\Event\Venue;
 
 final class InMemoryEventProvider implements EventProvider
@@ -34,10 +35,24 @@ final class InMemoryEventProvider implements EventProvider
                 50,
                 60,
                 (function () {
-                    return new Venue('Somewhere', null, null, null, 'Montpellier', null);
+                    return new Venue(
+                        'Somewhere',
+                        null,
+                        null,
+                        null,
+                        'Montpellier',
+                        null
+                    );
                 })(),
                 (function () {
-                    return new Group('Group', 'group', '', '', new \DateTimeImmutable('-2 years'));
+                    return new Group(
+                        GroupId::fromString('group'),
+                        'Group',
+                        '',
+                        '',
+                        '',
+                        new \DateTimeImmutable('-2 years')
+                    );
                 })()
             )
         );

@@ -7,4 +7,5 @@ namespace Domain\ReadModel;
 interface EventFinder
 {
     public function findNextEvents() : Events;
+    public function findNextEventsOfGroups(array $groupIds) : Events;
 }
