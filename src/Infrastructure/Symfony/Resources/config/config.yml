@@ -6,6 +6,7 @@ framework:
             - '%kernel.project_dir%/src/Infrastructure/Symfony/Resources/translations'
     templating:
         engines: ['twig']
+    serializer: { enabled: true }
     assets:
         json_manifest_path: '%kernel.project_dir%/public/build/manifest.json'
     php_errors:
@@ -36,6 +37,9 @@ services:
     Infrastructure\:
         resource: '%kernel.project_dir%/src/Infrastructure/*'
         exclude: '%kernel.project_dir%/src/Infrastructure/{Persistence/InMemory,ReadModel/InMemory}'
+    Infrastructure\Rest\:
+        resource: '%kernel.project_dir%/src/Infrastructure/Rest/*'
+        tags: ['controller.service_arguments']
     UI\:
         resource: '%kernel.project_dir%/src/UI/*'
         tags: ['controller.service_arguments']

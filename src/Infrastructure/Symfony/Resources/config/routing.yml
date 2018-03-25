@@ -19,3 +19,7 @@ feed_mtp:
 ical_mtp:
     path:     /montpellier.ical
     defaults: { _controller: UI\Action\ICal }
+
+api_events:
+    path:     /api/events
+    defaults: { _controller: Infrastructure\Rest\GetEvents, _format: 'json' }

@@ -69,10 +69,10 @@ final class WebContext implements Context
         $crawler = $client->request('GET', '/');
 
         Assert::eq($client->getResponse()->getStatusCode(), Response::HTTP_OK);
-        //echo $client->getResponse()->getContent(); exit;
-        Assert::eq(1, $crawler->filter('.events-per-month')->count());
+//        echo $client->getResponse()->getContent(); exit;
+        Assert::eq(1, $crawler->filter('#calendar .event')->count());
         Assert::contains(
-            $crawler->filter('.events-per-month li:first-child h3 a')->text(),
+            $crawler->filter('#calendar .event:first-child .title a')->eq(1)->text(),
             'First event'
         );
     }

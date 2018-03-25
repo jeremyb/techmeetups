@@ -22,6 +22,23 @@ final class InMemoryEventFinder implements EventFinder
 
     public function findNextEvents() : Events
     {
+        return $this->convertResultToDTO($this->eventRepository->findAll());
+    }
+
+    public function findNextEventsOfGroups(array $groupIds) : Events
+    {
+        $events = array_filter(
+            $this->eventRepository->findAll(),
+            function (Event $event) use ($groupIds) {
+                return \in_array($event->getGroup()->getId(), $groupIds, true);
+            }
+        );
+
+        return $this->convertResultToDTO($events);
+    }
+
+    private function convertResultToDTO(array $results) : Events
+    {
         return new Events(...array_map(
             function (Event $event) {
                 $venue = $event->getVenue();
@@ -44,7 +61,7 @@ final class InMemoryEventFinder implements EventFinder
                     'group_name' => $event->getGroup()->getName(),
                 ]);
             },
-            $this->eventRepository->findAll()
+            $results
         ));
     }
 }
