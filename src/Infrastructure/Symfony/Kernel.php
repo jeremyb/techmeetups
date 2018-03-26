@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Infrastructure\Symfony;
 
 use Infrastructure\Symfony\DependencyInjection\UIExtension;
+use Nelmio\CorsBundle\NelmioCorsBundle;
 use Symfony\Bundle\DebugBundle\DebugBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -27,6 +28,7 @@ class Kernel extends BaseKernel
             new FrameworkBundle(),
             new TwigBundle(),
             new MonologBundle(),
+            new NelmioCorsBundle(),
         ];
 
         if (\in_array($this->getEnvironment(), ['dev', 'test'], true)) {

@@ -20,6 +20,14 @@ twig:
     date:
         timezone: 'Europe/Paris'
 
+nelmio_cors:
+    paths:
+        '^/api/':
+            allow_origin: ['*']
+            allow_headers: ['*']
+            allow_methods: ['POST', 'PUT', 'GET', 'DELETE', 'PATCH']
+            max_age: 3600
+
 services:
     # Autowiring
     # --------------------------------------------------------------------------
